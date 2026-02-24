@@ -3,123 +3,2194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroSell | The Science of Who Can Actually Sell</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>NeuroSell | Sales Intelligence Assessment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=6LeOqHYsAAAAAGaQAkxb3vSkkeAmq_2sfyKnmt_7"></script>
+
     <style>
+        :root {
+            --black: #0F0F0F;
+            --white: #FFFFFF;
+            --orange: #FF4D00;
+            --orange-dim: #CC3D00;
+            --orange-light: #FFF0EB;
+            --gold: #B8860B;
+            --surface: #F5F5F5;
+            --surface2: #FFFFFF;
+            --surface3: #EFEFEF;
+            --border: #DEDEDE;
+            --text: #111111;
+            --text-muted: #444444;
+            --text-dim: #777777;
+            --success: #007A4D;
+            --warning: #B45309;
+            --error: #CC2222;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Open Sans', sans-serif; color: #111111; background: #ffffff; }
 
-        .site-header { background: #111111; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; height: 64px; }
-        .logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; letter-spacing: 0.1em; color: #ffffff; }
-        .logo span { color: #FF4D00; }
-        .header-tag { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: #ffffff; border: 1px solid rgba(255,255,255,0.4); padding: 0.3rem 0.8rem; border-radius: 2px; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--white);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-        .hero { background: #111111; padding: 90px 40px 100px; text-align: center; border-top: 4px solid #FF4D00; }
-        .hero-eyebrow { font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: #FF4D00; font-weight: 700; margin-bottom: 1.25rem; }
-        .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 7vw, 5.5rem); letter-spacing: 0.04em; color: #ffffff; line-height: 1; margin-bottom: 1.5rem; max-width: 900px; margin-left: auto; margin-right: auto; }
-        .hero-title span { color: #FF4D00; }
-        .hero-sub { font-size: 1.15rem; color: #ffffff; font-style: italic; font-weight: 400; max-width: 580px; margin: 0 auto 2.5rem; line-height: 1.65; }
-        .hero-cta { display: inline-block; background: #FF4D00; color: #ffffff; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; padding: 1.1rem 2.75rem; border-radius: 2px; }
+        /* ─── NOISE TEXTURE OVERLAY ─── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0;
+        }
 
-        .orange-bar { height: 5px; background: #FF4D00; }
+        /* ─── HEADER BAR ─── */
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            background: rgba(15,15,15,0.97);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
 
-        .content-wrap { max-width: 860px; margin: 0 auto; padding: 70px 40px; }
-        .block { margin-bottom: 64px; }
-        .eyebrow { font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: #FF4D00; font-weight: 700; margin-bottom: 0.6rem; }
-        .block-heading { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; letter-spacing: 0.05em; color: #111111; margin-bottom: 1rem; line-height: 1.1; }
-        .block-body { font-size: 1rem; line-height: 1.85; color: #111111; font-weight: 400; }
-        .block-body strong { color: #111111; font-weight: 700; }
-        .rule { height: 1px; background: #DDDDDD; margin: 0 0 64px 0; }
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.6rem;
+            letter-spacing: 0.12em;
+            color: var(--white);
+        }
+        .logo span { color: var(--orange); }
 
-        .pillars-section { background: #F2F2F2; padding: 70px 40px; }
-        .pillars-inner { max-width: 860px; margin: 0 auto; }
-        .pillars-header { margin-bottom: 2.5rem; }
-        .pillars-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3px; background: #CCCCCC; }
-        .pillar { background: #ffffff; padding: 2rem 1.75rem; }
-        .pillar-label { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: #FF4D00; font-weight: 700; margin-bottom: 0.5rem; }
-        .pillar-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.06em; color: #111111; margin-bottom: 0.75rem; }
-        .pillar-body { font-size: 0.92rem; line-height: 1.75; color: #111111; font-weight: 400; }
+        .header-badge {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #FFFFFF;
+            border: 1px solid rgba(255,255,255,0.35);
+            padding: 0.3rem 0.75rem;
+            border-radius: 2px;
+        }
 
-        .cta-band { background: #111111; padding: 80px 40px; text-align: center; border-top: 4px solid #FF4D00; }
-        .cta-line-1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 4.5vw, 3rem); letter-spacing: 0.05em; color: #ffffff; line-height: 1.1; }
-        .cta-line-2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 4.5vw, 3rem); letter-spacing: 0.05em; color: #FF4D00; line-height: 1.1; margin-bottom: 0.75rem; }
-        .cta-sub { font-size: 1rem; color: #ffffff; font-style: italic; margin-bottom: 2.25rem; font-weight: 400; }
-        .cta-btn { display: inline-block; background: #FF4D00; color: #ffffff; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; padding: 1.1rem 3rem; border-radius: 2px; }
+        /* ─── PROGRESS TRACK ─── */
+        .progress-track {
+            position: fixed;
+            top: 57px;
+            left: 0;
+            right: 0;
+            z-index: 99;
+            background: #F5F5F5;
+            border-bottom: 1px solid var(--border);
+            padding: 0.6rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
 
-        @media (max-width: 700px) {
-            .site-header { padding: 0 20px; }
-            .hero { padding: 60px 24px 70px; }
-            .content-wrap { padding: 50px 24px; }
-            .pillars-section { padding: 50px 24px; }
-            .pillars-grid { grid-template-columns: 1fr; }
-            .cta-band { padding: 60px 24px; }
+        .progress-bar-wrap {
+            flex: 1;
+            height: 3px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--orange), var(--gold));
+            border-radius: 2px;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .progress-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .step-counter {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--orange-dim);
+            letter-spacing: 0.1em;
+        }
+
+        .time-left {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.72rem;
+            color: #555555;
+            letter-spacing: 0.05em;
+        }
+
+        /* ─── MAIN LAYOUT ─── */
+        .main-wrap {
+            padding-top: 110px;
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-bottom: 4rem;
+            background: #FFFFFF;
+        }
+
+        .form-shell {
+            width: 100%;
+            max-width: 760px;
+            padding: 0 1.5rem;
+        }
+
+        /* ─── STEP PANELS ─── */
+        .step-panel {
+            display: none;
+            animation: panelIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .step-panel.active { display: block; }
+
+        @keyframes panelIn {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ─── SECTION HEADERS ─── */
+        .panel-head {
+            padding: 2.5rem 0 2rem;
+        }
+
+        .panel-eyebrow {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--orange);
+            margin-bottom: 0.75rem;
+        }
+
+        .panel-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            letter-spacing: 0.05em;
+            line-height: 1;
+            color: var(--black);
+            margin-bottom: 0.75rem;
+        }
+
+        .panel-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 520px;
+        }
+
+        /* ─── DIVIDER ─── */
+        .divider {
+            height: 2px;
+            background: #E8E8E8;
+            margin: 0 0 2rem;
+        }
+
+        /* ─── FORM GROUPS ─── */
+        .form-group { margin-bottom: 1.75rem; }
+
+        .field-label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+        .field-label .req { color: var(--orange); margin-left: 3px; }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            padding: 0.8rem 1rem;
+            font-size: 0.95rem;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text);
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--orange);
+            background: #FFF8F5;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 130px;
+            line-height: 1.6;
+        }
+
+        select option { background: var(--surface2); }
+
+        /* ─── GRID LAYOUTS ─── */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+        .phone-row {
+            display: grid;
+            grid-template-columns: 1fr 8px 1fr 8px 1.4fr;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .phone-sep { color: var(--text-muted); text-align: center; font-size: 1.1rem; line-height: 1; margin-top: 4px; }
+
+        /* ─── RADIO / CHOICE CARDS ─── */
+        .choice-grid { display: flex; flex-direction: column; gap: 0.6rem; }
+
+        .choice-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.9rem 1.1rem;
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.18s;
+            user-select: none;
+        }
+        .choice-card:hover { border-color: var(--orange); background: var(--orange-light); }
+        .choice-card.selected {
+            border-color: var(--orange);
+            background: var(--orange-light);
+        }
+
+        .choice-card input { display: none; }
+
+        .choice-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid #AAAAAA;
+            flex-shrink: 0;
+            transition: all 0.18s;
+            position: relative;
+        }
+        .choice-card.selected .choice-dot {
+            border-color: var(--orange);
+            background: var(--orange);
+        }
+        .choice-card.selected .choice-dot::after {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .choice-text { font-size: 0.93rem; line-height: 1.4; color: var(--text); }
+        .choice-value { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
+
+        /* ─── SCALE SLIDER ─── */
+        .scale-wrap {
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            padding: 1.25rem 1.25rem 1rem;
+        }
+
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+        .scale-labels span {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .scale-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .scale-btn {
+            flex: 1;
+            padding: 0.65rem 0;
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 3px;
+            color: var(--text-muted);
+            font-family: 'DM Mono', monospace;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-align: center;
+        }
+        .scale-btn:hover { border-color: var(--orange); color: var(--text); }
+        .scale-btn.active {
+            background: var(--orange);
+            border-color: var(--orange);
+            color: white;
+            font-weight: 600;
+        }
+
+        .scale-selected-label {
+            text-align: center;
+            margin-top: 0.6rem;
+            font-size: 0.78rem;
+            color: var(--orange);
+            min-height: 1.2em;
+            font-style: italic;
+        }
+
+        /* ─── TEXTAREA WITH COUNTER ─── */
+        .ta-wrap { position: relative; }
+        .ta-counter {
+            position: absolute;
+            bottom: 10px;
+            right: 12px;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            pointer-events: none;
+            background: var(--surface2);
+            padding: 1px 5px;
+        }
+        .ta-counter.warn { color: var(--warning); }
+        .ta-counter.over { color: var(--error); }
+
+        /* ─── EXAMPLE TOGGLE ─── */
+        .example-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.78rem;
+            color: var(--orange);
+            cursor: pointer;
+            margin: 0.5rem 0 0;
+            padding: 0.3rem 0;
+            opacity: 0.8;
+            transition: opacity 0.15s;
+            font-family: 'DM Mono', monospace;
+            letter-spacing: 0.05em;
+        }
+        .example-toggle:hover { opacity: 1; }
+        .example-toggle .arr { transition: transform 0.2s; display: inline-block; }
+        .example-toggle.open .arr { transform: rotate(90deg); }
+
+        .example-box {
+            display: none;
+            margin-top: 0.75rem;
+            background: #FFF0EB;
+            border-left: 3px solid var(--orange);
+            border-radius: 0 4px 4px 0;
+            padding: 1rem 1.1rem;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+        .example-box.show { display: block; }
+        .ex-good { color: var(--success); font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.35rem; }
+        .ex-bad  { color: var(--error); font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.75rem; margin-bottom: 0.35rem; }
+        .ex-text { font-style: italic; color: var(--text-muted); }
+
+        /* ─── ALERT BOXES ─── */
+        .alert {
+            padding: 0.85rem 1.1rem;
+            border-radius: 4px;
+            font-size: 0.88rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+        .alert-info {
+            background: #FFF8E1;
+            border-left: 3px solid var(--gold);
+            color: #7A5800;
+        }
+        .alert-info strong { display: block; margin-bottom: 0.2rem; }
+
+        /* ─── CONSTRUCT BADGE ─── */
+        .construct-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--orange-light);
+            border: 1px solid rgba(255,77,0,0.4);
+            border-radius: 3px;
+            padding: 0.35rem 0.75rem;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--orange);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        /* ─── AVAILABILITY DAY ─── */
+        .day-block {
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            padding: 1rem 1.1rem;
+            margin-bottom: 0.6rem;
+        }
+        .day-name {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 0.75rem;
+        }
+        .day-options { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .day-btn {
+            padding: 0.4rem 0.9rem;
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 3px;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .day-btn:hover { border-color: var(--orange); color: var(--text); }
+        .day-btn.selected { background: var(--orange); border-color: var(--orange); color: white; }
+        .day-hours-input {
+            display: none;
+            margin-top: 0.6rem;
+        }
+        .day-hours-input.show { display: block; }
+        .day-hours-input input { font-size: 0.85rem; padding: 0.6rem 0.8rem; }
+
+        /* ─── NAVIGATION ─── */
+        .nav-bar {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 2px solid #E0E0E0;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.9rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            letter-spacing: 0.04em;
+            transition: all 0.18s;
+        }
+
+        .btn-back {
+            background: var(--white);
+            color: var(--text-muted);
+            border: 2px solid var(--border);
+            flex: 0 0 auto;
+            padding: 0.9rem 1.5rem;
+        }
+        .btn-back:hover { border-color: var(--text-muted); color: var(--white); }
+
+        .btn-next {
+            background: var(--orange);
+            color: white;
+        }
+        .btn-next:hover { background: var(--orange-dim); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(255,77,0,0.3); }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--orange), var(--gold));
+            color: white;
+            letter-spacing: 0.06em;
+        }
+        .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(255,77,0,0.35); }
+
+        /* ─── SCORE SCREEN ─── */
+        .result-screen {
+            display: none;
+            padding: 3rem 0 4rem;
+            animation: panelIn 0.4s ease;
+        }
+        .result-screen.active { display: block; }
+
+        .result-hero {
+            text-align: center;
+            padding: 3rem 0 2rem;
+        }
+
+        .result-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--orange), var(--gold));
+        }
+
+        .result-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            letter-spacing: 0.05em;
+            color: var(--black);
+            margin-bottom: 0.5rem;
+        }
+
+        .result-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        /* ─── SCORE GAUGE ─── */
+        .score-section {
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .score-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #555555;
+            margin-bottom: 1rem;
+        }
+
+        .overall-score {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 5rem;
+            line-height: 1;
+            color: var(--black);
+            letter-spacing: 0.05em;
+        }
+        .overall-score span { font-size: 2.5rem; color: var(--text-muted); }
+
+        .score-track {
+            height: 6px;
+            background: #E0E0E0;
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        .score-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ─── CONSTRUCT GRID ─── */
+        .construct-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .construct-row {
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            padding: 0.85rem 1rem;
+        }
+
+        .construct-name {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #555555;
+            margin-bottom: 0.5rem;
+        }
+
+        .construct-bar-wrap {
+            height: 4px;
+            background: #E0E0E0;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 0.35rem;
+        }
+        .construct-bar {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 1s ease;
+        }
+
+        .construct-score-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            line-height: 1;
+            color: var(--black);
+        }
+
+        .routing-card {
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .routing-tier {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.6rem;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.5rem;
+        }
+
+        .routing-message {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .next-steps-box {
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            padding: 1.1rem;
+            font-size: 0.88rem;
+            line-height: 1.65;
+            color: var(--text-muted);
+        }
+        .next-steps-box strong { color: var(--gold); display: block; margin-bottom: 0.35rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; }
+
+        /* ─── LOADING ─── */
+        .loading-screen {
+            display: none;
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+        .loading-screen.active { display: block; }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid var(--border);
+            border-top-color: var(--orange);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 1.5rem;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .loading-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.5rem;
+            color: var(--black);
+        }
+        .loading-sub { font-size: 0.88rem; color: var(--text-muted); }
+
+        /* ─── SECTION DIVIDER LABEL ─── */
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 2rem 0 1.5rem;
+        }
+        .section-label-line { flex: 1; height: 1px; background: #CCCCCC; }
+        .section-label-text {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+
+        /* ─── FILE UPLOAD ─── */
+        .upload-zone {
+            border: 2px dashed #CCCCCC;
+            border-radius: 6px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #FAFAFA;
+            position: relative;
+        }
+        .upload-zone:hover, .upload-zone.drag-over {
+            border-color: var(--orange);
+            background: var(--orange-light);
+        }
+        .upload-zone input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+        .upload-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .upload-main-text {
+            font-weight: 600;
+            color: #111111;
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+        .upload-sub-text {
+            font-size: 0.8rem;
+            color: #777777;
+        }
+        .upload-file-list {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .upload-file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #FFFFFF;
+            border: 2px solid #E0E0E0;
+            border-radius: 4px;
+            padding: 0.6rem 0.9rem;
+            font-size: 0.85rem;
+        }
+        .upload-file-name {
+            color: #111111;
+            font-weight: 500;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 80%;
+        }
+        .upload-file-remove {
+            color: var(--error);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 0 0.25rem;
+            flex-shrink: 0;
+        }
+        .upload-file-remove:hover { opacity: 0.7; }
+        .upload-progress {
+            margin-top: 0.75rem;
+            display: none;
+        }
+        .upload-progress.show { display: block; }
+        .upload-progress-bar {
+            height: 4px;
+            background: #E0E0E0;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 0.4rem;
+        }
+        .upload-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--orange), var(--gold));
+            border-radius: 2px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+        .upload-progress-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            color: #555555;
+            text-align: center;
+        }
+        .upload-note {
+            font-size: 0.78rem;
+            color: #777777;
+            margin-top: 0.6rem;
+            font-style: italic;
+        }
+
+        /* ─── HONEYPOT ─── */
+        .hp-field { position: absolute; left: -9999px; opacity: 0; pointer-events: none; }
+
+        /* ─── MOBILE ─── */
+        @media (max-width: 640px) {
+            .grid-2, .grid-3, .construct-grid { grid-template-columns: 1fr; }
+            .panel-title { font-size: 2.2rem; }
+            .progress-track { padding: 0.6rem 1rem; }
+            .form-shell { padding: 0 1rem; }
+            .site-header { padding: 1rem; }
+            .phone-row { grid-template-columns: 1fr 6px 1fr 6px 1fr; }
         }
     </style>
 </head>
 <body>
 
-<header class="site-header">
-    <div class="logo">NEURO<span>SELL</span></div>
-    <div class="header-tag">SALES INTELLIGENCE ASSESSMENT · SHERLOCKY</div>
-</header>
+    <!-- ─── HEADER ─── -->
+    <header class="site-header">
+        <div class="logo">NEURO<span>SELL</span></div>
+        <div class="header-badge">Sales Intelligence Assessment · Sherlocky</div>
+    </header>
 
-<section class="hero">
-    <div class="hero-eyebrow">Sales Intelligence Assessment</div>
-    <h1 class="hero-title">The Science of Who Can <span>Actually</span> Sell</h1>
-    <p class="hero-sub">Most hiring tools measure what candidates know. NeuroSell measures who they are.</p>
-    <a href="https://themikefrazier.github.io/NeuroSell/neurosell-intake.html" class="hero-cta">Begin Your Assessment →</a>
-</section>
-
-<div class="orange-bar"></div>
-
-<div class="content-wrap">
-    <div class="block">
-        <div class="eyebrow">The Problem</div>
-        <h2 class="block-heading">Résumés Were Never the Right Instrument</h2>
-        <p class="block-body">Sales teams fail from the inside out. Not because managers hire the wrong résumés — but because résumés were never the right instrument. Charm is not initiative. A degree is not follow-through. A confident interview is not the absence of fear. NeuroSell was built on 39 years of behavioral research and industrial-organizational psychology to measure the constructs that actually predict revenue performance — the ones no candidate can rehearse and no traditional screening tool can see.</p>
-    </div>
-
-    <div class="rule"></div>
-
-    <div class="block">
-        <div class="eyebrow">The Engine</div>
-        <h2 class="block-heading">You Don't Get a Gut Feeling. You Get a Diagnosis.</h2>
-        <p class="block-body">Powered by the Six Unmeasurables framework and the NeuroSell Assessment Architecture, our platform evaluates psychological maturity, communication precision, critical thinking under pressure, genuine curiosity, creative resourcefulness, and — uniquely — <strong>fear</strong>. Every candidate who completes a NeuroSell assessment generates a detailed profile across twelve behavioral constructs, scored, flagged for consistency, and routed automatically.</p>
-    </div>
-</div>
-
-<section class="pillars-section">
-    <div class="pillars-inner">
-        <div class="pillars-header">
-            <div class="eyebrow">For Everyone in the Room</div>
-            <h2 class="block-heading">Built for Employers, Teams, and Candidates</h2>
+    <!-- ─── PROGRESS ─── -->
+    <div class="progress-track">
+        <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
         </div>
-        <div class="pillars-grid">
-            <div class="pillar">
-                <div class="pillar-label">Employers</div>
-                <div class="pillar-title">Stop Gambling on Interviews</div>
-                <p class="pillar-body">NeuroSell tells you before the first day whether a candidate has the psychological architecture to perform in a front-facing role.</p>
-            </div>
-            <div class="pillar">
-                <div class="pillar-label">Teams</div>
-                <div class="pillar-title">Know Every Ceiling and Every Gap</div>
-                <p class="pillar-body">Know exactly where each member's ceiling is and what's holding them back. Build around strengths. Develop around gaps. Lead with data, not instinct.</p>
-            </div>
-            <div class="pillar">
-                <div class="pillar-label">Candidates</div>
-                <div class="pillar-title">It Doesn't Ask. It Finds Out.</div>
-                <p class="pillar-body">NeuroSell is the first assessment that respects your intelligence. It doesn't ask if you're a hard worker. It finds out.</p>
-            </div>
+        <div class="progress-meta">
+            <span class="step-counter" id="stepCounter">STEP 1 / 8</span>
+            <span class="time-left" id="timeLeft">~12 MIN</span>
         </div>
     </div>
-</section>
 
-<section class="cta-band">
-    <p class="cta-line-1">The best salespeople don't just close deals.</p>
-    <p class="cta-line-2">They were wired to.</p>
-    <p class="cta-sub">Find out if you have the wiring — or find out who does.</p>
-    <a href="https://themikefrazier.github.io/NeuroSell/neurosell-intake.html" class="cta-btn">Begin Your NeuroSell Assessment →</a>
-</section>
+    <!-- ─── MAIN ─── -->
+    <div class="main-wrap">
+        <div class="form-shell">
+            <form id="nsForm" autocomplete="off">
 
+                <!-- HONEYPOT -->
+                <div class="hp-field" aria-hidden="true">
+                    <input type="text" name="website_url" id="hp_url" tabindex="-1" autocomplete="off">
+                </div>
+
+                <!-- ═══════════════════════════════════════
+                     STEP 1 — ELIGIBILITY
+                ════════════════════════════════════════ -->
+                <div class="step-panel active" data-step="1">
+                    <div class="panel-head">
+                        <div class="panel-eyebrow">Step 01 — Eligibility</div>
+                        <h2 class="panel-title">Let's Get Started</h2>
+                        <p class="panel-desc">Confirm a few quick requirements before we begin your NeuroSell assessment.</p>
+                    </div>
+                    <div class="divider"></div>
+
+                    <div class="form-group">
+                        <label class="field-label">I am 18 years of age or older <span class="req">*</span></label>
+                        <div class="choice-grid" data-name="age_18" data-required="true">
+                            <div class="choice-card" data-value="Yes"><input type="radio" name="age_18" value="Yes"><span class="choice-dot"></span><span class="choice-text">Yes</span></div>
+                            <div class="choice-card" data-value="No"><input type="radio" name="age_18" value="No"><span class="choice-dot"></span><span class="choice-text">No</span></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="field-label">Legally eligible to work in the USA <span class="req">*</span></label>
+                        <div class="choice-grid" data-name="work_eligible" data-required="true">
+                            <div class="choice-card" data-value="Yes"><input type="radio" name="work_eligible" value="Yes"><span class="choice-dot"></span><span class="choice-text">Yes</span></div>
+                            <div class="choice-card" data-value="No"><input type="radio" name="work_eligible" value="No"><span class="choice-dot"></span><span class="choice-text">No</span></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="field-label">Can you provide proof of eligibility upon request <span class="req">*</span></label>
+                        <div class="choice-grid" data-name="proof_eligible" data-required="true">
+                            <div class="choice-card" data-value="Yes"><input type="radio" name="proof_eligible" value="Yes"><span class="choice-dot"></span><span class="choice-text">Yes</span></div>
+                            <div class="choice-card" data-value="No"><input type="radio" name="proof_eligible" value="No"><span class="choice-dot"></span><span class="choice-text">No</span></div>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="field-label" for="dl_number">Driver License Number <span class="req">*</span></label>
+                            <input type="text" id="dl_number" name="dl_number" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label" for="dl_state">DL State <span class="req">*</span></label>
+                            <input type="text" id="dl_state" name="dl_state" maxlength="2" placeholder="State" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══════════════════════════════════════
+                     STEP 2 — BASIC INFO
+                ════════════════════════════════════════ -->
+                <div class="step-panel" data-step="2">
+                    <div class="panel-head">
+                        <div class="panel-eyebrow">Step 02 — Contact</div>
+                        <h2 class="panel-title">Your Information</h2>
+                        <p class="panel-desc">Basic contact and personal details.</p>
+                    </div>
+                    <div class="divider"></div>
+
+                    <div class="form-group">
+                        <label class="field-label" for="legal_name">Legal Name (First, Middle, Last) <span class="req">*</span></label>
+                        <input type="text" id="legal_name" name="legal_name" required>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="field-label" for="email">Email Address <span class="req">*</span></label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label">Phone Number <span class="req">*</span></label>
+                            <div class="phone-row">
+                                <input type="tel" id="ph1" name="phone_1" maxlength="3" placeholder="555" required>
+                                <span class="phone-sep">—</span>
+                                <input type="tel" id="ph2" name="phone_2" maxlength="3" placeholder="123" required>
+                                <span class="phone-sep">—</span>
+                                <input type="tel" id="ph3" name="phone_3" maxlength="4" placeholder="4567" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="field-label" for="address_1">Street Address <span class="req">*</span></label>
+                        <input type="text" id="address_1" name="address_1" placeholder="No PO Box" required>
+                    </div>
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label class="field-label" for="city">City <span class="req">*</span></label>
+                            <input type="text" id="city" name="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label" for="state">State <span class="req">*</span></label>
+                            <input type="text" id="state" name="state" maxlength="2" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label" for="zip">Zip <span class="req">*</span></label>
+                            <input type="text" id="zip" name="zip" maxlength="10" required>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="field-label" for="emergency_contact">Emergency Contact Name <span class="req">*</span></label>
+                            <input type="text" id="emergency_contact" name="emergency_contact" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label">Emergency Contact Phone <span class="req">*</span></label>
+                            <div class="phone-row">
+                                <input type="tel" id="ep1" name="emerg_phone_1" maxlength="3" placeholder="555" required>
+                                <span class="phone-sep">—</span>
+                                <input type="tel" id="ep2" name="emerg_phone_2" maxlength="3" placeholder="123" required>
+                                <span class="phone-sep">—</span>
+                                <input type="tel" id="ep3" name="emerg_phone_3" maxlength="4" placeholder="4567" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="field-label" for="hear_about">How Did You Hear About Us <span class="req">*</span></label>
+                            <select id="hear_about" name="hear_about" required>
+                                <option value="">Select one...</option>
+                                <option>Peak Website</option>
+                                <option>Search Engine</option>
+                                <option>Job Posting Site</option>
+                                <option>Social Media</option>
+                                <option>Job Fair / Event</option>
+                                <option>Client Referral</option>
+                                <option>Friend Referral</option>
+                                <option>Dept. of Labor</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label" for="salary_expectation">Salary / Pay Expectation <span class="req">*</span></label>
+                            <input type="text" id="salary_expectation" name="salary_expectation" placeholder="e.g., $55,000/yr or $25/hr" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══════════════════════════════════════
+                     STEP 3 — AVAILABILITY
+                ════════════════════════════════════════ -->
+                <div class="step-panel" data-step="3">
+                    <div class="panel-head">
+                        <div class="panel-eyebrow">Step 03 — Availability</div>
+                        <h2 class="panel-title">When Can You Work?</h2>
+                        <p class="panel-desc">Select availability for each day. We'll match you to front-facing roles that fit your schedule.</p>
+                    </div>
+                    <div class="divider"></div>
+
+                    <div class="form-group">
+                        <label class="field-label">Role Type Desired <span class="req">*</span></label>
+                        <div class="choice-grid" data-name="job_type" data-required="true">
+                            <div class="choice-card" data-value="Full Time (40+ hrs)"><input type="radio" name="job_type" value="Full Time (40+ hrs)"><span class="choice-dot"></span><span class="choice-text">Full Time · 40+ hrs/week</span></div>
+                            <div class="choice-card" data-value="Part Time (20-39 hrs)"><input type="radio" name="job_type" value="Part Time (20-39 hrs)"><span class="choice-dot"></span><span class="choice-text">Part Time · 20–39 hrs/week</span></div>
+                            <div class="choice-card" data-value="Occasional (under 20 hrs)"><input type="radio" name="job_type" value="Occasional (under 20 hrs)"><span class="choice-dot"></span><span class="choice-text">Occasional · Under 20 hrs/week</span></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="field-label" for="start_date">Date Available to Start <span class="req">*</span></label>
+                        <input type="date" id="start_date" name="start_date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="field-label" for="preferred_position">Target Role / Position</label>
+                        <input type="text" id="preferred_position" name="preferred_position" placeholder="Sales Rep, Marketing Coordinator, Customer Success...">
+                    </div>
+
+                    <div class="section-label">
+                        <div class="section-label-line"></div>
+                        <span class="section-label-text">Weekly Availability</span>
+                        <div class="section-label-line"></div>
+                    </div>
+
+                    <div id="availGrid">
+                        <!-- Generated by JS -->
+                    </div>
+                </div>
+
+                <!-- ═══════════════════════════════════════
+                     STEP 4 — SIX UNMEASURABLES
+                ════════════════════════════════════════ -->
+                <div class="step-panel" data-step="4">
+                    <div class="panel-head">
+                        <div class="panel-eyebrow">Step 04 — Psychological Maturity</div>
+                        <h2 class="panel-title">Work Capacity Assessment</h2>
+                        <p class="panel-desc">These questions assess the behavioral foundations that determine actual work performance. There are no "right" answers — we are looking for honest self-reflection.</p>
+                    </div>
+                    <div class="alert alert-info">
+                        <strong>Why This Matters</strong>
+                        Sales is a psychological discipline. Before we assess your sales wiring, we need to understand your foundational work capacity. Your answers here feed directly into your NeuroSell profile.
+                    </div>
+                    <div class="divider"></div>
+
+                    <!-- Q1: Initiative -->
+                    <div class="form-group">
+                        <div class="construct-badge">◆ Initiative</div>
+                        <label class="field-label">When you encounter a difficult obstacle at work, you typically: <span class="req">*</span></label>
+                        <div class="choice-grid" data-name="bio_1" data-required="true">
+                            <div class="choice-card" data-value="5"><input type="radio" name="bio_1" value="5"><span class="choice-dot"></span><div><div class="choice-text">Push through and find solutions independently</div></div></div>
+                            <div class="choice-card" data-value="4"><input type="radio" name="bio_1" value="4"><span class="choice-dot"></span><div><div class="choice-text">Try to solve it first, then ask for help if needed</div></div></div>
+                            <div class="choice-card" data-value="3"><input type="radio" name="bio_1" value="3"><span class="choice-dot"></span><div><div class="choice-text">Usually need guidance when stuck</div></div></div>
+                            <div class="choice-card" data-value="2"><input type="radio" name="bio_1" value="2"><span class="choice-dot"></span><div><div class="choice-text">Wait for someone to direct next steps</div></div></div>
+                            <div class="choice-card" data-value="1"><input type="radio" name="bio_1" value="1"><span class="choice-dot"></span><div><div class="choice-text">Prefer tasks where obstacles are unlikely</div></div></div>
+                        </div>
+                    </div>
+
+                    <!-- Q2: Follow-Through / Presence -->
+                    <div class="form-group">
+                        <div class="construct-badge">◆ Follow-Through · Presence</div>
+                        <label class="field-label">Describe a time you had to sustain effort on something repetitive or tedious for an extended period. How did you handle it? <span class="req">*</span></label>
+                        <span class="example-toggle" data-target="ex-bio2">▶ <span class="arr"></span> See example</span>
+                        <div class="example-box" id="ex-bio2">
+                            <div class="ex-good">✓ Strong response</div>
+                            <div class="ex-text">"At my last role I spent four months manually auditing 800+ client records. I set daily output targets, tracked my own accuracy rate, and blocked two-hour focus windows to maintain quality without burning out."</div>
+                            <div class="ex-bad">✗ Weak response</div>
+                            <div class="ex-text">"I just did it." / "I'm a hard worker."</div>
+                        </div>
+                        <div class="ta-wrap">
+                            <textarea id="bio_2" name="bio_2" required maxlength="1000" placeholder="Share a specific, real example..."></textarea>
+                            <span class="ta-counter" data-for="bio_2">0/1000</span>
+                        </div>
+                    </div>
+
+                    <!-- Q3: Ownership -->
+                    <div class="form-group">
+                        <div class="construct-badge">◆ Ownership</div>
+                        <label class="field-label">When you receive critical feedback about your performance, you: <span class="req">*</span></label>
+                        <div class="choice-grid" data-name="bio_3" data-required="true">
+                            <div class="choice-card" data-value="5"><input type="radio" name="bio_3" value="5"><span class="choice-dot"></span><div class="choice-text">Actively seek it out and use it immediately</div></div>
+                            <div class="choice-card" data-value="4"><input type="radio" name="bio_3" value="4"><span class="choice-dot"></span><div class="choice-text">Listen carefully and make corrections</div></div>
+                            <div class="choice-card" data-value="3"><input type="radio" name="bio_3" value="3"><span class="choice-dot"></span><div class="choice-text">Sometimes get defensive but eventually adjust</div></div>
+                            <div class="choice-card" data-value="2"><input type="radio" name="bio_3" value="2"><span class="choice-dot"></span><div class="choice-text">Find critical feedback discouraging</div></div>
+                            <div class="choice-card" data-value="1"><input type="radio" name="bio_3" value="1"><span class="choice-dot"></span><div class="choice-text">Prefer situations where negative feedback is rare</div></div>
+                        </div>
+                    </div>
+
+                    <!-- Q4: Presence -->
+                    <div class="form-group">
+                        <div class="construct-badge">◆ Presence</div>
+                        <label class="field-label">When interrupted during focused work, your ability to re-engage is: <span class="req">*</span></label>
+                        <div class="choice-grid" data-name="bio_4" data-required="true">
+                            <div class="choice-card" data-value="5"><input type="radio" name="bio_4" value="5"><span class="choice-dot"></span><div class="choice-text">Immediate — I pick up exactly where I left off</div></div>
+                            <div class="choice-card" data-value="4"><input type="radio" name="bio_4" value="4"><span class="choice-dot"></span><div class="choice-text">Minor interruptions don't affect my output</div></div>
+                            <div class="choice-card" data-value="3"><input type="radio" name="bio_4" value="3"><span class="choice-dot"></span><div class="choice-text">I need a few minutes to refocus</div></div>
+                            <div class="choice-card" data-value="2"><input type="radio" name="bio_4" value="2"><span class="choice-dot"></span><div class="choice-text">Interruptions significantly disrupt my flow</div></div>
+                            <div class="choice-card" data-value="1"><input type="radio" name="bio_4" value="1"><span class="choice-dot"></span><div class="choice-text">I struggle to complete tasks once interrupted</div></div>
+                        </div>
+                    </div>
+
+                    <!-- Q5: Ownership text -->
+                    <div class="form-group">
+                        <div class="construct-badge">◆ Ownership · Professionalism</div>
+                        <label class="field-label">Describe a mistake you made at work or school. What happened, and what did you do about it? <span class="req">*</span></label>
+                        <span class="example-toggle" data-target="ex-bio5">▶ <span class="arr"></span> See example</span>
+                        <div class="example-box" id="ex-bio5">
+                            <div class="ex-good">✓ Strong response</div>
+                            <div class="ex-text">"I sent a client proposal with wrong pricing — my error. I called them immediately, owned the mistake, corrected the document the same hour, and built a proposal checklist that my team still uses."</div>
+                            <div class="ex-bad">✗ Weak response</div>
+                            <div class="ex-text">"It wasn't really my fault." / "I don't really make mistakes."</div>
+                        </div>
+                        <div class="ta-wrap">
+                            <textarea id="bio_5" name="bio_5" required maxlength="1000" placeholder="Be specific and honest..."></textarea>
+                            <span class="ta-counter" data-for="bio_5">0/1000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══════════════════════════════════════
+                     STEP 5 — NEUROSELL CONSTRUCTS: COMMUNICATION & ETIQUETTE
+                ════════════════════════════════════════ -->
+                <div class="step-panel" data-step="5">
+                    <div class="panel-head">
+                        <div class="panel-eyebrow">Step 05 — NeuroSell Layer I</div>
+                        <h2 class="panel-title">Communication & Professionalism</h2>
+                        <p class="panel-desc">Sales lives and dies on how you communicate. These questions assess your verbal precision, professional register, and situational awareness.</p>
+                    </div>
+                    <div class="divider"></div>
+
+                    <!-- Communication Q1 -->
+                    <div class="form-group">
+                        <div class="construct-badge">◆ Communication</div>
+                        <label class="field-label">When you need to deliver a complex message to a client who is unfamiliar with your product, you: <span class="req">*</span></label>
+                        <div class="choice-grid" data-name="comm_1" data-required="true">
+                            <div class="choice-card" data-value="5"><input type="radio" name="comm_1" value="5"><span class="choice-dot"></span><div class="choice-text">Immediately adapt your language to their level with analogies and plain language</div></div>
+                            <div class="choice-card" data-value="4"><input type="radio" name="comm_1" value="4"><span class="choice-dot"></span><div class="choice-text">Simplify where possible and check for understanding</div></div>
+                            <div class="choice-card" data-value="3"><input type="radio" name="comm_1" value="3"><span class="choice-dot"></span><div class="choice-text">Deliver the standard explanation and answer questions after</div></div>
+                            <div class="choice-card" data-value="2"><input type="radio" name="comm_1" value="2"><span class="choice-dot"></span><div class="choice-text">Stick to the script — it's been approved</div></div>
+                            <div class="choice-card" data-value="1"><input type="radio" name="comm_1" value="1"><span class="choice-dot"></span><div class="choice-text">Use the technical terms — it establishes credibility</div></div>
+                        </div>
+                    </div>
+
+                    <!-- Communication Q2 — written sample -->
+                    <div class="form-group">
+                        <div class="construct-badge">◆ Communication · Writing</div>
+                        <label class="field-label">Write a 3–5 sentence follow-up email to a prospect who attended a demo but hasn't responded in five days. Write it as you would actually send it. <span class="req">*</span></label>
+                        <div class="ta-wrap">
+                            <textarea id="comm_2" name="comm_2" required maxlength="800" placeholder="Write the actual email — subject line optional, but encouraged..."></textarea>
+                            <span class="ta-counter" data-for="comm_2">0/800</span>
+                        </div>
+                    </div>
+
+                    <!-- Etiquette Q1 -->
+                    <div class="form-group">
+                        <div class="construct-badge">◆ Business Etiquette</div>
+                        <label class="field-label">A senior client makes an off-color joke during a call. You: <span class="req">*</span></label>
+                        <div class="choice-grid" data-name="etiq_1" data-required="true">
+                            <div class="choice-card" data-value="5"><input type="radio" name="etiq_1" value="5"><span class="choice-dot"></span><div class="choice-text">Remain professionally neutral, redirect to business, and don't engage the humor</div></div>
+                            <div class="choice-card" data-value="4"><input type="radio" name="etiq_1" value="4"><span class="choice-dot"></span><div class="choice-text">Politely acknowledge and steer back to the agenda</div></div>
+                            <div class="choice-card" data-value="3"><input type="radio" name="etiq_1" value="3"><span class="choice-dot"></span><div class="choice-text">Go along with it — keeping clients happy is the priority</div></div>
+                            <div class="choice-card" data-value="2"><input type="radio" name="etiq_1" value="2"><span class="choice-dot"></span><div class="choice-text">Laugh along — it builds rapport</div></div>
+                            <div class="choice-card" data-value="1"><input type="radio" name="etiq_1" value="1"><span class="choice-dot"></span><div class="choice-text">Immediately call it out and correct them</div></div>
+                        </div>
+                    </div>
+
+                    <!-- Etiquette Q2 -->
+                    <div class="form-group">
+                        <div class="construct-badge">◆ Business Etiquette · Presence</div>
+                        <label class="field-label">Describe a professional situation where you had to manage your personal emotions to maintain composure. What did you do and what was the outcome? <span class="req">*</span></label>
+                        <span class="example-toggle" data-target="ex-etiq2">▶ <span class="arr"></span> See example</span>
+                        <div class="example-box" id="ex-etiq2">
+                            <div class="ex-good">✓ Strong response</div>
+                            <div class="ex-text">"A customer berated me publicly on a sales floor call. I felt embarrassed and frustrated, but I stayed completely calm, acknowledged their concern without matching their energy, and moved the conversation private. They became a repeat buyer."</div>
+                            <div class="ex-bad">✗ Weak response</div>
+                            <div class="ex-text">"I've never lost my cool." / "I just stayed professional."</div>
+                        </div>
+                        <div class="ta-wrap">
+                            <textarea id="etiq_2" name="etiq_2" required maxlength="900" placeholder="Specific situation, your emotional state, what you did, result..."></textarea>
+                            <span class="ta-counter" data-for="etiq_2">0/900</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══════════════════════════════════════
+                     STEP 6 — CRITICAL THINKING & CURIOSITY
+                ════════════════════════════════════════ -->
+                <div class="step-panel" data-step="6">
+                    <div class="panel-head">
+                        <div class="panel-eyebrow">Step 06 — NeuroSell Layer II</div>
+                        <h2 class="panel-title">Critical Thinking & Curiosity</h2>
+                        <p class="panel-desc">Top performers don't just take orders — they think. These questions assess how you process problems and whether you're driven by genuine discovery.</p>
+                    </div>
+                    <div class="divider"></div>
+
+                    <!-- Critical Thinking Q1 -->
+                    <div class="form-group">
+                        <div class="construct-badge">◆ Critical Thinking</div>
+                        <label class="field-label">A prospect says: "Your price is too high." You: <span class="req">*</span></label>
+                        <div class="choice-grid" data-name="crit_1" data-required="true">
+                            <div class="choice-card" data-value="5"><input type="radio" name="crit_1" value="5"><span class="choice-dot"></span><div class="choice-text">Ask what they're comparing it to and explore the specific value gap</div></div>
+                            <div class="choice-card" data-value="4"><input type="radio" name="crit_1" value="4"><span class="choice-dot"></span><div class="choice-text">Defend the value by explaining the ROI in concrete terms</div></div>
+                            <div class="choice-card" data-value="3"><input type="radio" name="crit_1" value="3"><span class="choice-dot"></span><div class="choice-text">Offer a discount or a payment plan</div></div>
+                            <div class="choice-card" data-value="2"><input type="radio" name="crit_1" value="2"><span class="choice-dot"></span><div class="choice-text">Agree that it's a lot and apologize</div></div>
+                            <div class="choice-card" data-value="1"><input type="radio" name="crit_1" value="1"><span class="choice-dot"></span><div class="choice-text">Check with your manager on what options exist</div></div>
+                        </div>
+                    </div>
+
+                    <!-- Critical Thinking — scenario -->
+                    <div class="form-group">
+                        <div class="construct-badge">◆ Critical Thinking · Problem Framing</div>
+                        <label class="field-label">You walk into a final presentation. Your contact just told you their priorities have shifted completely since your last conversation. You have 45 minutes. What do you do? <span class="req">*</span></label>
+                        <span class="example-toggle" data-target="ex-crit2">▶ <span class="arr"></span> See example</span>
+                        <div class="example-box" id="ex-crit2">
+                            <div class="ex-good">✓ Strong response</div>
+                            <div class="ex-text">"I'd open by acknowledging the shift and asking two focused questions to understand the new priorities. Then I'd restructure the presentation on the spot, pulling only the parts of my solution that directly address what they now care about — and be honest about what doesn't apply."</div>
+                        </div>
+                        <div class="ta-wrap">
+                            <textarea id="crit_2" name="crit_2" required maxlength="900" placeholder="Walk through your exact thinking and actions..."></textarea>
+                            <span class="ta-counter" data-for="crit_2">0/900</span>
+                        </div>
+                    </div>
+
+                    <!-- Curiosity Q1 -->
+                    <div class="form-group">
+                        <div class="construct-badge">◆ Curiosity</div>
+                        <label class="field-label">When you're speaking with a new prospect, the questions you ask are primarily: <span class="req">*</span></label>
+                        <div class="choice-grid" data-name="cur_1" data-required="true">
+                            <div class="choice-card" data-value="5"><input type="radio" name="cur_1" value="5"><span class="choice-dot"></span><div class="choice-text">Driven by genuine interest in their business — I want to understand before I pitch</div></div>
+                            <div class="choice-card" data-value="4"><input type="radio" name="cur_1" value="4"><span class="choice-dot"></span><div class="choice-text">A mix of qualifying questions and genuine discovery</div></div>
+                            <div class="choice-card" data-value="3"><input type="radio" name="cur_1" value="3"><span class="choice-dot"></span><div class="choice-text">Mostly from a pre-set qualifying framework</div></div>
+                            <div class="choice-card" data-value="2"><input type="radio" name="cur_1" value="2"><span class="choice-dot"></span><div class="choice-text">Designed to move the conversation toward the close</div></div>
+                            <div class="choice-card" data-value="1"><input type="radio" name="cur_1" value="1"><span class="choice-dot"></span><div class="choice-text">Minimal — I prefer to present and let the product speak</div></div>
+                        </div>
+                    </div>
+
+                    <!-- Curiosity — open ended -->
+                    <div class="form-group">
+                        <div class="construct-badge">◆ Curiosity · Learning Agility</div>
+                        <label class="field-label">What is something you taught yourself in the last 12 months — not for a job, just because you wanted to understand it? What drove you to learn it? <span class="req">*</span></label>
+                        <div class="ta-wrap">
+                            <textarea id="cur_2" name="cur_2" required maxlength="800" placeholder="Doesn't have to be work-related. Genuine answers only."></textarea>
+                            <span class="ta-counter" data-for="cur_2">0/800</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══════════════════════════════════════
+                     STEP 7 — CREATIVITY & FEAR
+                ════════════════════════════════════════ -->
+                <div class="step-panel" data-step="7">
+                    <div class="panel-head">
+                        <div class="panel-eyebrow">Step 07 — NeuroSell Layer III</div>
+                        <h2 class="panel-title">Creativity & Fear</h2>
+                        <p class="panel-desc">These are the constructs no one else measures. Creativity is your ability to generate non-obvious solutions. Fear is the silent ceiling on most sales careers.</p>
+                    </div>
+                    <div class="alert alert-info">
+                        <strong>A Note on Honesty</strong>
+                        Everyone in sales has fear. High performers know theirs. The question is whether you've identified it and built around it — or whether you're still pretending it isn't there.
+                    </div>
+                    <div class="divider"></div>
+
+                    <!-- Creativity Q1 -->
+                    <div class="form-group">
+                        <div class="construct-badge">◆ Creativity</div>
+                        <label class="field-label">The standard approach to a prospect isn't working. You: <span class="req">*</span></label>
+                        <div class="choice-grid" data-name="creat_1" data-required="true">
+                            <div class="choice-card" data-value="5"><input type="radio" name="creat_1" value="5"><span class="choice-dot"></span><div class="choice-text">Invent a completely different angle — even if it's unconventional — and try it</div></div>
+                            <div class="choice-card" data-value="4"><input type="radio" name="creat_1" value="4"><span class="choice-dot"></span><div class="choice-text">Draw from other contexts or industries for a fresh approach</div></div>
+                            <div class="choice-card" data-value="3"><input type="radio" name="creat_1" value="3"><span class="choice-dot"></span><div class="choice-text">Try a variation of the standard — adjust the timing or channel</div></div>
+                            <div class="choice-card" data-value="2"><input type="radio" name="creat_1" value="2"><span class="choice-dot"></span><div class="choice-text">Ask your manager or a senior rep for their approach</div></div>
+                            <div class="choice-card" data-value="1"><input type="radio" name="creat_1" value="1"><span class="choice-dot"></span><div class="choice-text">Keep trying the standard approach — consistency is key</div></div>
+                        </div>
+                    </div>
+
+                    <!-- Creativity — scenario -->
+                    <div class="form-group">
+                        <div class="construct-badge">◆ Creativity · Resourcefulness</div>
+                        <label class="field-label">Describe a time you came up with an unusual or unexpected solution to a problem — in work, school, or life. What was the problem, what did you try that no one else was doing, and what happened? <span class="req">*</span></label>
+                        <div class="ta-wrap">
+                            <textarea id="creat_2" name="creat_2" required maxlength="1000" placeholder="Real example. The more specific, the more it tells us."></textarea>
+                            <span class="ta-counter" data-for="creat_2">0/1000</span>
+                        </div>
+                    </div>
+
+                    <!-- Fear Q1 — scale -->
+                    <div class="form-group">
+                        <div class="construct-badge">◆ Fear · Rejection Tolerance</div>
+                        <label class="field-label">Rate your honest comfort level asking for the close when you haven't yet heard strong buying signals: <span class="req">*</span></label>
+                        <div class="scale-wrap">
+                            <div class="scale-labels">
+                                <span>Highly Uncomfortable</span>
+                                <span>Completely Comfortable</span>
+                            </div>
+                            <div class="scale-buttons" id="fearScale1" data-name="fear_1" data-required="true">
+                                <button type="button" class="scale-btn" data-val="1">1</button>
+                                <button type="button" class="scale-btn" data-val="2">2</button>
+                                <button type="button" class="scale-btn" data-val="3">3</button>
+                                <button type="button" class="scale-btn" data-val="4">4</button>
+                                <button type="button" class="scale-btn" data-val="5">5</button>
+                                <button type="button" class="scale-btn" data-val="6">6</button>
+                                <button type="button" class="scale-btn" data-val="7">7</button>
+                                <button type="button" class="scale-btn" data-val="8">8</button>
+                                <button type="button" class="scale-btn" data-val="9">9</button>
+                                <button type="button" class="scale-btn" data-val="10">10</button>
+                            </div>
+                            <div class="scale-selected-label" id="fearScale1Label">Select a number</div>
+                        </div>
+                        <input type="hidden" name="fear_1" id="fear_1_val">
+                    </div>
+
+                    <!-- Fear Q2 — scale -->
+                    <div class="form-group">
+                        <div class="construct-badge">◆ Fear · Conflict Tolerance</div>
+                        <label class="field-label">Rate your comfort level when a client pushes back hard or becomes confrontational during a negotiation: <span class="req">*</span></label>
+                        <div class="scale-wrap">
+                            <div class="scale-labels">
+                                <span>Highly Uncomfortable</span>
+                                <span>Completely Comfortable</span>
+                            </div>
+                            <div class="scale-buttons" id="fearScale2" data-name="fear_2" data-required="true">
+                                <button type="button" class="scale-btn" data-val="1">1</button>
+                                <button type="button" class="scale-btn" data-val="2">2</button>
+                                <button type="button" class="scale-btn" data-val="3">3</button>
+                                <button type="button" class="scale-btn" data-val="4">4</button>
+                                <button type="button" class="scale-btn" data-val="5">5</button>
+                                <button type="button" class="scale-btn" data-val="6">6</button>
+                                <button type="button" class="scale-btn" data-val="7">7</button>
+                                <button type="button" class="scale-btn" data-val="8">8</button>
+                                <button type="button" class="scale-btn" data-val="9">9</button>
+                                <button type="button" class="scale-btn" data-val="10">10</button>
+                            </div>
+                            <div class="scale-selected-label" id="fearScale2Label">Select a number</div>
+                        </div>
+                        <input type="hidden" name="fear_2" id="fear_2_val">
+                    </div>
+
+                    <!-- Fear Q3 — open ended -->
+                    <div class="form-group">
+                        <div class="construct-badge">◆ Fear · Self-Awareness</div>
+                        <label class="field-label">What specific aspect of sales or client-facing work makes you most uncomfortable? How do you manage it? <span class="req">*</span></label>
+                        <p style="font-size:0.88rem;color:#444444;margin-bottom:0.75rem;line-height:1.5;">This is the most important question in this assessment. "Nothing" is not an honest answer — and we know it. Specificity here is a sign of self-awareness, not weakness.</p>
+                        <div class="ta-wrap">
+                            <textarea id="fear_3" name="fear_3" required maxlength="1000" placeholder="Be specific. What is the fear? When does it show up? What do you do when it does?"></textarea>
+                            <span class="ta-counter" data-for="fear_3">0/1000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══════════════════════════════════════
+                     STEP 8 — EXPERIENCE & SUBMIT
+                ════════════════════════════════════════ -->
+                <div class="step-panel" data-step="8">
+                    <div class="panel-head">
+                        <div class="panel-eyebrow">Step 08 — Background & Certification</div>
+                        <h2 class="panel-title">Experience & Submit</h2>
+                        <p class="panel-desc">Final section. Tell us about your background and certify your application.</p>
+                    </div>
+                    <div class="divider"></div>
+
+                    <div class="form-group">
+                        <label class="field-label" for="work_experience">Previous Work Experience <span class="req">*</span></label>
+                        <textarea id="work_experience" name="work_experience" required style="min-height:140px" placeholder="List up to three positions. Include: employer name, title, dates, and key responsibilities. Start with most recent."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="field-label" for="references">Professional References <span class="req">*</span></label>
+                        <textarea id="references" name="references" required style="min-height:120px" placeholder="Three references. Include name, relationship (manager/coworker), company, and phone number."></textarea>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="field-label" for="education">Highest Education Level <span class="req">*</span></label>
+                            <select id="education" name="education" required>
+                                <option value="">Select one...</option>
+                                <option>Some High School</option>
+                                <option>High School Diploma / GED</option>
+                                <option>Some College / Currently Enrolled</option>
+                                <option>Associate's Degree</option>
+                                <option>Bachelor's Degree</option>
+                                <option>Master's Degree</option>
+                                <option>Doctoral / Professional Degree</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label" for="certifications">Licenses / Certifications</label>
+                            <input type="text" id="certifications" name="certifications" placeholder="Optional — list any relevant credentials">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="field-label" for="skills">What makes you the right person for a front-facing role?</label>
+                        <div class="ta-wrap">
+                            <textarea id="skills" name="skills" maxlength="800" placeholder="Skills, strengths, relevant experience — your pitch for yourself."></textarea>
+                            <span class="ta-counter" data-for="skills">0/800</span>
+                        </div>
+                    </div>
+
+
+                    <div class="section-label">
+                        <div class="section-label-line"></div>
+                        <span class="section-label-text">Supporting Documents</span>
+                        <div class="section-label-line"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="field-label">Upload Resume / Portfolio / Cover Letter <span style="font-weight:400;text-transform:none;letter-spacing:0;color:#777777;font-size:0.8rem;">(Optional)</span></label>
+                        <p class="upload-note" style="margin-bottom:0.75rem;margin-top:0;">Your documents are supplemental only. Your NeuroSell assessment score is the primary evaluation — not your resume.</p>
+                        <div class="upload-zone" id="uploadZone">
+                            <input type="file" id="docUpload" name="docUpload" accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png" multiple>
+                            <span class="upload-icon">📎</span>
+                            <div class="upload-main-text">Click to upload or drag & drop</div>
+                            <div class="upload-sub-text">PDF, DOC, DOCX, TXT, JPG, PNG · Max 10MB per file · Up to 3 files</div>
+                        </div>
+                        <div class="upload-file-list" id="uploadFileList"></div>
+                        <div class="upload-progress" id="uploadProgress">
+                            <div class="upload-progress-bar">
+                                <div class="upload-progress-fill" id="uploadProgressFill"></div>
+                            </div>
+                            <div class="upload-progress-label" id="uploadProgressLabel">Uploading...</div>
+                        </div>
+                    </div>
+
+                    <div class="section-label">
+                        <div class="section-label-line"></div>
+                        <span class="section-label-text">Certification</span>
+                        <div class="section-label-line"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <div style="background:#F5F5F5;border:2px solid #E0E0E0;border-radius:4px;padding:1.1rem;font-size:0.88rem;line-height:1.7;color:#444444;margin-bottom:1.25rem;">
+                            Peak TCS and NeuroSell are equal opportunity employers. It is our policy to provide equal employment opportunity (EEO) to all persons regardless of age, color, national origin, citizenship status, physical or mental disability, race, religion, creed, gender, sex, sexual orientation, genetic information, marital status, veteran status, or any other characteristic protected by federal, state or local law.
+                        </div>
+                        <label class="field-label">Certification <span class="req">*</span></label>
+                        <div class="choice-grid" data-name="certification" data-required="true">
+                            <div class="choice-card" data-value="I agree"><input type="radio" name="certification" value="I agree"><span class="choice-dot"></span><div class="choice-text">I agree — all information submitted is true and accurate to the best of my knowledge</div></div>
+                            <div class="choice-card" data-value="I do not agree"><input type="radio" name="certification" value="I do not agree"><span class="choice-dot"></span><div class="choice-text">I do not agree</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ─── NAV BUTTONS ─── -->
+                <div class="nav-bar" id="navBar">
+                    <button type="button" class="btn btn-back" id="btnBack" style="display:none">← Back</button>
+                    <button type="button" class="btn btn-next" id="btnNext">Continue →</button>
+                    <button type="submit" class="btn btn-submit" id="btnSubmit" style="display:none">Submit Assessment ↗</button>
+                </div>
+
+            </form>
+
+            <!-- LOADING -->
+            <div class="loading-screen" id="loadingScreen">
+                <div class="spinner"></div>
+                <div class="loading-title">Analyzing Your Profile</div>
+                <div class="loading-sub">Processing your NeuroSell assessment...</div>
+            </div>
+
+            <!-- RESULTS -->
+            <div class="result-screen" id="resultScreen">
+                <div class="result-hero">
+                    <div class="result-icon">◈</div>
+                    <div class="result-title">Assessment Complete</div>
+                    <div class="result-subtitle" style="color:var(--text-muted)" id="resultName">Your NeuroSell profile has been compiled.</div>
+                </div>
+
+                <div class="score-section">
+                    <div class="score-label">Overall NeuroSell Score</div>
+                    <div class="overall-score" id="overallScoreDisplay">0<span>/100</span></div>
+                    <div class="score-track">
+                        <div class="score-fill" id="overallScoreFill" style="width:0%"></div>
+                    </div>
+
+                    <div class="construct-grid" id="constructGrid">
+                        <!-- populated by JS -->
+                    </div>
+                </div>
+
+                <div class="routing-card" id="routingCard">
+                    <div class="routing-tier" id="routingTier"></div>
+                    <div class="routing-message" id="routingMessage"></div>
+                    <div class="next-steps-box">
+                        <strong>What Happens Next</strong>
+                        <span id="nextStepsText"></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+<script type="module">
+// ═══════════════════════════════════════════════
+// NEUROSELL ASSESSMENT ENGINE
+// ═══════════════════════════════════════════════
+
+// ─── FIREBASE IMPORTS ───
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+import { getFirestore, collection, addDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
+
+// ─── FIREBASE CONFIG ───
+// ✅ Replace these values with your Sherlocky Firebase project credentials
+// Found in: Firebase Console → Project Settings → Your Apps → SDK setup
+const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyCaGli9_WpxScvnkMB98d38eQn7kBBewTk",
+    authDomain: "neurosell-9e75f.firebaseapp.com",
+    projectId: "neurosell-9e75f",
+    storageBucket: "neurosell-9e75f.firebasestorage.app",
+    messagingSenderId: "61172265643",
+    appId: "1:61172265643:web:f19815c465d14cd9b9bdee",
+    measurementId: "G-7Q53EQHFXZ"
+};
+
+// ─── INITIALIZE FIREBASE ───
+const firebaseApp = initializeApp(FIREBASE_CONFIG);
+const db = getFirestore(firebaseApp);
+const storage = getStorage(firebaseApp);
+
+// ─── STATE ───
+let currentStep = 1;
+const TOTAL_STEPS = 8;
+const formData = {};
+let uploadedFiles = []; // tracks { file, name, size } for Firebase Storage upload
+
+const STEP_TIMES = { 1:60, 2:120, 3:90, 4:180, 5:150, 6:150, 7:150, 8:120 };
+
+// ─── DAYS ───
+const DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+
+// ─── BUILD AVAILABILITY GRID ───
+function buildAvailGrid() {
+    const wrap = document.getElementById('availGrid');
+    wrap.innerHTML = '';
+    DAYS.forEach(day => {
+        const key = day.toLowerCase();
+        wrap.innerHTML += `
+        <div class="day-block">
+            <div class="day-name">${day}</div>
+            <div class="day-options">
+                <button type="button" class="day-btn" data-day="${key}" data-val="Available all day">All Day</button>
+                <button type="button" class="day-btn" data-day="${key}" data-val="Specific hours">Specific Hours</button>
+                <button type="button" class="day-btn" data-day="${key}" data-val="Not available">Not Available</button>
+            </div>
+            <div class="day-hours-input" id="hours_${key}">
+                <input type="text" name="${key}_hours" placeholder="e.g., 8am–4pm" style="font-size:0.85rem;padding:0.6rem 0.8rem;">
+            </div>
+        </div>`;
+    });
+
+    // Day button events
+    document.querySelectorAll('.day-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const day = btn.dataset.day;
+            document.querySelectorAll(`.day-btn[data-day="${day}"]`).forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            const hoursWrap = document.getElementById(`hours_${day}`);
+            if (btn.dataset.val === 'Specific hours') {
+                hoursWrap.classList.add('show');
+            } else {
+                hoursWrap.classList.remove('show');
+            }
+            formData[`avail_${day}`] = btn.dataset.val;
+        });
+    });
+}
+
+// ─── CHOICE CARDS ───
+function initChoiceCards() {
+    document.querySelectorAll('.choice-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const grid = card.closest('.choice-grid');
+            if (!grid) return;
+            const name = grid.dataset.name;
+            grid.querySelectorAll('.choice-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            const radio = card.querySelector('input[type="radio"]');
+            if (radio) radio.checked = true;
+            formData[name] = card.dataset.value;
+        });
+    });
+}
+
+// ─── SCALE BUTTONS ───
+function initScales() {
+    const scaleDefs = [
+        { id: 'fearScale1', label: 'fearScale1Label', hidden: 'fear_1_val',
+          labels: { 1:'Extreme discomfort', 2:'Very uncomfortable', 3:'Uncomfortable', 4:'Somewhat uneasy', 5:'Neutral', 6:'Mild comfort', 7:'Comfortable', 8:'Confident', 9:'Very confident', 10:'No hesitation at all' }},
+        { id: 'fearScale2', label: 'fearScale2Label', hidden: 'fear_2_val',
+          labels: { 1:'Highly avoidant', 2:'Very uncomfortable', 3:'Uncomfortable', 4:'Prefer to avoid', 5:'Neutral', 6:'Handle it', 7:'Comfortable', 8:'Embrace the tension', 9:'Thrive on it', 10:'Fully at ease under pressure' }}
+    ];
+    scaleDefs.forEach(({ id, label, hidden, labels }) => {
+        const wrap = document.getElementById(id);
+        if (!wrap) return;
+        wrap.querySelectorAll('.scale-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                wrap.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const val = btn.dataset.val;
+                document.getElementById(hidden).value = val;
+                document.getElementById(label).textContent = labels[val] || '';
+                formData[wrap.dataset.name] = val;
+            });
+        });
+    });
+}
+
+// ─── TEXTAREA COUNTERS ───
+function initCounters() {
+    document.querySelectorAll('textarea[maxlength]').forEach(ta => {
+        const counter = document.querySelector(`.ta-counter[data-for="${ta.id}"]`);
+        if (!counter) return;
+        ta.addEventListener('input', () => {
+            const len = ta.value.length;
+            const max = parseInt(ta.maxLength);
+            counter.textContent = `${len}/${max}`;
+            counter.classList.toggle('warn', len > max * 0.8);
+            counter.classList.toggle('over', len > max * 0.95);
+        });
+    });
+}
+
+// ─── EXAMPLE TOGGLES ───
+function initExamples() {
+    document.querySelectorAll('.example-toggle').forEach(tog => {
+        tog.addEventListener('click', () => {
+            const id = tog.dataset.target;
+            const box = document.getElementById(id);
+            if (!box) return;
+            const isOpen = box.classList.toggle('show');
+            tog.classList.toggle('open', isOpen);
+            tog.childNodes[0].textContent = isOpen ? '▼ ' : '▶ ';
+        });
+    });
+}
+
+// ─── PHONE AUTO-TAB ───
+function initPhoneAutotab() {
+    const pairs = [['ph1','ph2'],['ph2','ph3'],['ep1','ep2'],['ep2','ep3']];
+    pairs.forEach(([a,b]) => {
+        const el = document.getElementById(a);
+        if (el) el.addEventListener('input', () => {
+            if (el.value.length === parseInt(el.maxLength)) {
+                const next = document.getElementById(b);
+                if (next) next.focus();
+            }
+        });
+    });
+}
+
+// ─── PROGRESS ───
+function updateProgress() {
+    const pct = ((currentStep - 1) / (TOTAL_STEPS - 1)) * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('stepCounter').textContent = `STEP ${currentStep} / ${TOTAL_STEPS}`;
+
+    let remaining = 0;
+    for (let s = currentStep; s <= TOTAL_STEPS; s++) remaining += (STEP_TIMES[s] || 60);
+    const mins = Math.ceil(remaining / 60);
+    document.getElementById('timeLeft').textContent = `~${mins} MIN`;
+
+    document.getElementById('btnBack').style.display = currentStep === 1 ? 'none' : 'block';
+    document.getElementById('btnNext').style.display = currentStep === TOTAL_STEPS ? 'none' : 'block';
+    document.getElementById('btnSubmit').style.display = currentStep === TOTAL_STEPS ? 'block' : 'none';
+}
+
+// ─── SHOW STEP ───
+function showStep(n) {
+    document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+    document.querySelector(`[data-step="${n}"]`)?.classList.add('active');
+    currentStep = n;
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── VALIDATE STEP ───
+function validateStep(n) {
+    const panel = document.querySelector(`[data-step="${n}"]`);
+    if (!panel) return true;
+
+    // Standard required inputs
+    for (const el of panel.querySelectorAll('[required]')) {
+        if (!el.value || el.value.trim() === '') {
+            el.focus();
+            el.style.borderColor = 'var(--error)';
+            setTimeout(() => el.style.borderColor = '', 2000);
+            return false;
+        }
+    }
+
+    // Choice grids with required
+    for (const grid of panel.querySelectorAll('.choice-grid[data-required="true"]')) {
+        const name = grid.dataset.name;
+        if (!formData[name]) {
+            grid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            grid.style.outline = '2px solid var(--error)';
+            setTimeout(() => grid.style.outline = '', 2000);
+            return false;
+        }
+    }
+
+    // Scale required
+    for (const scale of panel.querySelectorAll('.scale-buttons[data-required="true"]')) {
+        const name = scale.dataset.name;
+        if (!formData[name]) {
+            scale.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return false;
+        }
+    }
+
+    return true;
+}
+
+// ═══════════════════════════════════════
+// NEUROSELL SCORING ENGINE
+// ═══════════════════════════════════════
+
+const FEAR_LABELS = {
+    1:'Extreme Avoidance',2:'High Avoidance',3:'Significant Fear',4:'Moderate Fear',
+    5:'Present Fear',6:'Manageable',7:'Low Fear',8:'Fear-Aware',9:'Fear-Resistant',10:'Fear-Free'
+};
+
+function analyzeText(text, context = []) {
+    if (!text || text.trim().length < 15) return { score: 0, flags: ['no_response'] };
+    let score = 0;
+    const flags = [];
+    const lower = text.toLowerCase();
+
+    // Length
+    if (text.length < 50)       { score += 0.1; flags.push('very_short'); }
+    else if (text.length < 120) { score += 0.25; }
+    else if (text.length < 250) { score += 0.35; }
+    else                        { score += 0.45; }
+
+    // Specificity
+    if (/\d+/.test(text) || /(month|week|year|day|hour|minute|percent|%)/i.test(text)) score += 0.15;
+    else flags.push('lacks_specificity');
+
+    // Maturity / ownership words
+    const maturity = ['learned','improved','realized','took responsibility','owned','fixed','corrected','resolved','solution','accountability','recognized'];
+    const mCount = maturity.filter(w => lower.includes(w)).length;
+    score += Math.min(mCount * 0.08, 0.25);
+
+    // Red flags
+    const reds = [
+        { r:/\bnot (my|our) fault\b/i, p:0.25, f:'blame_shifting' },
+        { r:/\b(don'?t|never) (really |usually )?make mistakes\b/i, p:0.3, f:'no_accountability' },
+        { r:/\b(idk|dunno|whatever|don'?t care)\b/i, p:0.25, f:'dismissive' },
+        { r:/\bjust (did|do|worked hard)\b/i, p:0.15, f:'vague' },
+        { r:/\bnothing\b/i, p:0.15, f:'nothing_response' }
+    ];
+    reds.forEach(({ r, p, f }) => { if (r.test(lower)) { score -= p; flags.push(f); } });
+
+    // First person
+    if (/\b(i|my|me)\b/i.test(text)) score += 0.1;
+
+    return { score: Math.max(0, Math.min(1, score)), flags };
+}
+
+function calcNeuroSellScore(data) {
+    // ── Six Unmeasurables ──
+    const q1 = parseInt(data.bio_1) || 0;
+    const q3 = parseInt(data.bio_3) || 0;
+    const q4 = parseInt(data.bio_4) || 0;
+    const t2 = analyzeText(data.bio_2 || '');
+    const t5 = analyzeText(data.bio_5 || '');
+
+    const initiative     = Math.round(((q1/5)*60) + (t2.score*40));
+    const professionalism= Math.round(((q3/5)*50) + (t5.score*50));
+    const ownership      = Math.round(((q3/5)*40) + (t5.score*60));
+    const followThrough  = Math.round(((q1/5)*40) + (t2.score*60));
+    const interest       = Math.round((t2.score*50) + (t5.score*50));
+    const presence       = Math.round(((q4/5)*60) + (t2.score*40));
+
+    // ── NeuroSell Constructs ──
+    const c1 = parseInt(data.comm_1) || 0;
+    const e1 = parseInt(data.etiq_1) || 0;
+    const ct1= parseInt(data.crit_1) || 0;
+    const cu1= parseInt(data.cur_1)  || 0;
+    const cr1= parseInt(data.creat_1)|| 0;
+    const f1 = parseInt(data.fear_1) || 0;
+    const f2 = parseInt(data.fear_2) || 0;
+
+    const tc2 = analyzeText(data.comm_2  || '');
+    const te2 = analyzeText(data.etiq_2  || '');
+    const tct2= analyzeText(data.crit_2  || '');
+    const tcu2= analyzeText(data.cur_2   || '');
+    const tcr2= analyzeText(data.creat_2 || '');
+    const tf3 = analyzeText(data.fear_3  || '');
+
+    const communication   = Math.min(100, Math.round(((c1/5)*55) + (tc2.score*45)));
+    const etiquette       = Math.min(100, Math.round(((e1/5)*50) + (te2.score*50)));
+    const criticalThinking= Math.min(100, Math.round(((ct1/5)*45) + (tct2.score*55)));
+    const curiosity       = Math.min(100, Math.round(((cu1/5)*45) + (tcu2.score*55)));
+    const creativity      = Math.min(100, Math.round(((cr1/5)*40) + (tcr2.score*60)));
+
+    // Fear: raw score + self-awareness bonus
+    const fearRaw = Math.round(((f1/10)*40) + ((f2/10)*40) + (tf3.score*20));
+    const fearSelfAwareness = (tf3.score > 0.4 && !tf3.flags.includes('nothing_response')) ? 10 : 0;
+    const fear = Math.min(100, fearRaw + fearSelfAwareness);
+
+    // Unmeasurables composite
+    const unmeasurables = Math.round((initiative+professionalism+ownership+followThrough+interest+presence)/6);
+
+    // NeuroSell composite
+    const neurosell = Math.round((communication+etiquette+criticalThinking+curiosity+creativity+fear)/6);
+
+    // Overall: 40% unmeasurables foundation, 60% NeuroSell layer
+    const overall = Math.round((unmeasurables * 0.40) + (neurosell * 0.60));
+
+    // Consistency flags
+    const consistency = [];
+    if (q1 >= 4 && q3 >= 4 && cr1 >= 4 && cu1 >= 4) {
+        const textLengths = [data.bio_2,data.bio_5,data.crit_2,data.creat_2].map(t => (t||'').length);
+        if (textLengths.filter(l => l < 80).length >= 3) {
+            consistency.push({ type:'high_select_short_text', severity:'high', msg:'All multiple-choice answers high but text responses minimal — possible gaming' });
+        }
+    }
+    if (f1 === 10 && f2 === 10 && tf3.flags.includes('nothing_response')) {
+        consistency.push({ type:'fear_denial', severity:'high', msg:'Claims no fear on scales but fear reflection question empty/dismissive' });
+    }
+
+    return {
+        overall,
+        unmeasurables,
+        neurosell,
+        breakdown: {
+            // Six Unmeasurables
+            initiative, professionalism, ownership, followThrough, interest, presence,
+            // NeuroSell
+            communication, etiquette, criticalThinking, curiosity, creativity, fear
+        },
+        consistency,
+        fearSelfAwareness: fearSelfAwareness > 0
+    };
+}
+
+// ─── RENDER RESULTS ───
+function renderResults(data, scores) {
+    document.getElementById('resultName').textContent =
+        `${data.legal_name || 'Candidate'} — ${new Date().toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' })}`;
+
+    // Overall
+    const overall = scores.overall;
+    document.getElementById('overallScoreDisplay').innerHTML = `${overall}<span>/100</span>`; document.getElementById('overallScoreDisplay').style.color = '#111111';
+    const fillEl = document.getElementById('overallScoreFill');
+    const color = overall >= 75 ? '#00C27C' : overall >= 50 ? '#D4A843' : '#EF4444';
+    fillEl.style.background = color;
+    setTimeout(() => fillEl.style.width = overall + '%', 200);
+
+    // Construct grid
+    const constructs = [
+        { name:'Initiative',      key:'initiative',       color:'#FF4D00' },
+        { name:'Professionalism', key:'professionalism',  color:'#FF4D00' },
+        { name:'Ownership',       key:'ownership',        color:'#FF4D00' },
+        { name:'Follow-Through',  key:'followThrough',    color:'#FF4D00' },
+        { name:'Interest',        key:'interest',         color:'#FF4D00' },
+        { name:'Presence',        key:'presence',         color:'#FF4D00' },
+        { name:'Communication',   key:'communication',    color:'#D4A843' },
+        { name:'Etiquette',       key:'etiquette',        color:'#D4A843' },
+        { name:'Critical Think.', key:'criticalThinking', color:'#D4A843' },
+        { name:'Curiosity',       key:'curiosity',        color:'#D4A843' },
+        { name:'Creativity',      key:'creativity',       color:'#D4A843' },
+        { name:'Fear Index',      key:'fear',             color:'#D4A843' }
+    ];
+
+    const grid = document.getElementById('constructGrid');
+    grid.innerHTML = '';
+    constructs.forEach(({ name, key, color }) => {
+        const val = scores.breakdown[key] || 0;
+        grid.innerHTML += `
+        <div class="construct-row">
+            <div class="construct-name">${name}</div>
+            <div class="construct-bar-wrap">
+                <div class="construct-bar" id="cbar_${key}" style="width:0%;background:${color}"></div>
+            </div>
+            <div class="construct-score-num">${val}</div>
+        </div>`;
+    });
+
+    setTimeout(() => {
+        constructs.forEach(({ key }) => {
+            const bar = document.getElementById(`cbar_${key}`);
+            if (bar) bar.style.width = (scores.breakdown[key] || 0) + '%';
+        });
+    }, 400);
+
+    // Routing
+    let tier, msg, next, tierColor;
+    if (overall >= 78) {
+        tier = 'Priority — High Capacity'; tierColor = '#00C27C';
+        msg = 'Your NeuroSell profile indicates strong psychological maturity combined with the neurological and behavioral traits that predict front-facing success. You show low fear index combined with high critical thinking and curiosity — a rare combination.';
+        next = 'Our team will contact you within 2 business days to discuss immediate placement opportunities.';
+    } else if (overall >= 55) {
+        tier = 'Standard — Solid Foundation'; tierColor = '#D4A843';
+        msg = 'Your profile shows solid work capacity with identifiable areas for development. Several NeuroSell constructs score well, and with targeted coaching in the lower-scoring areas, you represent strong upside potential.';
+        next = 'We will review your application and reach out within 5–7 business days. You may be invited to a structured working interview.';
+    } else {
+        tier = 'Development Track'; tierColor = '#EF4444';
+        msg = 'Your responses suggest you may benefit from structured sales development before being placed in a front-facing role. This is not a disqualification — it is a diagnosis.';
+        next = 'We will contact you about our workforce development and pre-placement coaching programs.';
+    }
+
+    document.getElementById('routingTier').textContent = tier;
+    document.getElementById('routingTier').style.color = tierColor;
+    document.getElementById('routingMessage').textContent = msg;
+    document.getElementById('nextStepsText').textContent = next;
+}
+
+
+// ─── EMAIL NOTIFICATION TO MIKE ───
+async function sendAdminAlert(data, scores) {
+    try {
+        // EmailJS - free tier (200 emails/month)
+        // ✅ Setup instructions at bottom of this file
+        emailjs.init("P_GKCltbf8Wal7X20"); // ← replace after EmailJS setup
+
+        const tier = scores.overall >= 78 ? '🟢 PRIORITY' : scores.overall >= 55 ? '🟡 STANDARD' : '🔴 DEVELOPMENT TRACK';
+
+        const breakdown = `
+Initiative: ${scores.breakdown.initiative}/100
+Professionalism: ${scores.breakdown.professionalism}/100
+Ownership: ${scores.breakdown.ownership}/100
+Follow-Through: ${scores.breakdown.followThrough}/100
+Interest: ${scores.breakdown.interest}/100
+Presence: ${scores.breakdown.presence}/100
+---
+Communication: ${scores.breakdown.communication}/100
+Etiquette: ${scores.breakdown.etiquette}/100
+Critical Thinking: ${scores.breakdown.criticalThinking}/100
+Curiosity: ${scores.breakdown.curiosity}/100
+Creativity: ${scores.breakdown.creativity}/100
+Fear Index: ${scores.breakdown.fear}/100`;
+
+        const docNames = (data.uploaded_documents || []).map(d => d.fileName).join(', ') || 'None uploaded';
+        const consistencyFlags = (scores.consistency || []).map(f => `⚠️ ${f.msg}`).join('\n') || 'None';
+
+        await emailjs.send("service_ay6w3ob", "template_aajdh8o", {
+            to_email: "mike@peaktcs.com",
+            to_name: "Mike Frazier",
+            candidate_name: data.legal_name || 'Unknown',
+            candidate_email: data.email || 'N/A',
+            candidate_phone: `${data.phone_1 || ''}-${data.phone_2 || ''}-${data.phone_3 || ''}`,
+            candidate_location: `${data.city || ''}, ${data.state || ''}`,
+            overall_score: scores.overall,
+            routing_tier: tier,
+            unmeasurables_score: scores.unmeasurables,
+            neurosell_score: scores.neurosell,
+            construct_breakdown: breakdown,
+            documents_uploaded: docNames,
+            consistency_flags: consistencyFlags,
+            submission_id: data.submission_id || 'N/A',
+            submitted_at: new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }),
+            preferred_position: data.preferred_position || 'Not specified',
+            salary_expectation: data.salary_expectation || 'Not specified',
+            education: data.education || 'Not specified',
+        });
+
+        console.log('✅ Admin alert sent to mike@peaktcs.com');
+    } catch (err) {
+        console.warn('Email notification failed (non-blocking):', err);
+        // Don't block the submission — just log it
+    }
+}
+
+// ─── UPLOAD FILES TO FIREBASE STORAGE ───
+async function uploadFilesToStorage(candidateName, submissionId) {
+    if (uploadedFiles.length === 0) return [];
+    
+    const uploadResults = [];
+    const progressBar = document.getElementById('uploadProgressFill');
+    const progressLabel = document.getElementById('uploadProgressLabel');
+    const progressWrap = document.getElementById('uploadProgress');
+    progressWrap.classList.add('show');
+
+    for (let i = 0; i < uploadedFiles.length; i++) {
+        const { file } = uploadedFiles[i];
+        const safeName = candidateName.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+        const timestamp = Date.now();
+        const storagePath = `neurosell_documents/${submissionId}/${safeName}_${timestamp}_${file.name}`;
+        const storageRef = ref(storage, storagePath);
+
+        progressLabel.textContent = `Uploading ${i + 1} of ${uploadedFiles.length}: ${file.name}`;
+
+        await new Promise((resolve, reject) => {
+            const uploadTask = uploadBytesResumable(storageRef, file);
+            uploadTask.on('state_changed',
+                (snapshot) => {
+                    const fileProgress = (snapshot.bytesTransferred / snapshot.totalBytes);
+                    const overall = ((i + fileProgress) / uploadedFiles.length) * 100;
+                    progressBar.style.width = overall + '%';
+                },
+                (error) => {
+                    console.error('Upload error:', error);
+                    reject(error);
+                },
+                async () => {
+                    const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                    uploadResults.push({
+                        fileName: file.name,
+                        fileSize: file.size,
+                        fileType: file.type,
+                        storagePath,
+                        downloadURL
+                    });
+                    resolve();
+                }
+            );
+        });
+    }
+
+    progressBar.style.width = '100%';
+    progressLabel.textContent = `${uploadedFiles.length} file${uploadedFiles.length > 1 ? 's' : ''} uploaded successfully`;
+    return uploadResults;
+}
+
+// ─── SUBMIT ───
+async function handleSubmit(e) {
+    e.preventDefault();
+
+    if (document.getElementById('hp_url').value !== '') return; // honeypot
+
+    // ── reCAPTCHA v3 verification ──
+    let recaptchaToken = '';
+    try {
+        recaptchaToken = await grecaptcha.execute('6LeOqHYsAAAAAGaQAkxb3vSkkeAmq_2sfyKnmt_7', { action: 'submit_assessment' });
+    } catch(err) {
+        console.warn('reCAPTCHA failed — proceeding anyway:', err);
+    }
+
+    const form = document.getElementById('nsForm');
+    const raw = new FormData(form);
+    const data = {};
+    for (const [k, v] of raw.entries()) { if (k !== 'docUpload') data[k] = v; }
+    Object.assign(data, formData);
+    data.submitted_at = new Date().toISOString();
+    data.assessment_type = 'neurosell_v1';
+    data.market_segment = 'front_facing';
+    data.submission_id = 'ns_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+    data.recaptcha_token = recaptchaToken; // stored for server-side verification if needed
+
+    const scores = calcNeuroSellScore(data);
+    data.scores = scores;
+    data.overall_score = scores.overall;
+    data.routing = scores.overall >= 78 ? 'Priority' : scores.overall >= 55 ? 'Standard' : 'Development';
+
+    // Hide form, show loading
+    document.getElementById('nsForm').style.display = 'none';
+    document.getElementById('loadingScreen').classList.add('active');
+
+    try {
+        // ── Step 1: Upload documents to Firebase Storage ──
+        const candidateName = data.legal_name || 'unknown';
+        const docURLs = await uploadFilesToStorage(candidateName, data.submission_id);
+        data.uploaded_documents = docURLs;
+        data.document_count = docURLs.length;
+
+        // ── Step 2: Save assessment to Firestore ──
+        const docRef = await addDoc(collection(db, 'neurosell_assessments'), data);
+        console.log('✅ Assessment saved to Firestore. ID:', docRef.id);
+        data.firestore_id = docRef.id;
+
+    } catch (err) {
+        console.error('Firebase error — saving locally as fallback:', err);
+        // Graceful fallback: still show results even if Firebase fails
+        data.firebase_error = err.message;
+    }
+
+    await new Promise(r => setTimeout(r, 800));
+
+    document.getElementById('loadingScreen').classList.remove('active');
+    document.getElementById('resultScreen').classList.add('active');
+    document.getElementById('navBar').style.display = 'none';
+
+    renderResults(data, scores);
+    sendAdminAlert(data, scores); // non-blocking alert to mike@peaktcs.com
+
+    console.log('NeuroSell Submission:', data.submission_id);
+    console.log('Scores:', scores);
+}
+
+
+// ─── FILE UPLOAD HANDLER ───
+function initFileUpload() {
+    const zone = document.getElementById('uploadZone');
+    const input = document.getElementById('docUpload');
+    const fileList = document.getElementById('uploadFileList');
+
+    if (!zone || !input) return;
+
+    const MAX_FILES = 3;
+    const MAX_SIZE_MB = 10;
+
+    function renderFileList() {
+        fileList.innerHTML = '';
+        uploadedFiles.forEach((item, idx) => {
+            const sizeMB = (item.file.size / (1024 * 1024)).toFixed(1);
+            fileList.innerHTML += `
+                <div class="upload-file-item">
+                    <span class="upload-file-name">📄 ${item.file.name} <span style="color:#777;font-weight:400;">(${sizeMB} MB)</span></span>
+                    <span class="upload-file-remove" data-idx="${idx}" title="Remove">✕</span>
+                </div>`;
+        });
+        fileList.querySelectorAll('.upload-file-remove').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const idx = parseInt(e.target.dataset.idx);
+                uploadedFiles.splice(idx, 1);
+                renderFileList();
+            });
+        });
+    }
+
+    function addFiles(files) {
+        for (const file of files) {
+            if (uploadedFiles.length >= MAX_FILES) {
+                alert(`Maximum ${MAX_FILES} files allowed.`);
+                break;
+            }
+            if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+                alert(`"${file.name}" exceeds the ${MAX_SIZE_MB}MB limit.`);
+                continue;
+            }
+            const allowed = ['application/pdf','application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'text/plain','image/jpeg','image/png'];
+            if (!allowed.includes(file.type)) {
+                alert(`"${file.name}" — file type not supported.`);
+                continue;
+            }
+            uploadedFiles.push({ file, name: file.name, size: file.size });
+        }
+        renderFileList();
+    }
+
+    input.addEventListener('change', (e) => {
+        addFiles(e.target.files);
+        input.value = ''; // reset so same file can be re-added if removed
+    });
+
+    zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('drag-over'); });
+    zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+    zone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        zone.classList.remove('drag-over');
+        addFiles(e.dataTransfer.files);
+    });
+}
+
+// ═══════════════════════════════════════
+// INITIALIZATION
+// ═══════════════════════════════════════
+
+document.addEventListener('DOMContentLoaded', () => {
+    buildAvailGrid();
+    initChoiceCards();
+    initScales();
+    initCounters();
+    initExamples();
+    initPhoneAutotab();
+    initFileUpload();
+    updateProgress();
+
+    document.getElementById('btnNext').addEventListener('click', () => {
+        if (validateStep(currentStep)) showStep(currentStep + 1);
+    });
+
+    document.getElementById('btnBack').addEventListener('click', () => {
+        showStep(currentStep - 1);
+    });
+
+    document.getElementById('nsForm').addEventListener('submit', handleSubmit);
+});
+</script>
 </body>
+
+
+
 </html>
