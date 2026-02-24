@@ -868,11 +868,64 @@
                 </div>
 
                 <!-- ═══════════════════════════════════════
-                     STEP 1 — ELIGIBILITY
+                     STEP 1 — CONSENT & DISCLOSURE
                 ════════════════════════════════════════ -->
                 <div class="step-panel active" data-step="1">
                     <div class="panel-head">
-                        <div class="panel-eyebrow">Step 01 — Eligibility</div>
+                        <div class="panel-eyebrow">Step 01 — Disclosure & Consent</div>
+                        <h2 class="panel-title">Before You Begin</h2>
+                        <p class="panel-desc">Please read and acknowledge the following before starting your assessment.</p>
+                    </div>
+                    <div class="divider"></div>
+
+                    <div style="background:#F5F5F5;border:2px solid #E0E0E0;border-radius:6px;padding:1.75rem 1.75rem 1.5rem;margin-bottom:1.75rem;">
+
+                        <div style="margin-bottom:1.5rem;">
+                            <div style="font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:#FF4D00;margin-bottom:0.5rem;font-weight:700;">What This Is</div>
+                            <p style="font-size:0.95rem;line-height:1.75;color:#111111;">This is a <strong>behavioral capacity assessment</strong> — not a personality test, not a compatibility quiz, and not a screening tool based on your credentials or background. It is designed to evaluate the specific psychological and behavioral constructs that predict performance in front-facing, revenue-generating roles. Your responses will be analyzed against a proprietary scoring framework developed over 39 years of workforce research.</p>
+                        </div>
+
+                        <div style="height:1px;background:#DDDDDD;margin:1.25rem 0;"></div>
+
+                        <div style="margin-bottom:1.5rem;">
+                            <div style="font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:#FF4D00;margin-bottom:0.5rem;font-weight:700;">How Your Responses Are Used</div>
+                            <p style="font-size:0.95rem;line-height:1.75;color:#111111;">Your responses will be evaluated and retained by Peak Talent Capital Solutions. Based on your results, a member of the Peak TCS team may contact you regarding employment opportunities. Your assessment profile will be used solely for talent placement purposes and will not be shared with third parties without your explicit consent. All data is stored securely in compliance with applicable privacy laws including GDPR and CCPA.</p>
+                        </div>
+
+                        <div style="height:1px;background:#DDDDDD;margin:1.25rem 0;"></div>
+
+                        <div style="margin-bottom:1.5rem;">
+                            <div style="font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:#FF4D00;margin-bottom:0.5rem;font-weight:700;">What We Expect From You</div>
+                            <p style="font-size:0.95rem;line-height:1.75;color:#111111;">This assessment takes approximately 17 minutes to complete. Answer every question honestly and specifically. Vague or evasive responses are scored accordingly. There are no trick questions — but there are questions designed to surface self-awareness, and that distinction matters.</p>
+                        </div>
+
+                        <div style="height:1px;background:#DDDDDD;margin:1.25rem 0;"></div>
+
+                        <div>
+                            <div style="font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:#FF4D00;margin-bottom:0.5rem;font-weight:700;">Equal Opportunity</div>
+                            <p style="font-size:0.95rem;line-height:1.75;color:#111111;">Peak Talent Capital Solutions is an Equal Opportunity Employer. This assessment is administered uniformly and does not screen on the basis of age, race, color, national origin, religion, sex, disability, veteran status, or any other characteristic protected by federal, state, or local law.</p>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="choice-grid" data-name="consent" data-required="true">
+                            <div class="choice-card" data-value="I acknowledge and agree to proceed">
+                                <input type="radio" name="consent" value="I acknowledge and agree to proceed">
+                                <span class="choice-dot"></span>
+                                <div class="choice-text"><strong>I have read and understand the above.</strong> I consent to the collection and use of my assessment responses by Peak Talent Capital Solutions for talent placement purposes, and I agree to answer all questions honestly and to the best of my ability.</div>
+                            </div>
+                        </div>
+                        <p style="font-size:0.78rem;color:#555555;margin-top:0.75rem;font-style:italic;">🔒 Your responses are stored securely and will never be sold or shared with third parties without your consent.</p>
+                    </div>
+                </div>
+
+                <!-- ═══════════════════════════════════════
+                     STEP 2 — ELIGIBILITY
+                ════════════════════════════════════════ -->
+                <div class="step-panel" data-step="2">
+                    <div class="panel-head">
+                        <div class="panel-eyebrow">Step 02 — Eligibility</div>
                         <h2 class="panel-title">Let's Get Started</h2>
                         <p class="panel-desc">Confirm a few quick requirements before we begin your NeuroSell assessment.</p>
                     </div>
@@ -917,9 +970,9 @@
                 <!-- ═══════════════════════════════════════
                      STEP 2 — BASIC INFO
                 ════════════════════════════════════════ -->
-                <div class="step-panel" data-step="2">
+                <div class="step-panel" data-step="3">
                     <div class="panel-head">
-                        <div class="panel-eyebrow">Step 02 — Contact</div>
+                        <div class="panel-eyebrow">Step 03 — Contact</div>
                         <h2 class="panel-title">Your Information</h2>
                         <p class="panel-desc">Basic contact and personal details.</p>
                     </div>
@@ -1004,14 +1057,24 @@
                             <input type="text" id="salary_expectation" name="salary_expectation" placeholder="e.g., $55,000/yr or $25/hr" required>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label class="field-label">Are You Currently Employed? <span class="req">*</span></label>
+                        <div class="choice-grid" data-name="currently_employed" data-required="true">
+                            <div class="choice-card" data-value="Yes — Full Time"><input type="radio" name="currently_employed" value="Yes — Full Time"><span class="choice-dot"></span><span class="choice-text">Yes — Full Time</span></div>
+                            <div class="choice-card" data-value="Yes — Part Time"><input type="radio" name="currently_employed" value="Yes — Part Time"><span class="choice-dot"></span><span class="choice-text">Yes — Part Time</span></div>
+                            <div class="choice-card" data-value="No — Actively Looking"><input type="radio" name="currently_employed" value="No — Actively Looking"><span class="choice-dot"></span><span class="choice-text">No — Actively Looking</span></div>
+                            <div class="choice-card" data-value="No — Not Currently Looking"><input type="radio" name="currently_employed" value="No — Not Currently Looking"><span class="choice-dot"></span><span class="choice-text">No — Not Currently Looking</span></div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- ═══════════════════════════════════════
                      STEP 3 — AVAILABILITY
                 ════════════════════════════════════════ -->
-                <div class="step-panel" data-step="3">
+                <div class="step-panel" data-step="4">
                     <div class="panel-head">
-                        <div class="panel-eyebrow">Step 03 — Availability</div>
+                        <div class="panel-eyebrow">Step 04 — Availability</div>
                         <h2 class="panel-title">When Can You Work?</h2>
                         <p class="panel-desc">Select availability for each day. We'll match you to front-facing roles that fit your schedule.</p>
                     </div>
@@ -1050,9 +1113,9 @@
                 <!-- ═══════════════════════════════════════
                      STEP 4 — SIX UNMEASURABLES
                 ════════════════════════════════════════ -->
-                <div class="step-panel" data-step="4">
+                <div class="step-panel" data-step="5">
                     <div class="panel-head">
-                        <div class="panel-eyebrow">Step 04 — Psychological Maturity</div>
+                        <div class="panel-eyebrow">Step 05 — Psychological Maturity</div>
                         <h2 class="panel-title">Work Capacity Assessment</h2>
                         <p class="panel-desc">These questions assess the behavioral foundations that determine actual work performance. There are no "right" answers — we are looking for honest self-reflection.</p>
                     </div>
@@ -1139,9 +1202,9 @@
                 <!-- ═══════════════════════════════════════
                      STEP 5 — NEUROSELL CONSTRUCTS: COMMUNICATION & ETIQUETTE
                 ════════════════════════════════════════ -->
-                <div class="step-panel" data-step="5">
+                <div class="step-panel" data-step="6">
                     <div class="panel-head">
-                        <div class="panel-eyebrow">Step 05 — NeuroSell Layer I</div>
+                        <div class="panel-eyebrow">Step 06 — NeuroSell Layer I</div>
                         <h2 class="panel-title">Communication & Professionalism</h2>
                         <p class="panel-desc">Sales lives and dies on how you communicate. These questions assess your verbal precision, professional register, and situational awareness.</p>
                     </div>
@@ -1204,9 +1267,9 @@
                 <!-- ═══════════════════════════════════════
                      STEP 6 — CRITICAL THINKING & CURIOSITY
                 ════════════════════════════════════════ -->
-                <div class="step-panel" data-step="6">
+                <div class="step-panel" data-step="7">
                     <div class="panel-head">
-                        <div class="panel-eyebrow">Step 06 — NeuroSell Layer II</div>
+                        <div class="panel-eyebrow">Step 07 — NeuroSell Layer II</div>
                         <h2 class="panel-title">Critical Thinking & Curiosity</h2>
                         <p class="panel-desc">Top performers don't just take orders — they think. These questions assess how you process problems and whether you're driven by genuine discovery.</p>
                     </div>
@@ -1267,9 +1330,9 @@
                 <!-- ═══════════════════════════════════════
                      STEP 7 — CREATIVITY & FEAR
                 ════════════════════════════════════════ -->
-                <div class="step-panel" data-step="7">
+                <div class="step-panel" data-step="8">
                     <div class="panel-head">
-                        <div class="panel-eyebrow">Step 07 — NeuroSell Layer III</div>
+                        <div class="panel-eyebrow">Step 08 — NeuroSell Layer III</div>
                         <h2 class="panel-title">Creativity & Fear</h2>
                         <p class="panel-desc">These are the constructs no one else measures. Creativity is your ability to generate non-obvious solutions. Fear is the silent ceiling on most sales careers.</p>
                     </div>
@@ -1369,9 +1432,9 @@
                 <!-- ═══════════════════════════════════════
                      STEP 8 — EXPERIENCE & SUBMIT
                 ════════════════════════════════════════ -->
-                <div class="step-panel" data-step="8">
+                <div class="step-panel" data-step="9">
                     <div class="panel-head">
-                        <div class="panel-eyebrow">Step 08 — Background & Certification</div>
+                        <div class="panel-eyebrow">Step 09 — Background & Certification</div>
                         <h2 class="panel-title">Experience & Submit</h2>
                         <p class="panel-desc">Final section. Tell us about your background and certify your application.</p>
                     </div>
@@ -1537,11 +1600,11 @@ const storage = getStorage(firebaseApp);
 
 // ─── STATE ───
 let currentStep = 1;
-const TOTAL_STEPS = 8;
+const TOTAL_STEPS = 9;
 const formData = {};
 let uploadedFiles = []; // tracks { file, name, size } for Firebase Storage upload
 
-const STEP_TIMES = { 1:60, 2:120, 3:90, 4:180, 5:150, 6:150, 7:150, 8:120 };
+const STEP_TIMES = { 1:45, 2:60, 3:120, 4:90, 5:180, 6:150, 7:150, 8:150, 9:120 };
 
 // ─── DAYS ───
 const DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
@@ -1972,6 +2035,7 @@ Fear Index: ${scores.breakdown.fear}/100`;
             preferred_position: data.preferred_position || 'Not specified',
             salary_expectation: data.salary_expectation || 'Not specified',
             education: data.education || 'Not specified',
+            currently_employed: data.currently_employed || 'Not specified',
         });
 
         console.log('✅ Admin alert sent to mike@peaktcs.com');
