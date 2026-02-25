@@ -1577,7 +1577,7 @@
 
 // ─── FIREBASE IMPORTS ───
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { getFirestore, collection, addDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import { getFirestore, collection, addDoc, doc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
 
 // ─── FIREBASE CONFIG ───
@@ -1603,6 +1603,8 @@ let currentStep = 1;
 const TOTAL_STEPS = 9;
 const formData = {};
 let uploadedFiles = []; // tracks { file, name, size } for Firebase Storage upload
+let sessionId = null;       // Firestore doc ID created on entry, updated on completion
+let entryAlertSent = false; // ensures start alert fires only once
 
 const STEP_TIMES = { 1:45, 2:60, 3:120, 4:90, 5:180, 6:150, 7:150, 8:150, 9:120 };
 
@@ -1752,6 +1754,57 @@ function showStep(n) {
     currentStep = n;
     updateProgress();
     window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+
+// ─── ENTRY ALERT ─────────────────────────────────────────────
+// Fires once when candidate advances past consent (Step 1 → Step 2)
+// Creates a partial Firestore record + sends a start notification email
+async function fireEntryAlert() {
+    if (entryAlertSent) return;
+    entryAlertSent = true;
+
+    const startTime = new Date().toISOString();
+    const startData = {
+        status: 'started',
+        started_at: serverTimestamp(),
+        started_at_iso: startTime,
+        user_agent: navigator.userAgent,
+        screen_width: window.screen.width,
+        referrer: document.referrer || 'direct',
+    };
+
+    try {
+        // Write partial record to Firestore — same collection, new doc
+        const entryRef = doc(collection(db, 'neurosell_assessments'));
+        sessionId = entryRef.id;
+        await setDoc(entryRef, startData);
+    } catch (e) {
+        console.warn('Entry Firestore write failed:', e);
+    }
+
+    try {
+        // Send start alert email via EmailJS
+        await emailjs.send("service_ay6w3ob", "template_aajdh8o", {
+            to_email:          "mike@peaktcs.com",
+            candidate_name:    "— not yet collected —",
+            candidate_email:   "—",
+            candidate_phone:   "—",
+            submission_time:   startTime,
+            overall_score:     "IN PROGRESS",
+            routing_tier:      "🟡 ASSESSMENT STARTED",
+            next_steps:        "A candidate has entered the NeuroSell funnel and is actively completing the assessment. You will receive a second alert with their full diagnostic profile upon completion.",
+            // Blank out all score fields so the template doesn't show garbage
+            initiative_score: "—", professionalism_score: "—", ownership_score: "—",
+            follow_through_score: "—", interest_score: "—", presence_score: "—",
+            communication_score: "—", etiquette_score: "—", critical_thinking_score: "—",
+            curiosity_score: "—", creativity_score: "—", fear_score: "—",
+            consistency_flags: "Assessment in progress — no flags yet",
+            session_id: sessionId || "pending",
+        });
+    } catch (e) {
+        console.warn('Entry email alert failed:', e);
+    }
 }
 
 // ─── VALIDATE STEP ───
@@ -2138,7 +2191,18 @@ async function handleSubmit(e) {
         data.document_count = docURLs.length;
 
         // ── Step 2: Save assessment to Firestore ──
+        // Tag this completion with the session ID from entry (links start → finish records)
+        if (sessionId) data.entry_record_id = sessionId;
         const docRef = await addDoc(collection(db, 'neurosell_assessments'), data);
+        // Mark the entry record as completed so starts vs completions are queryable
+        if (sessionId) {
+            try {
+                await setDoc(doc(db, 'neurosell_assessments', sessionId),
+                    { status: 'completed', completed_at: serverTimestamp(), completion_record_id: docRef.id },
+                    { merge: true }
+                );
+            } catch(e) { /* non-blocking */ }
+        }
         console.log('✅ Assessment saved to Firestore. ID:', docRef.id);
         data.firestore_id = docRef.id;
 
@@ -2243,7 +2307,11 @@ document.addEventListener('DOMContentLoaded', () => {
     updateProgress();
 
     document.getElementById('btnNext').addEventListener('click', () => {
-        if (validateStep(currentStep)) showStep(currentStep + 1);
+        if (validateStep(currentStep)) {
+            // Fire entry alert exactly once when candidate advances past consent
+            if (currentStep === 1) fireEntryAlert();
+            showStep(currentStep + 1);
+        }
     });
 
     document.getElementById('btnBack').addEventListener('click', () => {
