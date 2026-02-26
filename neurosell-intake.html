@@ -828,6 +828,63 @@
         .hp-field { position: absolute; left: -9999px; opacity: 0; pointer-events: none; }
 
         /* ─── MOBILE ─── */
+        
+        /* ── IPSATIVE / FORCED RANK ── */
+        .ipsative-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            user-select: none;
+        }
+        .ipsative-item {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            background: #FFFFFF;
+            border: 2px solid #E0E0E0;
+            border-radius: 6px;
+            padding: 0.875rem 1rem;
+            cursor: grab;
+            transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+        }
+        .ipsative-item:active { cursor: grabbing; }
+        .ipsative-item.dragging {
+            opacity: 0.5;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+        .ipsative-item.drag-over {
+            border-color: var(--orange);
+            background: var(--orange-light);
+        }
+        .ipsative-rank {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            color: var(--orange);
+            letter-spacing: 0.05em;
+            width: 24px;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+        .ipsative-drag-icon {
+            color: #BBBBBB;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .ipsative-text {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #111111;
+            flex: 1;
+        }
+        .ipsative-hint {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #888888;
+            margin-bottom: 0.5rem;
+        }
+
         @media (max-width: 640px) {
             .grid-2, .grid-3, .construct-grid { grid-template-columns: 1fr; }
             .panel-title { font-size: 2.2rem; }
@@ -1199,6 +1256,67 @@
                     </div>
                 </div>
 
+                    <!-- Ipsative Q1: Priority Ranking -->
+                    <div class="form-group">
+                        <div class="construct-badge">◆ Initiative · Ownership · Follow-Through</div>
+                        <label class="field-label">Rank the following from <strong>most like you (1)</strong> to <strong>least like you (4)</strong>. Drag to reorder. <span class="req">*</span></label>
+                        <div class="ipsative-hint">Drag items up or down — be honest, not aspirational</div>
+                        <div class="ipsative-wrap" id="ipsative_1_wrap">
+                            <div class="ipsative-item" data-value="I identify problems and fix them before anyone asks me to">
+                                <span class="ipsative-rank">1</span>
+                                <span class="ipsative-drag-icon">⠿</span>
+                                <span class="ipsative-text">I identify problems and fix them before anyone asks me to</span>
+                            </div>
+                            <div class="ipsative-item" data-value="I complete what I commit to, even when it stops being interesting">
+                                <span class="ipsative-rank">2</span>
+                                <span class="ipsative-drag-icon">⠿</span>
+                                <span class="ipsative-text">I complete what I commit to, even when it stops being interesting</span>
+                            </div>
+                            <div class="ipsative-item" data-value="When something goes wrong, I own it fully — no qualifications">
+                                <span class="ipsative-rank">3</span>
+                                <span class="ipsative-drag-icon">⠿</span>
+                                <span class="ipsative-text">When something goes wrong, I own it fully — no qualifications</span>
+                            </div>
+                            <div class="ipsative-item" data-value="I stay fully engaged in work even when it isn't exciting or new">
+                                <span class="ipsative-rank">4</span>
+                                <span class="ipsative-drag-icon">⠿</span>
+                                <span class="ipsative-text">I stay fully engaged in work even when it isn't exciting or new</span>
+                            </div>
+                        </div>
+                        <input type="hidden" id="ipsative_1" name="ipsative_1">
+                    </div>
+
+                    <!-- Ipsative Q2: Pressure Response -->
+                    <div class="form-group">
+                        <div class="construct-badge">◆ Professionalism · Presence · Communication</div>
+                        <label class="field-label">Under real pressure, which describes you <strong>most accurately</strong>? Rank 1 (most like you) to 4 (least like you). <span class="req">*</span></label>
+                        <div class="ipsative-hint">There is no universally correct order — your honest ranking is the data</div>
+                        <div class="ipsative-wrap" id="ipsative_2_wrap">
+                            <div class="ipsative-item" data-value="I stay composed and professional regardless of what's happening around me">
+                                <span class="ipsative-rank">1</span>
+                                <span class="ipsative-drag-icon">⠿</span>
+                                <span class="ipsative-text">I stay composed and professional regardless of what's happening around me</span>
+                            </div>
+                            <div class="ipsative-item" data-value="I can re-engage fully after an interruption without losing output quality">
+                                <span class="ipsative-rank">2</span>
+                                <span class="ipsative-drag-icon">⠿</span>
+                                <span class="ipsative-text">I can re-engage fully after an interruption without losing output quality</span>
+                            </div>
+                            <div class="ipsative-item" data-value="My communication stays clear and precise even when I'm stressed">
+                                <span class="ipsative-rank">3</span>
+                                <span class="ipsative-drag-icon">⠿</span>
+                                <span class="ipsative-text">My communication stays clear and precise even when I'm stressed</span>
+                            </div>
+                            <div class="ipsative-item" data-value="I actively seek feedback and use it to adjust course immediately">
+                                <span class="ipsative-rank">4</span>
+                                <span class="ipsative-drag-icon">⠿</span>
+                                <span class="ipsative-text">I actively seek feedback and use it to adjust course immediately</span>
+                            </div>
+                        </div>
+                        <input type="hidden" id="ipsative_2" name="ipsative_2">
+                    </div>
+
+
                 <!-- ═══════════════════════════════════════
                      STEP 5 — NEUROSELL CONSTRUCTS: COMMUNICATION & ETIQUETTE
                 ════════════════════════════════════════ -->
@@ -1565,6 +1683,16 @@
                         <span id="nextStepsText"></span>
                     </div>
                 </div>
+
+                <div style="margin-top:2rem;text-align:center;">
+                    <a id="viewResultsBtn" href="#" target="_blank"
+                       style="display:inline-block;background:#FF4D00;color:#FFFFFF;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;padding:1rem 2.5rem;border-radius:3px;">
+                        View Your Full Results Page →
+                    </a>
+                    <div style="margin-top:0.75rem;font-family:'DM Mono',monospace;font-size:0.68rem;color:#888888;letter-spacing:0.1em;">
+                        Your personal behavioral profile with strengths, watch areas, and coaching insights
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -1597,6 +1725,124 @@ const FIREBASE_CONFIG = {
 const firebaseApp = initializeApp(FIREBASE_CONFIG);
 const db = getFirestore(firebaseApp);
 const storage = getStorage(firebaseApp);
+
+
+// ─── IPSATIVE (FORCED RANK) ENGINE ──────────────────────────────────────────
+function initIpsative(containerId, hiddenId) {
+    const container = document.getElementById(containerId);
+    const hidden    = document.getElementById(hiddenId);
+    if (!container) return;
+    let dragSrc = null;
+    function updateRanks() {
+        const items = container.querySelectorAll('.ipsative-item');
+        const ranked = [];
+        items.forEach((item, idx) => {
+            item.querySelector('.ipsative-rank').textContent = idx + 1;
+            ranked.push({ rank: idx + 1, value: item.dataset.value });
+        });
+        hidden.value = JSON.stringify(ranked);
+    }
+    container.querySelectorAll('.ipsative-item').forEach(item => {
+        item.setAttribute('draggable', 'true');
+        item.addEventListener('dragstart', e => {
+            dragSrc = item;
+            item.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        });
+        item.addEventListener('dragend', () => {
+            item.classList.remove('dragging');
+            container.querySelectorAll('.ipsative-item').forEach(i => i.classList.remove('drag-over'));
+            updateRanks();
+        });
+        item.addEventListener('dragover', e => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            container.querySelectorAll('.ipsative-item').forEach(i => i.classList.remove('drag-over'));
+            item.classList.add('drag-over');
+        });
+        item.addEventListener('drop', e => {
+            e.preventDefault();
+            if (dragSrc !== item) {
+                const allItems = [...container.querySelectorAll('.ipsative-item')];
+                const srcIdx = allItems.indexOf(dragSrc);
+                const tgtIdx = allItems.indexOf(item);
+                if (srcIdx < tgtIdx) container.insertBefore(dragSrc, item.nextSibling);
+                else container.insertBefore(dragSrc, item);
+            }
+        });
+        let touchStartY = 0;
+        item.addEventListener('touchstart', e => {
+            touchStartY = e.touches[0].clientY;
+            dragSrc = item;
+            item.style.opacity = '0.6';
+        }, { passive: true });
+        item.addEventListener('touchmove', e => {
+            e.preventDefault();
+            const y = e.touches[0].clientY;
+            const diff = y - touchStartY;
+            const items = [...container.querySelectorAll('.ipsative-item')];
+            const idx = items.indexOf(dragSrc);
+            if (diff > 30 && idx < items.length - 1) {
+                container.insertBefore(dragSrc, items[idx + 1].nextSibling);
+                touchStartY = y;
+            } else if (diff < -30 && idx > 0) {
+                container.insertBefore(dragSrc, items[idx - 1]);
+                touchStartY = y;
+            }
+        }, { passive: false });
+        item.addEventListener('touchend', () => {
+            dragSrc.style.opacity = '1';
+            updateRanks();
+        });
+    });
+    updateRanks();
+}
+
+// ─── RANDOMIZE CHOICE-GRID OPTIONS ──────────────────────────────────────────
+const NON_SHUFFLE_GRIDS = new Set([
+    'consent','age_18','work_eligible','proof_eligible',
+    'currently_employed','job_type','edu_level','education',
+    'preferred_position','hear_about'
+]);
+function shuffleChoiceGrids() {
+    document.querySelectorAll('.choice-grid[data-name]').forEach(grid => {
+        const name = grid.dataset.name;
+        if (NON_SHUFFLE_GRIDS.has(name)) return;
+        const cards = Array.from(grid.querySelectorAll('.choice-card'));
+        if (cards.length < 3) return;
+        for (let i = cards.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            grid.insertBefore(cards[j], cards[i]);
+            [cards[i], cards[j]] = [cards[j], cards[i]];
+        }
+    });
+}
+
+// ─── FLATTEN SCORES TO TOP-LEVEL FIRESTORE FIELDS ───────────────────────────
+function flattenScores(data, scores) {
+    data.overall_score           = scores.overall;
+    data.unmeasurables_score     = scores.unmeasurables;
+    data.neurosell_score         = scores.neurosell;
+    data.initiative_score        = scores.breakdown.initiative;
+    data.professionalism_score   = scores.breakdown.professionalism;
+    data.ownership_score         = scores.breakdown.ownership;
+    data.follow_through_score    = scores.breakdown.followThrough;
+    data.interest_score          = scores.breakdown.interest;
+    data.presence_score          = scores.breakdown.presence;
+    data.communication_score     = scores.breakdown.communication;
+    data.etiquette_score         = scores.breakdown.etiquette;
+    data.critical_thinking_score = scores.breakdown.criticalThinking;
+    data.curiosity_score         = scores.breakdown.curiosity;
+    data.creativity_score        = scores.breakdown.creativity;
+    data.fear_score              = scores.breakdown.fear;
+    data.consistency_flags       = (scores.consistency||[]).map(f=>f.msg).join('; ') || 'None';
+    data.routing_tier            = scores.overall >= 78 ? 'Priority' : scores.overall >= 55 ? 'Standard' : 'Development';
+    data.full_name               = data.legal_name || '';
+    data.phone                   = [data.phone_1, data.phone_2, data.phone_3].filter(Boolean).join('-');
+    data.submission_time         = data.submitted_at || new Date().toISOString();
+    data.status                  = 'completed';
+    return data;
+}
 
 // ─── STATE ───
 let currentStep = 1;
@@ -1892,6 +2138,24 @@ function analyzeText(text, context = []) {
 }
 
 function calcNeuroSellScore(data) {
+    // ── Ipsative Scoring ─────────────────────────────────────────────────────
+    function ipsativeScore(data, fieldName, targetValue) {
+        try {
+            const ranked = JSON.parse(data[fieldName] || '[]');
+            const item = ranked.find(r => r.value.includes(targetValue));
+            if (!item) return 50;
+            return Math.round(((4 - item.rank) / 3) * 100);
+        } catch { return 50; }
+    }
+    const ip1_initiative     = ipsativeScore(data, 'ipsative_1', 'identify problems');
+    const ip1_followthrough  = ipsativeScore(data, 'ipsative_1', 'complete what I commit');
+    const ip1_ownership      = ipsativeScore(data, 'ipsative_1', 'goes wrong, I own');
+    const ip1_interest       = ipsativeScore(data, 'ipsative_1', 'stays fully engaged');
+    const ip2_professionalism= ipsativeScore(data, 'ipsative_2', 'composed and professional');
+    const ip2_presence       = ipsativeScore(data, 'ipsative_2', 're-engage fully');
+    const ip2_communication  = ipsativeScore(data, 'ipsative_2', 'clear and precise');
+    const ip2_curiosity      = ipsativeScore(data, 'ipsative_2', 'seek feedback');
+
     // ── Six Unmeasurables ──
     const q1 = parseInt(data.bio_1) || 0;
     const q3 = parseInt(data.bio_3) || 0;
@@ -1899,12 +2163,12 @@ function calcNeuroSellScore(data) {
     const t2 = analyzeText(data.bio_2 || '');
     const t5 = analyzeText(data.bio_5 || '');
 
-    const initiative     = Math.round(((q1/5)*60) + (t2.score*40));
-    const professionalism= Math.round(((q3/5)*50) + (t5.score*50));
-    const ownership      = Math.round(((q3/5)*40) + (t5.score*60));
-    const followThrough  = Math.round(((q1/5)*40) + (t2.score*60));
-    const interest       = Math.round((t2.score*50) + (t5.score*50));
-    const presence       = Math.round(((q4/5)*60) + (t2.score*40));
+    const initiative     = Math.round(((q1/5)*42) + (t2.score*28) + (ip1_initiative*0.30));
+    const professionalism= Math.round(((q3/5)*35) + (t5.score*35) + (ip2_professionalism*0.30));
+    const ownership      = Math.round(((q3/5)*28) + (t5.score*42) + (ip1_ownership*0.30));
+    const followThrough  = Math.round(((q1/5)*28) + (t2.score*42) + (ip1_followthrough*0.30));
+    const interest       = Math.round((t2.score*35) + (t5.score*35) + (ip1_interest*0.30));
+    const presence       = Math.round(((q4/5)*42) + (t2.score*28) + (ip2_presence*0.30));
 
     // ── NeuroSell Constructs ──
     const c1 = parseInt(data.comm_1) || 0;
@@ -1922,10 +2186,10 @@ function calcNeuroSellScore(data) {
     const tcr2= analyzeText(data.creat_2 || '');
     const tf3 = analyzeText(data.fear_3  || '');
 
-    const communication   = Math.min(100, Math.round(((c1/5)*55) + (tc2.score*45)));
+    const communication   = Math.min(100, Math.round(((c1/5)*38) + (tc2.score*32) + (ip2_communication*0.30)));
     const etiquette       = Math.min(100, Math.round(((e1/5)*50) + (te2.score*50)));
     const criticalThinking= Math.min(100, Math.round(((ct1/5)*45) + (tct2.score*55)));
-    const curiosity       = Math.min(100, Math.round(((cu1/5)*45) + (tcu2.score*55)));
+    const curiosity       = Math.min(100, Math.round(((cu1/5)*31) + (tcu2.score*39) + (ip2_curiosity*0.30)));
     const creativity      = Math.min(100, Math.round(((cr1/5)*40) + (tcr2.score*60)));
 
     // Fear: raw score + self-awareness bonus
@@ -2175,9 +2439,8 @@ async function handleSubmit(e) {
     data.recaptcha_token = recaptchaToken; // stored for server-side verification if needed
 
     const scores = calcNeuroSellScore(data);
-    data.scores = scores;
-    data.overall_score = scores.overall;
-    data.routing = scores.overall >= 78 ? 'Priority' : scores.overall >= 55 ? 'Standard' : 'Development';
+    data.scores = scores;  // keep nested copy
+    flattenScores(data, scores);  // write flat fields for dashboard + results page
 
     // Hide form, show loading
     document.getElementById('nsForm').style.display = 'none';
@@ -2217,6 +2480,12 @@ async function handleSubmit(e) {
     document.getElementById('loadingScreen').classList.remove('active');
     document.getElementById('resultScreen').classList.add('active');
     document.getElementById('navBar').style.display = 'none';
+
+    // Wire up the "View Your Full Results" button with the Firestore doc ID
+    if (data.firestore_id) {
+        const resultsBtn = document.getElementById('viewResultsBtn');
+        if (resultsBtn) resultsBtn.href = `neurosell-results.html?id=${data.firestore_id}`;
+    }
 
     renderResults(data, scores);
     sendAdminAlert(data, scores); // non-blocking alert to mike@peaktcs.com
@@ -2297,6 +2566,9 @@ function initFileUpload() {
 // ═══════════════════════════════════════
 
 document.addEventListener('DOMContentLoaded', () => {
+    shuffleChoiceGrids();
+    initIpsative('ipsative_1_wrap', 'ipsative_1');
+    initIpsative('ipsative_2_wrap', 'ipsative_2');
     buildAvailGrid();
     initChoiceCards();
     initScales();
