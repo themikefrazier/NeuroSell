@@ -1726,6 +1726,32 @@ const firebaseApp = initializeApp(FIREBASE_CONFIG);
 const db = getFirestore(firebaseApp);
 const storage = getStorage(firebaseApp);
 
+// ─── EMAILJS INIT ───────────────────────────────────────────────────────────
+// Initialize once at module load — NOT inside individual send functions
+// window.emailjs bridges the classic script tag into this ES module scope
+const _ejs = window.emailjs;
+if (_ejs) {
+    _ejs.init("P_GKCltbf8Wal7X20");
+} else {
+    console.error("EmailJS not loaded — check CDN script tag");
+}
+
+async function sendEmail(templateParams) {
+    const ejs = window.emailjs;
+    if (!ejs) {
+        console.error("EmailJS unavailable — email not sent");
+        return;
+    }
+    try {
+        await ejs.send("service_ay6w3ob", "template_aajdh8o", templateParams);
+        console.log("✅ Email sent:", templateParams.routing_tier || templateParams.candidate_name);
+    } catch(err) {
+        console.error("❌ EmailJS send failed:", err);
+        throw err; // re-throw so callers can handle
+    }
+}
+
+
 
 // ─── IPSATIVE (FORCED RANK) ENGINE ──────────────────────────────────────────
 function initIpsative(containerId, hiddenId) {
@@ -2030,8 +2056,7 @@ async function fireEntryAlert() {
     }
 
     try {
-        // Send start alert email via EmailJS
-        await emailjs.send("service_ay6w3ob", "template_aajdh8o", {
+        await sendEmail({
             to_email:          "mike@peaktcs.com",
             candidate_name:    "— not yet collected —",
             candidate_email:   "—",
@@ -2040,7 +2065,6 @@ async function fireEntryAlert() {
             overall_score:     "IN PROGRESS",
             routing_tier:      "🟡 ASSESSMENT STARTED",
             next_steps:        "A candidate has entered the NeuroSell funnel and is actively completing the assessment. You will receive a second alert with their full diagnostic profile upon completion.",
-            // Blank out all score fields so the template doesn't show garbage
             initiative_score: "—", professionalism_score: "—", ownership_score: "—",
             follow_through_score: "—", interest_score: "—", presence_score: "—",
             communication_score: "—", etiquette_score: "—", critical_thinking_score: "—",
@@ -2309,9 +2333,7 @@ function renderResults(data, scores) {
 // ─── EMAIL NOTIFICATION TO MIKE ───
 async function sendAdminAlert(data, scores) {
     try {
-        // EmailJS - free tier (200 emails/month)
-        // ✅ Setup instructions at bottom of this file
-        emailjs.init("P_GKCltbf8Wal7X20"); // ← replace after EmailJS setup
+        // Uses sendEmail() which wraps window.emailjs (initialized at module load)
 
         const tier = scores.overall >= 78 ? '🟢 PRIORITY' : scores.overall >= 55 ? '🟡 STANDARD' : '🔴 DEVELOPMENT TRACK';
 
@@ -2333,7 +2355,7 @@ Fear Index: ${scores.breakdown.fear}/100`;
         const docNames = (data.uploaded_documents || []).map(d => d.fileName).join(', ') || 'None uploaded';
         const consistencyFlags = (scores.consistency || []).map(f => `⚠️ ${f.msg}`).join('\n') || 'None';
 
-        await emailjs.send("service_ay6w3ob", "template_aajdh8o", {
+        await sendEmail({
             to_email: "mike@peaktcs.com",
             to_name: "Mike Frazier",
             candidate_name: data.legal_name || 'Unknown',
