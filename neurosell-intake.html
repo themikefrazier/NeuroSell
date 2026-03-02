@@ -900,7 +900,7 @@
     <!-- ─── HEADER ─── -->
     <header class="site-header">
         <div class="logo">KAI<span>ROS</span></div>
-        <div class="header-badge">Sales Intelligence Assessment · Sherlocky</div>
+        <div class="header-badge">Sales Intelligence Assessment</div>
     </header>
 
     <!-- ─── PROGRESS ─── -->
@@ -2506,7 +2506,7 @@ async function handleSubmit(e) {
     // Wire up the "View Your Full Results" button with the Firestore doc ID
     if (data.firestore_id) {
         const resultsBtn = document.getElementById('viewResultsBtn');
-        if (resultsBtn) resultsBtn.href = `neurosell-results.html?id=${data.firestore_id}`;
+        if (resultsBtn) resultsBtn.href = `kairos-results.html?id=${data.firestore_id}`;
     }
 
     renderResults(data, scores);
