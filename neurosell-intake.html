@@ -2511,6 +2511,7 @@ async function handleSubmit(e) {
 
     renderResults(data, scores);
     sendAdminAlert(data, scores); // non-blocking alert to mike@peaktcs.com
+    triggerAgenticWorkflow(data, scores); // agentic layer — non-blocking
 
     console.log('NeuroSell Submission:', data.submission_id);
     console.log('Scores:', scores);
@@ -2614,6 +2615,79 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('nsForm').addEventListener('submit', handleSubmit);
 });
+
+
+// ══════════════════════════════════════════════════════
+// KAIROS AGENTIC WORKFLOW
+// Fires after submission. Calls secure Firebase Cloud Function
+// which relays to Anthropic API. Key never in client code.
+// Three actions: recruiter briefing, interview guide, CAP (Priority only).
+// ══════════════════════════════════════════════════════
+
+const AGENTIC_RELAY_URL = 'https://us-central1-neurosell-9e75f.cloudfunctions.net/kairosAgentic';
+
+async function agenticCall(action, payload) {
+    try {
+        const res = await fetch(AGENTIC_RELAY_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action, data: payload })
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return await res.json();
+    } catch (err) {
+        console.warn(`Agentic action "${action}" failed (non-blocking):`, err.message);
+        return null;
+    }
+}
+
+async function triggerAgenticWorkflow(data, scores) {
+    // Build unified payload from submission data + scores
+    const payload = {
+        firestore_id:          data.firestore_id || null,
+        full_name:             data.legal_name   || data.full_name || 'Unknown',
+        city:                  data.city         || '',
+        state:                 data.state        || '',
+        preferred_position:    data.preferred_position  || 'Sales',
+        salary_expectation:    data.salary_expectation  || 'Not specified',
+        overall_score:         scores.overall,
+        initiative_score:      scores.breakdown.initiative,
+        professionalism_score: scores.breakdown.professionalism,
+        ownership_score:       scores.breakdown.ownership,
+        follow_through_score:  scores.breakdown.followThrough,
+        interest_score:        scores.breakdown.interest,
+        presence_score:        scores.breakdown.presence,
+        communication_score:   scores.breakdown.communication,
+        etiquette_score:       scores.breakdown.etiquette,
+        critical_thinking_score: scores.breakdown.criticalThinking,
+        curiosity_score:       scores.breakdown.curiosity,
+        creativity_score:      scores.breakdown.creativity,
+        fear_score:            scores.breakdown.fear,
+        consistency_flags:     (scores.consistency || []).map(f => f.msg).join('; ') || 'None',
+    };
+
+    // Fire all three actions in parallel — each non-blocking
+    const [briefingResult, guideResult] = await Promise.allSettled([
+        agenticCall('recruiterBriefing', payload),
+        agenticCall('interviewGuide',    payload),
+    ]);
+
+    // Log results for debugging (non-blocking — don't await)
+    if (briefingResult.status === 'fulfilled' && briefingResult.value?.briefing) {
+        console.log('✅ Agentic recruiter briefing generated');
+    }
+    if (guideResult.status === 'fulfilled' && guideResult.value?.guide) {
+        console.log('✅ Agentic interview guide generated');
+    }
+
+    // CAP only for Priority tier (score >= 75)
+    if (scores.overall >= 75) {
+        agenticCall('capNarrative', payload).then(r => {
+            if (r?.cap) console.log('✅ Agentic CAP narrative generated');
+        });
+    }
+}
+
 </script>
 </body>
 
