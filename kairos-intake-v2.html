@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KAIROS Sales Intelligence Assessment · Peak Talent Capital Solutions</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black:#0A0A0A; --surface:#111111; --surface2:#1A1A1A; --surface3:#222222;
+  --border:#2A2A2A; --border2:#333333;
+  --white:#FFFFFF; --text:#F0F0F0; --text-mid:#CCCCCC; --text-muted:#999999;
+  --orange:#FF4500; --orange-dim:#CC3600; --orange-glow:rgba(255,69,0,0.15);
+  --green:#00C27C; --yellow:#F0B429; --red:#E05555;
+  --font-display:'Bebas Neue',sans-serif;
+  --font-body:'DM Sans',sans-serif;
+  --font-mono:'DM Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--black);color:var(--text);min-height:100vh;overflow-x:hidden;}
+
+/* ── NOISE TEXTURE OVERLAY ── */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:0.4;}
+
+/* ── SCREENS ── */
+.screen{display:none;min-height:100vh;animation:fadeIn 0.4s ease;}
+.screen.active{display:flex;flex-direction:column;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── HEADER ── */
+.k-header{background:var(--black);border-bottom:1px solid var(--border);padding:0 5vw;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;flex-shrink:0;}
+.k-logo{font-family:var(--font-display);font-size:1.3rem;letter-spacing:0.12em;color:var(--white);}
+.k-logo span{color:var(--orange);}
+.k-header-meta{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-muted);}
+
+/* ── PROGRESS BAR ── */
+.k-progress{height:2px;background:var(--surface2);position:relative;flex-shrink:0;}
+.k-progress-fill{height:100%;background:linear-gradient(90deg,var(--orange-dim),var(--orange));transition:width 0.6s cubic-bezier(0.4,0,0.2,1);}
+.k-progress-label{position:absolute;right:5vw;top:6px;font-family:var(--font-mono);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);}
+
+/* ── CONTENT WRAPPER ── */
+.k-content{flex:1;padding:3rem 5vw;max-width:680px;margin:0 auto;width:100%;}
+
+/* ── EYEBROW ── */
+.k-eyebrow{font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--orange);margin-bottom:0.5rem;display:flex;align-items:center;gap:0.5rem;}
+.k-eyebrow::before{content:'';display:inline-block;width:20px;height:1px;background:var(--orange);}
+
+/* ── HEADINGS ── */
+.k-h1{font-family:var(--font-display);font-size:clamp(2.5rem,6vw,4.5rem);letter-spacing:0.05em;color:var(--white);line-height:0.95;margin-bottom:1.25rem;}
+.k-h1 span{color:var(--orange);}
+.k-h2{font-family:var(--font-display);font-size:clamp(1.8rem,4vw,3rem);letter-spacing:0.06em;color:var(--white);line-height:1;margin-bottom:1rem;}
+.k-body{font-size:1rem;line-height:1.8;color:var(--text-mid);margin-bottom:1.5rem;}
+.k-body strong{color:var(--white);font-weight:600;}
+
+/* ── FORM ELEMENTS ── */
+.k-field{margin-bottom:1.5rem;}
+.k-label{font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.5rem;display:block;}
+.k-label .req{color:var(--orange);}
+.k-input{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:3px;padding:0.75rem 1rem;font-family:var(--font-body);font-size:0.95rem;color:var(--text);outline:none;transition:border-color 0.15s,box-shadow 0.15s;}
+.k-input:focus{border-color:var(--orange);box-shadow:0 0 0 3px var(--orange-glow);}
+.k-input::placeholder{color:var(--text-muted);}
+.k-input.error{border-color:var(--red);}
+.k-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;}
+.k-field-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.k-field-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;}
+.k-error-msg{font-size:0.8rem;color:var(--red);margin-top:0.35rem;display:none;}
+.k-error-msg.show{display:block;}
+
+/* ── BUTTONS ── */
+.k-btn{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;font-family:var(--font-body);font-size:0.95rem;font-weight:600;letter-spacing:0.04em;padding:0.875rem 2rem;border-radius:3px;border:none;cursor:pointer;transition:all 0.15s;text-decoration:none;}
+.k-btn-primary{background:var(--orange);color:var(--white);}
+.k-btn-primary:hover{background:var(--orange-dim);transform:translateY(-1px);}
+.k-btn-primary:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+.k-btn-ghost{background:transparent;color:var(--text-mid);border:1px solid var(--border2);}
+.k-btn-ghost:hover{border-color:var(--text-muted);color:var(--white);}
+.k-btn-full{width:100%;}
+
+/* ── DIVIDER ── */
+.k-divider{height:1px;background:var(--border);margin:2rem 0;}
+
+/* ── CODE INPUT ── */
+.code-input-wrap{display:flex;gap:0.75rem;margin-bottom:1rem;}
+.code-segment{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:3px;padding:1rem;font-family:var(--font-mono);font-size:1.4rem;letter-spacing:0.2em;color:var(--white);text-align:center;outline:none;text-transform:uppercase;transition:border-color 0.15s,box-shadow 0.15s;}
+.code-segment:focus{border-color:var(--orange);box-shadow:0 0 0 3px var(--orange-glow);}
+.code-full{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:3px;padding:0.875rem 1.25rem;font-family:var(--font-mono);font-size:1.1rem;letter-spacing:0.25em;color:var(--white);text-align:center;outline:none;text-transform:uppercase;transition:border-color 0.15s,box-shadow 0.15s;}
+.code-full:focus{border-color:var(--orange);box-shadow:0 0 0 3px var(--orange-glow);}
+.code-full.valid{border-color:var(--green);box-shadow:0 0 0 3px rgba(0,194,124,0.12);}
+.code-full.invalid{border-color:var(--red);box-shadow:0 0 0 3px rgba(224,85,85,0.12);}
+
+/* ── CODE STATUS ── */
+.code-status{display:flex;align-items:center;gap:0.5rem;font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.75rem 1rem;border-radius:3px;margin-top:0.75rem;}
+.code-status.checking{background:rgba(255,180,41,0.08);border:1px solid rgba(240,180,41,0.2);color:var(--yellow);}
+.code-status.valid{background:rgba(0,194,124,0.08);border:1px solid rgba(0,194,124,0.2);color:var(--green);}
+.code-status.invalid{background:rgba(224,85,85,0.08);border:1px solid rgba(224,85,85,0.2);color:var(--red);}
+.code-status.hidden{display:none;}
+.status-dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0;}
+.status-dot.pulse{animation:pulse 1s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:0.3}50%{opacity:1}}
+
+/* ── WEBCAM ── */
+.webcam-wrap{position:relative;width:100%;max-width:400px;margin:0 auto 1.5rem;}
+.webcam-frame{width:100%;aspect-ratio:4/3;background:var(--surface2);border:1px solid var(--border2);border-radius:4px;overflow:hidden;position:relative;}
+.webcam-frame video{width:100%;height:100%;object-fit:cover;}
+.webcam-frame canvas{width:100%;height:100%;object-fit:cover;display:none;}
+.webcam-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.75rem;}
+.webcam-icon{font-size:2.5rem;opacity:0.4;}
+.webcam-label{font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);}
+.webcam-corner{position:absolute;width:20px;height:20px;border-color:var(--orange);border-style:solid;opacity:0.7;}
+.webcam-corner.tl{top:8px;left:8px;border-width:2px 0 0 2px;}
+.webcam-corner.tr{top:8px;right:8px;border-width:2px 2px 0 0;}
+.webcam-corner.bl{bottom:8px;left:8px;border-width:0 0 2px 2px;}
+.webcam-corner.br{bottom:8px;right:8px;border-width:0 2px 2px 0;}
+.webcam-snap-flash{position:absolute;inset:0;background:white;opacity:0;pointer-events:none;transition:opacity 0.1s;}
+.webcam-snap-flash.flash{opacity:1;}
+.webcam-status{text-align:center;font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.5rem 0.875rem;border-radius:3px;margin-bottom:1rem;}
+.webcam-status.ready{background:rgba(0,194,124,0.08);border:1px solid rgba(0,194,124,0.2);color:var(--green);}
+.webcam-status.captured{background:rgba(255,69,0,0.08);border:1px solid rgba(255,69,0,0.2);color:var(--orange);}
+.webcam-status.denied{background:rgba(224,85,85,0.08);border:1px solid rgba(224,85,85,0.2);color:var(--red);}
+.webcam-btn-row{display:flex;gap:0.75rem;justify-content:center;}
+
+/* ── INFO CARDS ── */
+.k-info-card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:1.25rem 1.5rem;margin-bottom:1rem;}
+.k-info-card-title{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--orange);margin-bottom:0.5rem;}
+.k-info-card-body{font-size:0.9rem;line-height:1.75;color:var(--text-mid);}
+
+/* ── STAT ROW ── */
+.k-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:2rem;}
+.k-stat{background:var(--surface);padding:1.25rem;text-align:center;}
+.k-stat-num{font-family:var(--font-display);font-size:2rem;letter-spacing:0.05em;color:var(--orange);line-height:1;}
+.k-stat-label{font-family:var(--font-mono);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-top:0.25rem;}
+
+/* ── ORIENTATION RULES ── */
+.k-rules{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:4px;padding:1.5rem;margin-bottom:2rem;}
+.k-rule{display:flex;align-items:flex-start;gap:0.875rem;padding:0.6rem 0;border-bottom:1px solid var(--border);}
+.k-rule:last-child{border-bottom:none;}
+.k-rule-num{font-family:var(--font-display);font-size:1.2rem;color:var(--orange);letter-spacing:0.05em;flex-shrink:0;width:24px;line-height:1;padding-top:2px;}
+.k-rule-text{font-size:0.9rem;line-height:1.65;color:var(--text-mid);}
+.k-rule-text strong{color:var(--white);}
+
+/* ── TIMER ── */
+.k-timer-bar-wrap{position:sticky;top:52px;z-index:99;background:var(--black);border-bottom:1px solid var(--border);padding:0.75rem 5vw;display:flex;align-items:center;gap:1.5rem;}
+.k-timer-track{flex:1;height:4px;background:var(--surface2);border-radius:2px;overflow:hidden;}
+.k-timer-fill{height:100%;border-radius:2px;transition:width 1s linear,background 0.5s;}
+.k-timer-fill.green{background:var(--green);}
+.k-timer-fill.yellow{background:var(--yellow);}
+.k-timer-fill.red{background:var(--red);animation:timerPulse 0.5s ease-in-out infinite;}
+@keyframes timerPulse{0%,100%{opacity:1}50%{opacity:0.6}}
+.k-timer-num{font-family:var(--font-mono);font-size:0.85rem;letter-spacing:0.1em;color:var(--text-mid);flex-shrink:0;min-width:48px;text-align:right;}
+.k-timer-label{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-muted);}
+
+/* ── SECTION TRANSITION ── */
+.section-transition{position:fixed;inset:0;background:var(--black);z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+.section-transition.show{opacity:1;pointer-events:all;}
+.st-label{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--orange);}
+.st-title{font-family:var(--font-display);font-size:clamp(2.5rem,8vw,5rem);letter-spacing:0.05em;color:var(--white);text-align:center;}
+.st-instruction{font-size:0.95rem;color:var(--text-muted);text-align:center;max-width:400px;line-height:1.7;}
+.st-countdown{font-family:var(--font-display);font-size:5rem;color:var(--orange);letter-spacing:0.1em;line-height:1;}
+
+/* ── QUESTION CARD ── */
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:2rem;margin-bottom:1.5rem;}
+.q-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;}
+.q-num{font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--orange);}
+.q-construct{font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);}
+.q-situation{font-size:1rem;line-height:1.8;color:var(--text);margin-bottom:1.5rem;font-weight:500;}
+.q-options{display:flex;flex-direction:column;gap:0.625rem;}
+.q-option{display:flex;align-items:flex-start;gap:0.875rem;padding:0.875rem 1rem;border:1px solid var(--border2);border-radius:3px;cursor:pointer;transition:all 0.12s;background:var(--surface2);}
+.q-option:hover{border-color:rgba(255,69,0,0.4);background:rgba(255,69,0,0.04);}
+.q-option.selected{border-color:var(--orange);background:var(--orange-glow);}
+.q-option-letter{font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.1em;color:var(--orange);flex-shrink:0;width:16px;padding-top:2px;}
+.q-option-text{font-size:0.9rem;line-height:1.65;color:var(--text-mid);}
+.q-option.selected .q-option-text{color:var(--text);}
+.q-nav{display:flex;align-items:center;justify-content:space-between;margin-top:1.5rem;}
+.q-progress-dots{display:flex;gap:4px;}
+.q-dot{width:6px;height:6px;border-radius:50%;background:var(--border2);transition:background 0.2s;}
+.q-dot.done{background:var(--orange);}
+.q-dot.current{background:var(--orange);box-shadow:0 0 6px var(--orange);}
+
+/* ── RANKING ── */
+.rank-card{background:var(--surface2);border:1px solid var(--border2);border-radius:3px;padding:1rem 1.25rem;cursor:grab;transition:all 0.15s;display:flex;align-items:center;gap:1rem;user-select:none;}
+.rank-card:active{cursor:grabbing;}
+.rank-card.dragging{opacity:0.5;transform:scale(0.98);}
+.rank-card.drag-over{border-color:var(--orange);background:var(--orange-glow);}
+.rank-num{font-family:var(--font-display);font-size:1.4rem;color:var(--orange);letter-spacing:0.05em;flex-shrink:0;width:24px;}
+.rank-text{font-size:0.9rem;line-height:1.6;color:var(--text-mid);flex:1;}
+.rank-handle{color:var(--text-muted);font-size:0.9rem;flex-shrink:0;}
+.rank-list{display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1.5rem;}
+
+/* ── WRITTEN RESPONSE ── */
+.w-textarea{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:3px;padding:1rem;font-family:var(--font-body);font-size:0.95rem;color:var(--text);line-height:1.75;resize:vertical;min-height:160px;outline:none;transition:border-color 0.15s,box-shadow 0.15s;}
+.w-textarea:focus{border-color:var(--orange);box-shadow:0 0 0 3px var(--orange-glow);}
+.w-meta{display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;}
+.w-char-count{font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);}
+.w-sentence-indicator{font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;}
+.w-sentence-indicator.insufficient{color:var(--red);}
+.w-sentence-indicator.sufficient{color:var(--green);}
+
+/* ── SCALE ── */
+.scale-row{display:grid;grid-template-columns:repeat(5,1fr);gap:0.5rem;margin:1rem 0;}
+.scale-opt{display:flex;flex-direction:column;align-items:center;gap:0.4rem;cursor:pointer;}
+.scale-circle{width:44px;height:44px;border-radius:50%;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:0.9rem;color:var(--text-muted);transition:all 0.12s;background:var(--surface2);}
+.scale-opt:hover .scale-circle{border-color:rgba(255,69,0,0.5);color:var(--orange);}
+.scale-opt.selected .scale-circle{background:var(--orange);border-color:var(--orange);color:var(--white);}
+.scale-label{font-family:var(--font-mono);font-size:0.55rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);text-align:center;line-height:1.3;}
+.scale-ends{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-top:0.25rem;}
+
+/* ── CONSENT ── */
+.k-consent{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;}
+.k-consent-text{font-size:0.85rem;line-height:1.75;color:var(--text-muted);margin-bottom:1rem;}
+.k-checkbox-row{display:flex;align-items:flex-start;gap:0.75rem;cursor:pointer;}
+.k-checkbox{width:18px;height:18px;border:1px solid var(--border2);border-radius:2px;background:var(--surface2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.12s;margin-top:2px;}
+.k-checkbox.checked{background:var(--orange);border-color:var(--orange);}
+.k-checkbox-label{font-size:0.88rem;line-height:1.65;color:var(--text-mid);}
+
+/* ── LOADING ── */
+.k-loading{min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.25rem;}
+.k-loading-ring{width:40px;height:40px;border:2px solid var(--border);border-top-color:var(--orange);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.k-loading-label{font-family:var(--font-mono);font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-muted);}
+
+/* ── SECURITY FLAG (hidden ── */
+.security-indicator{position:fixed;top:60px;right:1rem;font-family:var(--font-mono);font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(224,85,85,0.4);pointer-events:none;z-index:200;}
+
+@media(max-width:600px){
+  .k-field-row,.k-field-row-3{grid-template-columns:1fr;}
+  .k-stat-row{grid-template-columns:1fr;}
+  .scale-row{gap:0.25rem;}
+  .scale-circle{width:38px;height:38px;}
+}
+</style>
+</head>
+<body>
+
+<!-- Security flag (invisible to candidate) -->
+<div class="security-indicator" id="securityIndicator"></div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN 1 — ACCESS CODE
+══════════════════════════════════════════ -->
+<div class="screen active" id="screenCode">
+  <div class="k-header">
+    <div class="k-logo">KAI<span>ROS</span></div>
+    <div class="k-header-meta">Sales Intelligence Assessment</div>
+  </div>
+  <div class="k-content" style="display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 52px);">
+    <div class="k-eyebrow">Peak Talent Capital Solutions</div>
+    <div class="k-h1">THE <span>KAIROS</span><br>ASSESSMENT</div>
+    <div class="k-body">You have been invited to complete the KAIROS Sales Intelligence Assessment. Enter the access code provided by your recruiter to begin.</div>
+    <div class="k-field">
+      <label class="k-label">Access Code <span class="req">*</span></label>
+      <input type="text" class="k-input code-full" id="accessCodeInput" placeholder="XXXX-XXXX" maxlength="9" autocomplete="off" autocorrect="off" spellcheck="false">
+      <div class="code-status hidden" id="codeStatus">
+        <div class="status-dot pulse"></div>
+        <span id="codeStatusText">Validating...</span>
+      </div>
+    </div>
+    <button class="k-btn k-btn-primary k-btn-full" id="btnValidateCode" onclick="validateCode()">Verify Access Code →</button>
+    <div class="k-divider"></div>
+    <div class="k-body" style="font-size:0.85rem;color:var(--text-muted);">Don't have an access code? Contact your Peak TCS recruiter at <a href="mailto:mike@peaktcs.com" style="color:var(--orange);">mike@peaktcs.com</a></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN 2 — BASIC INFO
+══════════════════════════════════════════ -->
+<div class="screen" id="screenInfo">
+  <div class="k-header">
+    <div class="k-logo">KAI<span>ROS</span></div>
+    <div class="k-header-meta">Step 1 of 3 · Your Information</div>
+  </div>
+  <div class="k-progress"><div class="k-progress-fill" style="width:15%"></div><div class="k-progress-label">Step 1 — Profile</div></div>
+  <div class="k-content">
+    <div class="k-eyebrow">Before You Begin</div>
+    <div class="k-h2">Your Information</div>
+    <div class="k-body">This information is kept strictly confidential and used solely for the purpose of your assessment and placement consideration.</div>
+
+    <div class="k-field-row">
+      <div class="k-field">
+        <label class="k-label" for="firstName">First Name <span class="req">*</span></label>
+        <input type="text" class="k-input" id="firstName" placeholder="First name" autocomplete="given-name">
+      </div>
+      <div class="k-field">
+        <label class="k-label" for="lastName">Last Name <span class="req">*</span></label>
+        <input type="text" class="k-input" id="lastName" placeholder="Last name" autocomplete="family-name">
+      </div>
+    </div>
+
+    <div class="k-field">
+      <label class="k-label" for="email">Email Address <span class="req">*</span></label>
+      <input type="email" class="k-input" id="email" placeholder="your@email.com" autocomplete="email">
+    </div>
+
+    <div class="k-field">
+      <label class="k-label" for="phone">Phone Number <span class="req">*</span></label>
+      <input type="tel" class="k-input" id="phone" placeholder="(555) 555-5555" autocomplete="tel">
+    </div>
+
+    <div class="k-field-row">
+      <div class="k-field">
+        <label class="k-label" for="city">City <span class="req">*</span></label>
+        <input type="text" class="k-input" id="city" placeholder="City">
+      </div>
+      <div class="k-field">
+        <label class="k-label" for="state">State <span class="req">*</span></label>
+        <select class="k-input k-select" id="state">
+          <option value="">Select state</option>
+          <option>AL</option><option>AK</option><option>AZ</option><option>AR</option><option>CA</option><option>CO</option><option>CT</option><option>DE</option><option>FL</option><option>GA</option><option>HI</option><option>ID</option><option>IL</option><option>IN</option><option>IA</option><option>KS</option><option>KY</option><option>LA</option><option>ME</option><option>MD</option><option>MA</option><option>MI</option><option>MN</option><option>MS</option><option>MO</option><option>MT</option><option>NE</option><option>NV</option><option>NH</option><option>NJ</option><option>NM</option><option>NY</option><option>NC</option><option>ND</option><option>OH</option><option>OK</option><option>OR</option><option>PA</option><option>RI</option><option>SC</option><option>SD</option><option>TN</option><option>TX</option><option>UT</option><option>VT</option><option>VA</option><option>WA</option><option>WV</option><option>WI</option><option>WY</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="k-field">
+      <label class="k-label" for="targetRole">Position Applying For <span class="req">*</span></label>
+      <input type="text" class="k-input" id="targetRole" placeholder="e.g. Outside Sales Representative">
+    </div>
+
+    <div class="k-field-row">
+      <div class="k-field">
+        <label class="k-label" for="salaryExp">Salary Expectation</label>
+        <input type="text" class="k-input" id="salaryExp" placeholder="e.g. $60,000 – $75,000">
+      </div>
+      <div class="k-field">
+        <label class="k-label" for="employed">Currently Employed? <span class="req">*</span></label>
+        <select class="k-input k-select" id="employed">
+          <option value="">Select</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+          <option value="self">Self-employed</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="k-field">
+      <label class="k-label" for="education">Highest Education Level <span class="req">*</span></label>
+      <select class="k-input k-select" id="education">
+        <option value="">Select</option>
+        <option>High School / GED</option>
+        <option>Some College</option>
+        <option>Associate Degree</option>
+        <option>Bachelor's Degree</option>
+        <option>Master's Degree</option>
+        <option>Doctoral Degree</option>
+        <option>Professional Certification</option>
+      </select>
+    </div>
+
+    <div id="infoError" class="k-error-msg">Please complete all required fields before continuing.</div>
+    <button class="k-btn k-btn-primary k-btn-full" onclick="submitInfo()" style="margin-top:0.5rem">Continue to Identity Verification →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN 3 — WEBCAM / IDENTITY
+══════════════════════════════════════════ -->
+<div class="screen" id="screenWebcam">
+  <div class="k-header">
+    <div class="k-logo">KAI<span>ROS</span></div>
+    <div class="k-header-meta">Step 2 of 3 · Identity Verification</div>
+  </div>
+  <div class="k-progress"><div class="k-progress-fill" style="width:25%"></div><div class="k-progress-label">Step 2 — Verification</div></div>
+  <div class="k-content">
+    <div class="k-eyebrow">Identity Verification</div>
+    <div class="k-h2">Confirm Your Identity</div>
+    <div class="k-body">KAIROS requires a photo at the start of your assessment to verify that the person completing the assessment is the person being considered for placement. <strong>This photo is shared only with your Peak TCS recruiter.</strong></div>
+
+    <div class="webcam-wrap">
+      <div class="webcam-frame" id="webcamFrame">
+        <video id="webcamVideo" autoplay playsinline muted></video>
+        <canvas id="webcamCanvas"></canvas>
+        <div class="webcam-overlay" id="webcamOverlay">
+          <div class="webcam-icon">📷</div>
+          <div class="webcam-label">Camera not started</div>
+        </div>
+        <div class="webcam-corner tl"></div>
+        <div class="webcam-corner tr"></div>
+        <div class="webcam-corner bl"></div>
+        <div class="webcam-corner br"></div>
+        <div class="webcam-snap-flash" id="snapFlash"></div>
+      </div>
+    </div>
+
+    <div class="webcam-status" id="webcamStatus" style="display:none"></div>
+
+    <div class="webcam-btn-row">
+      <button class="k-btn k-btn-ghost" id="btnStartCam" onclick="startWebcam()">Enable Camera</button>
+      <button class="k-btn k-btn-primary" id="btnCapture" onclick="capturePhoto()" disabled>Take Photo</button>
+      <button class="k-btn k-btn-ghost" id="btnRetake" onclick="retakePhoto()" style="display:none">Retake</button>
+    </div>
+
+    <div class="k-divider"></div>
+
+    <div class="k-info-card">
+      <div class="k-info-card-title">Why We Do This</div>
+      <div class="k-info-card-body">Assessment integrity protects both you and the employers reviewing your results. A photo verification ensures your results are attributed to you — and only you. It cannot be used for any other purpose.</div>
+    </div>
+
+    <div class="k-info-card" style="background:rgba(255,69,0,0.04);border-color:rgba(255,69,0,0.2);">
+      <div class="k-info-card-title" style="color:var(--orange)">Camera Access Required</div>
+      <div class="k-info-card-body">If you cannot enable your camera, contact your recruiter at <a href="mailto:mike@peaktcs.com" style="color:var(--orange);">mike@peaktcs.com</a> to arrange an alternative verification method.</div>
+    </div>
+
+    <button class="k-btn k-btn-primary k-btn-full" id="btnProceedWebcam" onclick="proceedFromWebcam()" disabled style="margin-top:1rem">Photo Confirmed — Continue to Assessment →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN 4 — ORIENTATION
+══════════════════════════════════════════ -->
+<div class="screen" id="screenOrientation">
+  <div class="k-header">
+    <div class="k-logo">KAI<span>ROS</span></div>
+    <div class="k-header-meta">Step 3 of 3 · Assessment Briefing</div>
+  </div>
+  <div class="k-progress"><div class="k-progress-fill" style="width:35%"></div><div class="k-progress-label">Step 3 — Briefing</div></div>
+  <div class="k-content">
+    <div class="k-eyebrow">Before You Begin</div>
+    <div class="k-h2">What KAIROS<br>Measures</div>
+
+    <div class="k-stat-row">
+      <div class="k-stat"><div class="k-stat-num">5</div><div class="k-stat-label">Sections</div></div>
+      <div class="k-stat"><div class="k-stat-num">45</div><div class="k-stat-label">Est. Minutes</div></div>
+      <div class="k-stat"><div class="k-stat-num">12</div><div class="k-stat-label">Constructs</div></div>
+    </div>
+
+    <div class="k-body">KAIROS does not measure what you know. It measures <strong>how you actually behave</strong> — under pressure, in ambiguity, and when no one is watching. Answer based on what you genuinely do, not what you think sounds best.</div>
+
+    <div class="k-body">There are no trick questions. The assessment is designed to surface behavioral patterns — not to catch you out. Candidates who answer honestly consistently outperform candidates who try to game it.</div>
+
+    <div class="k-rules">
+      <div class="k-rule"><div class="k-rule-num">1</div><div class="k-rule-text"><strong>Complete alone.</strong> Do not use any outside assistance, discuss questions with others, or have someone else complete any portion of this assessment.</div></div>
+      <div class="k-rule"><div class="k-rule-num">2</div><div class="k-rule-text"><strong>Stay on this page.</strong> Switching browser tabs is logged. Three tab-switch events will flag your assessment for recruiter review.</div></div>
+      <div class="k-rule"><div class="k-rule-num">3</div><div class="k-rule-text"><strong>Timer is active.</strong> Each section has a visible countdown. When time expires, your current answer is saved and the assessment advances automatically.</div></div>
+      <div class="k-rule"><div class="k-rule-num">4</div><div class="k-rule-text"><strong>Answer honestly.</strong> Pattern detection identifies candidates whose responses are inconsistent or strategically inflated. Honest responses produce better matches.</div></div>
+      <div class="k-rule"><div class="k-rule-num">5</div><div class="k-rule-text"><strong>No going back.</strong> Once you advance past a question, you cannot return to it. Read each scenario carefully before responding.</div></div>
+    </div>
+
+    <div class="k-consent" id="consentBlock">
+      <div class="k-consent-text">By beginning this assessment you confirm that you are completing it independently, that the information you provide is accurate, and that you consent to your results being shared with Peak Talent Capital Solutions and the employer associated with your access code.</div>
+      <div class="k-checkbox-row" onclick="toggleConsent()">
+        <div class="k-checkbox" id="consentCheck"></div>
+        <div class="k-checkbox-label">I understand and agree to the above. I am ready to begin.</div>
+      </div>
+    </div>
+
+    <button class="k-btn k-btn-primary k-btn-full" id="btnBeginAssessment" onclick="beginAssessment()" disabled>Begin Assessment — No Going Back →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SECTION TRANSITION OVERLAY
+══════════════════════════════════════════ -->
+<div class="section-transition" id="sectionTransition">
+  <div class="st-label" id="stLabel">Section A</div>
+  <div class="st-title" id="stTitle">Situational Judgment</div>
+  <div class="st-instruction" id="stInstruction">Read each scenario carefully. Select the response that best reflects how you would actually handle it.</div>
+  <div class="st-countdown" id="stCountdown">3</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN 5 — ASSESSMENT ENGINE
+══════════════════════════════════════════ -->
+<div class="screen" id="screenAssessment">
+  <div class="k-header">
+    <div class="k-logo">KAI<span>ROS</span></div>
+    <div class="k-header-meta" id="assessmentSectionLabel">Section A · Situational Judgment</div>
+  </div>
+  <div class="k-progress"><div class="k-progress-fill" id="assessmentProgress" style="width:35%"></div><div class="k-progress-label" id="assessmentProgressLabel">Q 1 of 12</div></div>
+
+  <div class="k-timer-bar-wrap" id="timerBar">
+    <div class="k-timer-label" id="timerLabel">Time Remaining</div>
+    <div class="k-timer-track"><div class="k-timer-fill green" id="timerFill" style="width:100%"></div></div>
+    <div class="k-timer-num" id="timerNum">1:30</div>
+  </div>
+
+  <div class="k-content" id="questionContent">
+    <!-- Question cards render here -->
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN 6 — SUBMISSION LOADING
+══════════════════════════════════════════ -->
+<div class="screen" id="screenSubmitting">
+  <div class="k-header">
+    <div class="k-logo">KAI<span>ROS</span></div>
+    <div class="k-header-meta">Processing</div>
+  </div>
+  <div class="k-loading">
+    <div class="k-loading-ring"></div>
+    <div class="k-loading-label" id="submittingLabel">Scoring your assessment…</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN 7 — RESULT
+══════════════════════════════════════════ -->
+<div class="screen" id="screenResult">
+  <div class="k-header">
+    <div class="k-logo">KAI<span>ROS</span></div>
+    <div class="k-header-meta">Assessment Complete</div>
+  </div>
+  <div class="k-content" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 52px);text-align:center;">
+    <div class="k-eyebrow" style="justify-content:center">Assessment Complete</div>
+    <div class="k-h1" style="text-align:center">YOUR<br><span>KAIROS</span><br>RESULTS</div>
+    <div class="k-body" style="text-align:center;max-width:480px">Your assessment has been scored. A Peak TCS recruiter will review your full profile. Your personalized results — including your behavioral breakdown and next steps — are available now.</div>
+    <a class="k-btn k-btn-primary" id="viewResultsBtn" href="kairos-results.html" style="font-size:1rem;padding:1rem 2.5rem;margin-top:1rem">View Your Full KAIROS Results →</a>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+import { getFirestore, doc, getDoc, setDoc, addDoc, collection, serverTimestamp, updateDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import { getStorage, ref, uploadString } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
+
+const FIREBASE_CONFIG = {
+  apiKey:"AIzaSyCaGli9_WpxScvnkMB98d38eQn7kBBewTk",
+  authDomain:"neurosell-9e75f.firebaseapp.com",
+  projectId:"neurosell-9e75f",
+  storageBucket:"neurosell-9e75f.firebasestorage.app",
+  messagingSenderId:"61172265643",
+  appId:"1:61172265643:web:f19815c465d14cd9b9bdee"
+};
+
+const app  = initializeApp(FIREBASE_CONFIG);
+const db   = getFirestore(app);
+const storage = getStorage(app);
+
+// ══ STATE ══
+const STATE = {
+  accessCode: null,
+  codeData: null,
+  candidateInfo: {},
+  webcamPhoto: null,
+  sessionId: null,
+  responses: {},
+  responseTimes: {},
+  tabSwitchCount: 0,
+  sectionAAnswers: {},
+  currentSection: null,
+  currentQIndex: 0,
+  timerInterval: null,
+  timerSecondsLeft: 0,
+  timerTotal: 0,
+  assessmentStartTime: null,
+  securityFlags: [],
+};
+
+// ══ QUESTION BANK (inline — loaded from question bank structure) ══
+const QB = {
+  sectionA: [
+    {id:"A001",construct:"ownership",situation:"A candidate you placed three weeks ago did not work out. The client is frustrated. You are reviewing what happened and preparing to respond. What do you do first?",options:[{id:"a",text:"Call the client, take direct responsibility, and begin working the replacement search before they ask.",score:4},{id:"b",text:"Send an email acknowledging the situation and asking the client how they would like to proceed.",score:2},{id:"c",text:"Review the onboarding documentation to determine where the process broke down before contacting anyone.",score:1,flag:"delay_ownership"},{id:"d",text:"Schedule an internal debrief with your team to understand what happened before calling the client.",score:0,flag:"deflection"}]},
+    {id:"A002",construct:"ownership",situation:"You made an error in a proposal that quoted pricing below company policy. The mistake was discovered internally before the contract was signed. The client is expecting the original number.",options:[{id:"a",text:"Contact the client immediately, explain the error honestly, and take personal responsibility for the mistake.",score:4},{id:"b",text:"Discuss with your manager first to determine how the situation should be handled before speaking to the client.",score:2},{id:"c",text:"Look for a way to honor the original pricing by absorbing the difference through other means before telling the client.",score:1},{id:"d",text:"Notify the client that pricing has been updated due to a system error in the quote generation tool.",score:0,flag:"integrity_failure"}]},
+    {id:"A003",construct:"ownership",situation:"A client emails you directly with concerns about onboarding delays. You already handed the account to operations two weeks ago. Operations is responsible for onboarding.",options:[{id:"a",text:"Respond to the client directly, take ownership of the situation, and personally coordinate with operations to resolve it.",score:4},{id:"b",text:"Forward the client's email to operations and copy the client so they know it has been escalated.",score:2},{id:"c",text:"Reply to the client explaining that onboarding is managed by operations and provide the correct contact.",score:1,flag:"redirect_ownership"},{id:"d",text:"Wait for operations to respond to the client directly since it is their responsibility at this stage.",score:0,flag:"abandonment"}]},
+    {id:"A007",construct:"initiative",situation:"During a routine account check-in call, a client mentions in passing that they are opening a second facility in another county. The comment is not the focus of the conversation.",options:[{id:"a",text:"Immediately begin asking specific questions about the timeline, hiring needs, and decision-maker for the new location before the call ends.",score:4},{id:"b",text:"Note the information and follow up with an email after the call asking about staffing needs for the new location.",score:3},{id:"c",text:"Finish the current conversation and mention the new location to your manager to determine if it should be pursued.",score:1,flag:"initiative_gap"},{id:"d",text:"Continue the conversation as planned and make a note to revisit the new location once it is closer to opening.",score:0,flag:"missed_initiative"}]},
+    {id:"A008",construct:"initiative",situation:"You notice that several competitors have launched a new promotional campaign targeting your top client segment. Your manager has not addressed it and there is no internal directive.",options:[{id:"a",text:"Research the competitive offer, develop a response strategy, and bring a specific proposal to your manager before being asked.",score:4},{id:"b",text:"Raise the competitive activity with your manager and ask how the team should respond.",score:2},{id:"c",text:"Monitor the situation to see if it affects your accounts before deciding whether it requires action.",score:1,flag:"reactive_posture"},{id:"d",text:"Continue with your current plan since responding to competitor promotions is typically a marketing decision.",score:0,flag:"initiative_gap"}]},
+    {id:"A009",construct:"initiative",situation:"A long-term client who orders every quarter has not placed an order this cycle. Nothing has been communicated to you. The account appears normal in the system.",options:[{id:"a",text:"Contact the client proactively to check in, ask about their current needs, and determine if something has changed.",score:4},{id:"b",text:"Send the client a brief check-in email to see if they have upcoming needs.",score:3},{id:"c",text:"Wait until the client reaches out since disrupting a good relationship without a reason could be counterproductive.",score:1,flag:"passive_selling"},{id:"d",text:"Flag the account for review at the end of the month if no order has come in.",score:0,flag:"passive_selling"}]},
+    {id:"A013",construct:"follow_through",situation:"You promised a client a pricing breakdown and delivery timeline by end of day. Internal meetings ran long and it is now 4:45 PM. You will not be able to complete it in time.",options:[{id:"a",text:"Contact the client immediately, acknowledge the delay, give a specific new delivery time, and deliver by that time without exception.",score:4},{id:"b",text:"Send what you have now with a note that the complete version will follow first thing tomorrow morning.",score:3},{id:"c",text:"Send the complete document tomorrow morning with an apology for the delay.",score:1,flag:"silent_miss"},{id:"d",text:"Finish the document tonight and send it early the next morning before the client would notice the delay.",score:0,flag:"avoidance_pattern"}]},
+    {id:"A014",construct:"follow_through",situation:"A prospect you met at a networking event asked you to follow up with information about your services. Three days have passed and you have not yet sent it.",options:[{id:"a",text:"Send the information today with a specific note referencing your conversation and a clear next step.",score:4},{id:"b",text:"Send the information with an apology for the delay and a follow-up question to restart the conversation.",score:3},{id:"c",text:"Send the information and hope the delay is not noticed since three days is not unreasonable.",score:1,flag:"rationalized_delay"},{id:"d",text:"Wait until you have something more compelling to send so the follow-up is worth their time.",score:0,flag:"follow_through_failure"}]},
+    {id:"A019",construct:"professionalism",situation:"A prospect is consistently late to scheduled calls — by 10 to 15 minutes every time. You have now had three calls with them. The deal is significant.",options:[{id:"a",text:"Address it directly but professionally — acknowledge the pattern, express your commitment to their time, and ask how to make the scheduling work better for them.",score:4},{id:"b",text:"Continue accommodating the late starts since the deal is important and confrontation could damage the relationship.",score:1,flag:"boundary_erosion"},{id:"c",text:"Adjust your own schedule to start preparing materials only after the meeting is confirmed to be beginning.",score:2},{id:"d",text:"Mention the pattern humorously to lighten the mood and reset expectations without formal confrontation.",score:2}]},
+    {id:"A025",construct:"interest",situation:"You are in a first meeting with a potential client. They have given you a brief overview of their business. You have 10 minutes of open conversation time remaining.",options:[{id:"a",text:"Ask specific questions about how their business operates, where the pressure points are, and what has made staffing difficult for them in the past.",score:4},{id:"b",text:"Ask about their growth plans and what success would look like in the staffing partnership.",score:2,flag:"rehearsed_interest"},{id:"c",text:"Ask what qualities they look for in a staffing partner and what their current provider does well.",score:1,flag:"competitive_positioning"},{id:"d",text:"Share relevant case studies from similar clients to demonstrate your experience in their industry.",score:0,flag:"talking_not_listening"}]},
+    {id:"A031",construct:"presence",situation:"You are in a video call with a key prospect. You receive three text messages during the call and can see them previewing on your second monitor.",options:[{id:"a",text:"Ignore the messages entirely and remain focused on the conversation — nothing on the other screen exists during this call.",score:4},{id:"b",text:"Glance at the previews quickly to assess urgency, then return full attention to the call.",score:1,flag:"divided_presence"},{id:"c",text:"Disable notifications before your next important call so this situation does not arise.",score:3},{id:"d",text:"Acknowledge the messages to yourself and commit to reviewing them the moment the call ends.",score:3}]},
+    {id:"A037",construct:"bd1_work_ethic",situation:"It is Friday afternoon. You have met your weekly activity targets. A new inbound lead comes in that you could realistically work on Monday without consequence.",options:[{id:"a",text:"Contact the lead before the end of the day — speed of response is a competitive advantage and the lead is warm now.",score:4},{id:"b",text:"Log the lead and schedule a specific time Monday morning to follow up.",score:3},{id:"c",text:"Let the lead sit in the queue — responding on Friday afternoon rarely leads to productive conversations.",score:0,flag:"rationalizing_inaction"},{id:"d",text:"Send a quick email acknowledging the inquiry and setting expectations for a follow-up early next week.",score:2}]},
+  ],
+  sectionB: [
+    {id:"B001",construct:"ownership_vs_deflection",prompt:"When something goes wrong on an account you manage, your first instinct is to:",options:[{id:"a",text:"Figure out what happened and who is responsible"},{id:"b",text:"Contact the client immediately and take responsibility for the situation"},{id:"c",text:"Review the process to prevent the same thing from happening again"},{id:"d",text:"Notify your manager so they are aware before the client reaches out"}]},
+    {id:"B002",construct:"values_hierarchy",prompt:"When building a client relationship, what matters most to you?",options:[{id:"a",text:"Understanding their business deeply enough to anticipate needs they haven't expressed yet"},{id:"b",text:"Consistently delivering on every commitment you make to them"},{id:"c",text:"Being the person they call first when something goes wrong"},{id:"d",text:"Growing the account revenue year over year"}]},
+    {id:"B003",construct:"fear_avoidance",prompt:"When you have a difficult conversation you have been putting off, what is most true about why you haven't had it yet?",options:[{id:"a",text:"I am waiting for the right moment so it lands well"},{id:"b",text:"I need more information before I can address it effectively"},{id:"c",text:"I am concerned about how the other person will react"},{id:"d",text:"I have been managing other priorities that felt more urgent"}]},
+    {id:"B004",construct:"initiative_vs_compliance",prompt:"When you see an opportunity that falls outside your assigned responsibilities, you typically:",options:[{id:"a",text:"Move on it and ask for forgiveness or clarification later if needed"},{id:"b",text:"Raise it with your manager and ask how to proceed"},{id:"c",text:"Flag it to the appropriate person and move on"},{id:"d",text:"Evaluate whether pursuing it is worth the complexity and proceed only if clearly warranted"}]},
+    {id:"B005",construct:"presence_attention",prompt:"In a conversation that is running longer than expected, your attention is primarily on:",options:[{id:"a",text:"What the other person is saying right now"},{id:"b",text:"What you still need to cover before the conversation ends"},{id:"c",text:"How much longer the conversation will take"},{id:"d",text:"What you will do immediately after this conversation"}]},
+    {id:"B006",construct:"interest_authenticity",prompt:"When you are genuinely excited about working with a new client, it shows up as:",options:[{id:"a",text:"Researching their business in depth before any meeting"},{id:"b",text:"Bringing more energy and enthusiasm to your presentations"},{id:"c",text:"Thinking about their situation between conversations"},{id:"d",text:"Wanting to understand how their business actually makes money"}]},
+  ],
+  sectionD: [
+    {id:"D001",type:"fear_positive",statement:"When I need to follow up with a prospect who has gone silent, I tend to find other productive tasks to complete first.",scoring:"high_score_high_fear"},
+    {id:"D002",type:"fear_aware",statement:"I can usually tell the difference between delaying a conversation because the timing is genuinely wrong and delaying it because I am uncomfortable.",scoring:"low_score_high_fear"},
+    {id:"D003",type:"fear_positive",statement:"I prefer sending a detailed email over making a phone call when the subject might be sensitive.",scoring:"high_score_high_fear"},
+    {id:"D004",type:"fear_aware",statement:"I have made a direct ask for a decision and heard no — and recovered from it quickly without it affecting my next conversation.",scoring:"low_score_high_fear"},
+    {id:"D005",type:"fear_positive",statement:"When I have not heard back from a prospect, I often tell myself they are probably busy rather than that they may not be interested.",scoring:"high_score_high_fear"},
+    {id:"D006",type:"fear_aware",statement:"I am comfortable asking a prospect directly whether they are still interested in moving forward.",scoring:"low_score_high_fear"},
+    {id:"D007",type:"fear_positive",statement:"I sometimes spend time on lower-priority tasks because the higher-priority ones feel more uncertain or uncomfortable.",scoring:"high_score_high_fear"},
+    {id:"D008",type:"fear_aware",statement:"I can name a specific type of sales conversation that makes me uncomfortable — and I do it anyway.",scoring:"low_score_high_fear"},
+  ],
+  sectionC: [
+    {id:"C009",type:"projective",construct:"fear",prompt:"You have 18 active prospects. Your two highest-value deals are moving well. One mid-size prospect has gone silent after a strong second meeting three weeks ago. You also have several smaller opportunities that need attention. Describe in detail how you spend your next two hours of work time."},
+    {id:"C001",type:"reflective",construct:"ownership",prompt:"Describe a specific time when something you were responsible for did not go as planned. What happened, what did you do, and what did you learn from it?"},
+    {id:"C010",type:"projective",construct:"ownership",prompt:"A placement you made six weeks ago is not working out. The client is frustrated. The candidate is frustrated. Both parties feel the other misrepresented the situation. You believe both parties have a legitimate complaint. Describe exactly what you do in the next 24 hours."},
+    {id:"C004",type:"reflective",construct:"fear",prompt:"Think about a conversation or action in your sales career that you delayed longer than you should have. What was it, why did you delay, and what happened when you finally addressed it?"},
+  ],
+  sectionE: [
+    {id:"E001",mirrors:"A001",construct:"ownership",situation:"A project you led did not produce the expected results. Your team lead asks for your read on what happened.",options:[{id:"a",text:"Give an honest assessment including what you would have done differently, without minimizing your role.",score:4},{id:"b",text:"Walk through the timeline and identify where the process broke down.",score:2},{id:"c",text:"Explain the factors that made the project difficult, including team and resource constraints.",score:1},{id:"d",text:"Describe what you delivered and note where expectations shifted during execution.",score:0}]},
+    {id:"E002",mirrors:"A007",construct:"initiative",situation:"In a routine conversation, a colleague mentions that a major client in your territory just promoted someone new into a purchasing role. It was an aside, not directed at you.",options:[{id:"a",text:"Find out who the new person is and reach out to introduce yourself before anyone else does.",score:4},{id:"b",text:"Note the information and plan to reach out when a natural opportunity arises.",score:2},{id:"c",text:"Mention it to your manager to see if there is a protocol for re-establishing contact.",score:1},{id:"d",text:"Wait for the new contact to settle into their role before reaching out.",score:0}]},
+    {id:"E003",mirrors:"A013",construct:"follow_through",situation:"You committed to providing a report to a colleague by noon. It is 11:30 and the report will take another 90 minutes to complete properly.",options:[{id:"a",text:"Contact the colleague immediately, acknowledge the delay, and give a specific new delivery time.",score:4},{id:"b",text:"Send what you have with a note that the complete version follows shortly.",score:3},{id:"c",text:"Finish as much as possible by noon and apologize for the incomplete version.",score:1},{id:"d",text:"Finish it correctly and send it by 1:30 with an apology.",score:0}]},
+    {id:"E004",mirrors:"A032",construct:"presence",situation:"A colleague is explaining a problem they need your help with. Midway through you realize you already know the solution clearly.",options:[{id:"a",text:"Continue listening to the complete explanation — what comes after the solution-point may be important.",score:4},{id:"b",text:"Let them finish and then provide your solution.",score:3},{id:"c",text:"Gently interrupt to confirm your understanding and offer the solution to save time.",score:1},{id:"d",text:"Begin forming your response while they finish talking so you can respond efficiently.",score:0}]},
+  ],
+};
+
+// ══ SCREENS ══
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ══ SCREEN 1: ACCESS CODE ══
+async function validateCode(){
+  const raw = document.getElementById('accessCodeInput').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');
+  const status = document.getElementById('codeStatus');
+  const statusText = document.getElementById('codeStatusText');
+  const btn = document.getElementById('btnValidateCode');
+
+  if(raw.length < 6){ alert('Please enter your complete access code.'); return; }
+
+  status.className='code-status checking'; status.style.display='flex';
+  statusText.textContent='Validating access code…';
+  btn.disabled=true;
+
+  try{
+    const snap = await getDoc(doc(db,'kairos_access_codes',raw));
+    if(!snap.exists()){
+      status.className='code-status invalid'; statusText.textContent='Code not found. Check your code and try again.';
+      btn.disabled=false; return;
+    }
+    const data = snap.data();
+    if(data.status==='expired'){ status.className='code-status invalid'; statusText.textContent='This code has expired. Contact your recruiter.'; btn.disabled=false; return; }
+    if(data.status==='used'){ status.className='code-status invalid'; statusText.textContent='This code has already been used.'; btn.disabled=false; return; }
+
+    status.className='code-status valid';
+    statusText.textContent=`Code valid — ${data.assigned_role || 'Assessment'} · ${data.assigned_employer || 'Peak TCS'}`;
+    STATE.accessCode = raw;
+    STATE.codeData = data;
+    document.getElementById('accessCodeInput').className='k-input code-full valid';
+
+    setTimeout(()=>showScreen('screenInfo'), 1200);
+  } catch(e){
+    console.error(e);
+    // Offline fallback for testing — accept any 6+ char code
+    status.className='code-status valid'; statusText.textContent='Code accepted (offline mode)';
+    STATE.accessCode=raw; STATE.codeData={assigned_role:'Sales',assigned_employer:'Peak TCS'};
+    setTimeout(()=>showScreen('screenInfo'),1200);
+  }
+}
+
+window.validateCode = validateCode;
+
+// Allow Enter key on code input
+document.getElementById('accessCodeInput').addEventListener('keydown',e=>{ if(e.key==='Enter') validateCode(); });
+document.getElementById('accessCodeInput').addEventListener('input',function(){
+  let v=this.value.toUpperCase().replace(/[^A-Z0-9-]/g,'');
+  if(v.length>4 && v[4]!=='-') v=v.slice(0,4)+'-'+v.slice(4);
+  this.value=v.slice(0,9);
+});
+
+// ══ SCREEN 2: BASIC INFO ══
+window.submitInfo = function(){
+  const fields=['firstName','lastName','email','phone','city','state','targetRole','employed','education'];
+  const required=['firstName','lastName','email','phone','city','state','targetRole','employed','education'];
+  let valid=true;
+  required.forEach(f=>{
+    const el=document.getElementById(f);
+    if(!el.value.trim()){ el.classList.add('error'); valid=false; }
+    else el.classList.remove('error');
+  });
+  if(!valid){ document.getElementById('infoError').classList.add('show'); return; }
+  document.getElementById('infoError').classList.remove('show');
+
+  STATE.candidateInfo = {
+    full_name: `${document.getElementById('firstName').value.trim()} ${document.getElementById('lastName').value.trim()}`,
+    first_name: document.getElementById('firstName').value.trim(),
+    last_name: document.getElementById('lastName').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    phone: document.getElementById('phone').value.trim(),
+    city: document.getElementById('city').value.trim(),
+    state: document.getElementById('state').value,
+    preferred_position: document.getElementById('targetRole').value.trim(),
+    salary_expectation: document.getElementById('salaryExp').value.trim(),
+    currently_employed: document.getElementById('employed').value,
+    education: document.getElementById('education').value,
+  };
+
+  showScreen('screenWebcam');
+  setTimeout(()=>startWebcam(), 400);
+};
+
+// ══ SCREEN 3: WEBCAM ══
+let webcamStream = null;
+let photoDataUrl = null;
+
+window.startWebcam = async function(){
+  const overlay = document.getElementById('webcamOverlay');
+  const video = document.getElementById('webcamVideo');
+  const statusEl = document.getElementById('webcamStatus');
+  const btnCapture = document.getElementById('btnCapture');
+  try{
+    webcamStream = await navigator.mediaDevices.getUserMedia({video:{width:640,height:480},audio:false});
+    video.srcObject = webcamStream;
+    overlay.style.display='none';
+    statusEl.style.display='block';
+    statusEl.className='webcam-status ready';
+    statusEl.textContent='📷  Camera active — position your face in the frame and take your photo';
+    btnCapture.disabled=false;
+    document.getElementById('btnStartCam').style.display='none';
+  } catch(e){
+    statusEl.style.display='block';
+    statusEl.className='webcam-status denied';
+    statusEl.textContent='Camera access denied. Contact your recruiter for assistance.';
+  }
+};
+
+window.capturePhoto = function(){
+  const video = document.getElementById('webcamVideo');
+  const canvas = document.getElementById('webcamCanvas');
+  const flash = document.getElementById('snapFlash');
+  const statusEl = document.getElementById('webcamStatus');
+  const btnProceed = document.getElementById('btnProceedWebcam');
+  const btnRetake = document.getElementById('btnRetake');
+
+  canvas.width=640; canvas.height=480;
+  canvas.getContext('2d').drawImage(video,0,0,640,480);
+  photoDataUrl = canvas.toDataURL('image/jpeg',0.8);
+
+  // Flash effect
+  flash.classList.add('flash');
+  setTimeout(()=>flash.classList.remove('flash'),300);
+
+  // Show canvas, hide video
+  canvas.style.display='block';
+  video.style.display='none';
+
+  statusEl.className='webcam-status captured';
+  statusEl.textContent='✓  Photo captured — if it looks clear, continue. Otherwise retake.';
+
+  STATE.webcamPhoto = photoDataUrl;
+  btnProceed.disabled=false;
+  btnRetake.style.display='inline-flex';
+  document.getElementById('btnCapture').style.display='none';
+};
+
+window.retakePhoto = function(){
+  const video = document.getElementById('webcamVideo');
+  const canvas = document.getElementById('webcamCanvas');
+  const statusEl = document.getElementById('webcamStatus');
+  const btnProceed = document.getElementById('btnProceedWebcam');
+  const btnRetake = document.getElementById('btnRetake');
+
+  canvas.style.display='none';
+  video.style.display='block';
+  statusEl.className='webcam-status ready';
+  statusEl.textContent='📷  Camera active — position your face and take your photo';
+  STATE.webcamPhoto=null;
+  btnProceed.disabled=true;
+  btnRetake.style.display='none';
+  document.getElementById('btnCapture').style.display='inline-flex';
+};
+
+window.proceedFromWebcam = function(){
+  if(webcamStream){ webcamStream.getTracks().forEach(t=>t.stop()); }
+  showScreen('screenOrientation');
+};
+
+// ══ SCREEN 4: ORIENTATION / CONSENT ══
+let consentGiven = false;
+window.toggleConsent = function(){
+  consentGiven=!consentGiven;
+  const check=document.getElementById('consentCheck');
+  check.classList.toggle('checked',consentGiven);
+  document.getElementById('btnBeginAssessment').disabled=!consentGiven;
+};
+
+window.beginAssessment = function(){
+  STATE.assessmentStartTime = Date.now();
+  startTabMonitoring();
+  showSectionTransition('A','Situational Judgment','Read each scenario carefully. Select the response that best reflects how you would actually handle it. 90 seconds per question.',()=>{
+    showScreen('screenAssessment');
+    runSectionA(0);
+  });
+};
+
+// ══ SECTION TRANSITION ══
+function showSectionTransition(sectionLetter, title, instruction, callback){
+  const el=document.getElementById('sectionTransition');
+  const countdown=document.getElementById('stCountdown');
+  document.getElementById('stLabel').textContent=`Section ${sectionLetter}`;
+  document.getElementById('stTitle').textContent=title;
+  document.getElementById('stInstruction').textContent=instruction;
+  el.classList.add('show');
+  let n=3;
+  countdown.textContent=n;
+  const iv=setInterval(()=>{
+    n--;
+    if(n<=0){ clearInterval(iv); el.classList.remove('show'); setTimeout(callback,300); }
+    else countdown.textContent=n;
+  },1000);
+}
+
+// ══ TIMER ══
+function startTimer(seconds, onTick, onExpire){
+  clearInterval(STATE.timerInterval);
+  STATE.timerSecondsLeft=seconds;
+  STATE.timerTotal=seconds;
+  updateTimerDisplay(seconds,seconds);
+  STATE.timerInterval=setInterval(()=>{
+    STATE.timerSecondsLeft--;
+    updateTimerDisplay(STATE.timerSecondsLeft,STATE.timerTotal);
+    if(onTick) onTick(STATE.timerSecondsLeft);
+    if(STATE.timerSecondsLeft<=0){ clearInterval(STATE.timerInterval); if(onExpire) onExpire(); }
+  },1000);
+}
+
+function updateTimerDisplay(left,total){
+  const fill=document.getElementById('timerFill');
+  const num=document.getElementById('timerNum');
+  const pct=(left/total)*100;
+  fill.style.width=pct+'%';
+  fill.className='k-timer-fill '+(pct>50?'green':pct>25?'yellow':'red');
+  const m=Math.floor(left/60), s=left%60;
+  num.textContent=`${m}:${s.toString().padStart(2,'0')}`;
+}
+
+function stopTimer(){ clearInterval(STATE.timerInterval); }
+
+// ══ SECTION A — SITUATIONAL JUDGMENT ══
+function runSectionA(qIndex){
+  STATE.currentSection='A';
+  STATE.currentQIndex=qIndex;
+  const questions=QB.sectionA;
+  if(qIndex>=questions.length){ finishSectionA(); return; }
+
+  const q=questions[qIndex];
+  const total=questions.length;
+  const pct=35+(qIndex/total)*20;
+
+  document.getElementById('assessmentSectionLabel').textContent=`Section A · Situational Judgment`;
+  document.getElementById('assessmentProgress').style.width=pct+'%';
+  document.getElementById('assessmentProgressLabel').textContent=`Q ${qIndex+1} of ${total}`;
+
+  const qStart=Date.now();
+  let selectedOption=null;
+
+  const content=document.getElementById('questionContent');
+  content.innerHTML=`
+    <div class="q-card">
+      <div class="q-meta">
+        <div class="q-num">Question ${qIndex+1} of ${total}</div>
+        <div class="q-construct">${q.construct.replace('_',' ')}</div>
+      </div>
+      <div class="q-situation">${q.situation}</div>
+      <div class="q-options" id="optionsContainer">
+        ${q.options.map(o=>`
+          <div class="q-option" id="opt_${o.id}" onclick="selectOptionA('${o.id}')">
+            <div class="q-option-letter">${o.id.toUpperCase()}</div>
+            <div class="q-option-text">${o.text}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+    <div class="q-nav">
+      <div class="q-progress-dots">
+        ${questions.map((_,i)=>`<div class="q-dot ${i<qIndex?'done':i===qIndex?'current':''}"></div>`).join('')}
+      </div>
+      <button class="k-btn k-btn-primary" id="btnNextA" onclick="advanceA()" disabled>Next →</button>
+    </div>`;
+
+  window.selectOptionA=function(optId){
+    selectedOption=optId;
+    document.querySelectorAll('.q-option').forEach(el=>el.classList.remove('selected'));
+    document.getElementById('opt_'+optId).classList.add('selected');
+    document.getElementById('btnNextA').disabled=false;
+  };
+
+  window.advanceA=function(){
+    stopTimer();
+    const elapsed=Math.round((Date.now()-qStart)/1000);
+    STATE.responses[q.id]=selectedOption;
+    STATE.responseTimes[q.id]=elapsed;
+    STATE.sectionAAnswers[q.id]=selectedOption;
+    if(elapsed<5 && selectedOption){ addSecurityFlag('fast_response',q.id); }
+    runSectionA(qIndex+1);
+  };
+
+  startTimer(90, null, ()=>{
+    if(selectedOption) STATE.responses[q.id]=selectedOption;
+    else STATE.responses[q.id]=null;
+    STATE.responseTimes[q.id]=90;
+    runSectionA(qIndex+1);
+  });
+}
+
+function finishSectionA(){
+  showSectionTransition('B','Priority Ranking','Drag the options into your preferred order — most like you at the top, least at the bottom. 3 minutes per set.',()=>{
+    showScreen('screenAssessment');
+    runSectionB(0);
+  });
+}
+
+// ══ SECTION B — RANKING ══
+function runSectionB(setIndex){
+  STATE.currentSection='B';
+  const sets=QB.sectionB;
+  if(setIndex>=sets.length){ finishSectionB(); return; }
+
+  const s=sets[setIndex];
+  const total=sets.length;
+  const pct=55+(setIndex/total)*10;
+
+  document.getElementById('assessmentSectionLabel').textContent='Section B · Priority Ranking';
+  document.getElementById('assessmentProgress').style.width=pct+'%';
+  document.getElementById('assessmentProgressLabel').textContent=`Set ${setIndex+1} of ${total}`;
+
+  let order=[...s.options];
+
+  function renderRankList(){
+    return order.map((o,i)=>`
+      <div class="rank-card" draggable="true" data-id="${o.id}" id="rank_${o.id}">
+        <div class="rank-num">${i+1}</div>
+        <div class="rank-text">${o.text}</div>
+        <div class="rank-handle">⠿</div>
+      </div>`).join('');
+  }
+
+  const content=document.getElementById('questionContent');
+  content.innerHTML=`
+    <div class="q-card">
+      <div class="q-meta">
+        <div class="q-num">Set ${setIndex+1} of ${total}</div>
+        <div class="q-construct">${s.construct.replace(/_/g,' ')}</div>
+      </div>
+      <div class="q-situation">${s.prompt}</div>
+      <div class="rank-list" id="rankList">${renderRankList()}</div>
+    </div>
+    <div class="q-nav">
+      <div style="font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);">Drag to reorder</div>
+      <button class="k-btn k-btn-primary" onclick="advanceB()">Next →</button>
+    </div>`;
+
+  initDragRank();
+
+  function initDragRank(){
+    const list=document.getElementById('rankList');
+    let dragging=null;
+    list.querySelectorAll('.rank-card').forEach(card=>{
+      card.addEventListener('dragstart',()=>{ dragging=card; card.classList.add('dragging'); });
+      card.addEventListener('dragend',()=>{ card.classList.remove('dragging'); dragging=null; updateRankNums(); });
+      card.addEventListener('dragover',e=>{ e.preventDefault(); card.classList.add('drag-over'); });
+      card.addEventListener('dragleave',()=>card.classList.remove('drag-over'));
+      card.addEventListener('drop',e=>{
+        e.preventDefault(); card.classList.remove('drag-over');
+        if(dragging&&dragging!==card){ list.insertBefore(dragging,card); updateRankNums(); }
+      });
+    });
+  }
+
+  function updateRankNums(){
+    const cards=document.querySelectorAll('.rank-card');
+    order=[];
+    cards.forEach((card,i)=>{
+      card.querySelector('.rank-num').textContent=i+1;
+      order.push(s.options.find(o=>o.id===card.dataset.id));
+    });
+  }
+
+  window.advanceB=function(){
+    stopTimer();
+    STATE.responses[s.id]=order.map(o=>o.id);
+    runSectionB(setIndex+1);
+  };
+
+  startTimer(180, null, ()=>{
+    STATE.responses[s.id]=order.map(o=>o.id);
+    runSectionB(setIndex+1);
+  });
+}
+
+function finishSectionB(){
+  showSectionTransition('C','Written Response','Respond honestly in your own words. Minimum 3 complete sentences. 4 minutes per prompt.',()=>{
+    showScreen('screenAssessment');
+    runSectionC(0);
+  });
+}
+
+// ══ SECTION C — WRITTEN RESPONSE ══
+function runSectionC(pIndex){
+  STATE.currentSection='C';
+  const prompts=QB.sectionC;
+  if(pIndex>=prompts.length){ finishSectionC(); return; }
+
+  const p=prompts[pIndex];
+  const total=prompts.length;
+  const pct=65+(pIndex/total)*10;
+
+  document.getElementById('assessmentSectionLabel').textContent='Section C · Written Response';
+  document.getElementById('assessmentProgress').style.width=pct+'%';
+  document.getElementById('assessmentProgressLabel').textContent=`Prompt ${pIndex+1} of ${total}`;
+
+  const content=document.getElementById('questionContent');
+  content.innerHTML=`
+    <div class="q-card">
+      <div class="q-meta">
+        <div class="q-num">Prompt ${pIndex+1} of ${total}</div>
+        <div class="q-construct">${p.type} · ${p.construct}</div>
+      </div>
+      <div class="q-situation">${p.prompt}</div>
+      <textarea class="w-textarea" id="writtenResponse" placeholder="Write your response here. Minimum 3 complete sentences." oninput="updateWrittenMeta()"></textarea>
+      <div class="w-meta">
+        <div class="w-char-count" id="charCount">0 characters</div>
+        <div class="w-sentence-indicator insufficient" id="sentenceIndicator">Minimum 3 sentences required</div>
+      </div>
+    </div>
+    <div class="q-nav">
+      <div style="font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);">Be specific and honest</div>
+      <button class="k-btn k-btn-primary" id="btnNextC" onclick="advanceC()" disabled>Next →</button>
+    </div>`;
+
+  window.updateWrittenMeta=function(){
+    const val=document.getElementById('writtenResponse').value;
+    const sentences=(val.match(/[.!?]+/g)||[]).length;
+    document.getElementById('charCount').textContent=`${val.length} characters`;
+    const si=document.getElementById('sentenceIndicator');
+    if(sentences>=3){
+      si.className='w-sentence-indicator sufficient'; si.textContent='✓ Minimum met';
+      document.getElementById('btnNextC').disabled=false;
+    } else {
+      si.className='w-sentence-indicator insufficient'; si.textContent=`${sentences}/3 sentences`;
+      document.getElementById('btnNextC').disabled=true;
+    }
+  };
+
+  const promptStart=Date.now();
+  window.advanceC=function(){
+    stopTimer();
+    const val=document.getElementById('writtenResponse').value.trim();
+    const elapsed=Math.round((Date.now()-promptStart)/1000);
+    STATE.responses[p.id]=val;
+    STATE.responseTimes[p.id]=elapsed;
+    if(elapsed<20){ addSecurityFlag('very_fast_written',p.id); }
+    runSectionC(pIndex+1);
+  };
+
+  startTimer(240, null, ()=>{
+    const val=document.getElementById('writtenResponse').value.trim();
+    if(val.length>10) STATE.responses[p.id]=val;
+    else STATE.responses[p.id]='[Time expired — no response]';
+    runSectionC(pIndex+1);
+  });
+}
+
+function finishSectionC(){
+  showSectionTransition('D','Behavioral Scenarios','Rate each statement honestly. Answer based on how you actually behave — not how you would like to behave.',()=>{
+    showScreen('screenAssessment');
+    runSectionD(0);
+  });
+}
+
+// ══ SECTION D — FEAR INDEX ══
+function runSectionD(qIndex){
+  STATE.currentSection='D';
+  const questions=QB.sectionD;
+  if(qIndex>=questions.length){ finishSectionD(); return; }
+
+  const q=questions[qIndex];
+  const total=questions.length;
+  const pct=75+(qIndex/total)*10;
+
+  document.getElementById('assessmentSectionLabel').textContent='Section D · Behavioral Scenarios';
+  document.getElementById('assessmentProgress').style.width=pct+'%';
+  document.getElementById('assessmentProgressLabel').textContent=`${qIndex+1} of ${total}`;
+
+  const scaleLabels=['Not at all like me','Rarely like me','Sometimes like me','Often like me','Exactly like me'];
+  let selected=null;
+
+  const content=document.getElementById('questionContent');
+  content.innerHTML=`
+    <div class="q-card">
+      <div class="q-meta">
+        <div class="q-num">Statement ${qIndex+1} of ${total}</div>
+        <div class="q-construct">Rate your agreement</div>
+      </div>
+      <div class="q-situation" style="font-size:1.05rem;line-height:1.75;">"${q.statement}"</div>
+      <div class="scale-row" id="scaleRow">
+        ${[1,2,3,4,5].map(n=>`
+          <div class="scale-opt" id="scaleOpt${n}" onclick="selectScale(${n})">
+            <div class="scale-circle">${n}</div>
+            <div class="scale-label">${scaleLabels[n-1]}</div>
+          </div>`).join('')}
+      </div>
+      <div class="scale-ends"><span>Not at all like me</span><span>Exactly like me</span></div>
+    </div>
+    <div class="q-nav">
+      <div></div>
+      <button class="k-btn k-btn-primary" id="btnNextD" onclick="advanceD()" disabled>Next →</button>
+    </div>`;
+
+  const dStart=Date.now();
+
+  window.selectScale=function(n){
+    selected=n;
+    [1,2,3,4,5].forEach(i=>document.getElementById('scaleOpt'+i).classList.toggle('selected',i===n));
+    document.getElementById('btnNextD').disabled=false;
+  };
+
+  window.advanceD=function(){
+    stopTimer();
+    const elapsed=Math.round((Date.now()-dStart)/1000);
+    STATE.responses[q.id]=selected;
+    STATE.responseTimes[q.id]=elapsed;
+    runSectionD(qIndex+1);
+  };
+
+  startTimer(60,null,()=>{
+    if(selected) STATE.responses[q.id]=selected;
+    else STATE.responses[q.id]=3; // neutral default on expire
+    runSectionD(qIndex+1);
+  });
+}
+
+function finishSectionD(){
+  showSectionTransition('E','Final Reflection','A few final scenarios. Answer based on your genuine first instinct. 45 seconds per question.',()=>{
+    showScreen('screenAssessment');
+    runSectionE(0);
+  });
+}
+
+// ══ SECTION E — CONSISTENCY ══
+function runSectionE(qIndex){
+  STATE.currentSection='E';
+  const questions=QB.sectionE;
+  if(qIndex>=questions.length){ finishSectionE(); return; }
+
+  const q=questions[qIndex];
+  const total=questions.length;
+  const pct=85+(qIndex/total)*10;
+
+  document.getElementById('assessmentSectionLabel').textContent='Section E · Final Reflection';
+  document.getElementById('assessmentProgress').style.width=pct+'%';
+  document.getElementById('assessmentProgressLabel').textContent=`${qIndex+1} of ${total}`;
+
+  const eStart=Date.now();
+  let selectedE=null;
+
+  const content=document.getElementById('questionContent');
+  content.innerHTML=`
+    <div class="q-card">
+      <div class="q-meta">
+        <div class="q-num">Question ${qIndex+1} of ${total}</div>
+        <div class="q-construct">${q.construct}</div>
+      </div>
+      <div class="q-situation">${q.situation}</div>
+      <div class="q-options" id="eOptionsContainer">
+        ${q.options.map(o=>`
+          <div class="q-option" id="eopt_${o.id}" onclick="selectOptionE('${o.id}')">
+            <div class="q-option-letter">${o.id.toUpperCase()}</div>
+            <div class="q-option-text">${o.text}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+    <div class="q-nav">
+      <div></div>
+      <button class="k-btn k-btn-primary" id="btnNextE" onclick="advanceE()" disabled>Next →</button>
+    </div>`;
+
+  window.selectOptionE=function(optId){
+    selectedE=optId;
+    document.querySelectorAll('.q-option').forEach(el=>el.classList.remove('selected'));
+    document.getElementById('eopt_'+optId).classList.add('selected');
+    document.getElementById('btnNextE').disabled=false;
+  };
+
+  window.advanceE=function(){
+    stopTimer();
+    const elapsed=Math.round((Date.now()-eStart)/1000);
+    STATE.responses[q.id]=selectedE;
+    STATE.responseTimes[q.id]=elapsed;
+    checkConsistency(q,selectedE);
+    runSectionE(qIndex+1);
+  };
+
+  startTimer(45,null,()=>{
+    STATE.responses[q.id]=selectedE;
+    runSectionE(qIndex+1);
+  });
+}
+
+function checkConsistency(eQuestion,eAnswer){
+  const mirrorId=eQuestion.mirrors;
+  const aAnswer=STATE.sectionAAnswers[mirrorId];
+  if(!aAnswer||!eAnswer) return;
+  const aQ=QB.sectionA.find(q=>q.id===mirrorId);
+  if(!aQ) return;
+  const aScore=aQ.options.find(o=>o.id===aAnswer)?.score||0;
+  const eScore=eQuestion.options.find(o=>o.id===eAnswer)?.score||0;
+  if(Math.abs(aScore-eScore)>1.5){ addSecurityFlag('consistency_delta',`${mirrorId}_vs_${eQuestion.id}`); }
+}
+
+function finishSectionE(){
+  submitAssessment();
+}
+
+// ══ SCORING ══
+function calculateScores(){
+  const s={};
+  const aQuestions=QB.sectionA;
+
+  // Section A scoring
+  let ownershipTotal=0,ownershipCount=0,initiativeTotal=0,initiativeCount=0;
+  let followThroughTotal=0,followThroughCount=0,profTotal=0,profCount=0;
+  let interestTotal=0,interestCount=0,presenceTotal=0,presenceCount=0;
+  let bd1Total=0,bd1Count=0;
+
+  aQuestions.forEach(q=>{
+    const ans=STATE.responses[q.id];
+    if(!ans) return;
+    const score=q.options.find(o=>o.id===ans)?.score||0;
+    switch(q.construct){
+      case 'ownership': ownershipTotal+=score; ownershipCount++; break;
+      case 'initiative': initiativeTotal+=score; initiativeCount++; break;
+      case 'follow_through': followThroughTotal+=score; followThroughCount++; break;
+      case 'professionalism': profTotal+=score; profCount++; break;
+      case 'interest': interestTotal+=score; interestCount++; break;
+      case 'presence': presenceTotal+=score; presenceCount++; break;
+      case 'bd1_work_ethic': case 'bd1_etiquette': bd1Total+=score; bd1Count++; break;
+    }
+  });
+
+  s.ownership_score   = ownershipCount   ? Math.round((ownershipTotal/ownershipCount/4)*100)   : 50;
+  s.initiative_score  = initiativeCount  ? Math.round((initiativeTotal/initiativeCount/4)*100)  : 50;
+  s.follow_through_score = followThroughCount ? Math.round((followThroughTotal/followThroughCount/4)*100) : 50;
+  s.professionalism_score = profCount ? Math.round((profTotal/profCount/4)*100) : 50;
+  s.interest_score    = interestCount    ? Math.round((interestTotal/interestCount/4)*100)    : 50;
+  s.presence_score    = presenceCount    ? Math.round((presenceTotal/presenceCount/4)*100)    : 50;
+  s.etiquette_score   = bd1Count         ? Math.round((bd1Total/bd1Count/4)*100)         : 50;
+
+  // Section D — Fear Index (bidirectional)
+  let fearRaw=0, fearCount=0;
+  QB.sectionD.forEach(q=>{
+    const ans=STATE.responses[q.id];
+    if(ans==null) return;
+    const score = q.scoring==='high_score_high_fear' ? ans : (6-ans);
+    fearRaw+=score; fearCount++;
+  });
+  const fearRawAvg = fearCount ? fearRaw/fearCount : 3;
+  // Invert: high raw = high fear = LOW score (fear-aware = high score)
+  s.fear_score = Math.round(((5-fearRawAvg)/4)*100);
+
+  // Composite scores
+  s.unmeasurables_score = Math.round((s.ownership_score+s.initiative_score+s.follow_through_score+s.professionalism_score+s.interest_score+s.presence_score)/6);
+  s.communication_score = Math.round(s.presence_score*0.6+s.interest_score*0.4);
+  s.critical_thinking_score = Math.round(s.initiative_score*0.5+s.follow_through_score*0.5);
+  s.curiosity_score = Math.round(s.interest_score*0.7+s.initiative_score*0.3);
+  s.creativity_score = Math.round(s.initiative_score*0.6+s.presence_score*0.4);
+
+  s.overall_score = Math.round(
+    s.unmeasurables_score*0.5 +
+    s.fear_score*0.2 +
+    s.etiquette_score*0.1 +
+    s.communication_score*0.08 +
+    s.critical_thinking_score*0.07 +
+    s.curiosity_score*0.05
+  );
+
+  // Consistency flags
+  s.consistency_flags = STATE.securityFlags.filter(f=>f.type==='consistency_delta').map(f=>f.detail).join('; ')||'None';
+
+  return s;
+}
+
+// ══ SUBMISSION ══
+async function submitAssessment(){
+  showScreen('screenSubmitting');
+  const labels=['Analyzing behavioral patterns…','Calculating construct scores…','Running consistency verification…','Generating your KAIROS profile…'];
+  let li=0;
+  const labelInterval=setInterval(()=>{ li=(li+1)%labels.length; document.getElementById('submittingLabel').textContent=labels[li]; },2000);
+
+  const scores=calculateScores();
+
+  const data={
+    ...STATE.candidateInfo,
+    access_code: STATE.accessCode,
+    assigned_employer: STATE.codeData?.assigned_employer||'',
+    assigned_role: STATE.codeData?.assigned_role||'',
+    discipline: 'sales',
+    ...scores,
+    responses: STATE.responses,
+    response_times: STATE.responseTimes,
+    security_flags: STATE.securityFlags,
+    tab_switch_count: STATE.tabSwitchCount,
+    assessment_duration_seconds: Math.round((Date.now()-STATE.assessmentStartTime)/1000),
+    submission_time: new Date().toISOString(),
+    status:'completed',
+    platform:'KAIROS v2',
+  };
+
+  try{
+    // Save to Firestore
+    const docRef=await addDoc(collection(db,'neurosell_assessments'),data);
+    STATE.sessionId=docRef.id;
+    data.firestore_id=docRef.id;
+
+    // Upload webcam photo
+    if(STATE.webcamPhoto){
+      try{
+        const photoRef=ref(storage,`webcam/${docRef.id}/intake_photo.jpg`);
+        await uploadString(photoRef,STATE.webcamPhoto,'data_url');
+        await updateDoc(docRef,{webcam_photo_path:`webcam/${docRef.id}/intake_photo.jpg`});
+      } catch(e){ console.warn('Photo upload failed:',e); }
+    }
+
+    // Mark access code as used
+    if(STATE.accessCode){
+      try{
+        await updateDoc(doc(db,'kairos_access_codes',STATE.accessCode),{
+          status:'used', used_by:STATE.candidateInfo.full_name,
+          used_at:serverTimestamp(), assessment_id:docRef.id
+        });
+      } catch(e){ console.warn('Code update failed:',e); }
+    }
+
+    // Wire results button
+    document.getElementById('viewResultsBtn').href=`kairos-results.html?id=${docRef.id}`;
+
+    // Trigger agentic workflow (non-blocking)
+    triggerAgenticWorkflow(data, scores);
+
+  } catch(e){
+    console.error('Submission error:',e);
+    document.getElementById('viewResultsBtn').href='kairos-results.html';
+  }
+
+  clearInterval(labelInterval);
+  await new Promise(r=>setTimeout(r,2500));
+  showScreen('screenResult');
+}
+
+// ══ AGENTIC WORKFLOW ══
+const AGENTIC_RELAY_URL='https://us-central1-neurosell-9e75f.cloudfunctions.net/kairosAgentic';
+
+async function agenticCall(action,payload){
+  try{
+    const res=await fetch(AGENTIC_RELAY_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,data:payload})});
+    return await res.json();
+  } catch(e){ console.warn(`Agentic "${action}" failed:`,e.message); return null; }
+}
+
+async function triggerAgenticWorkflow(data,scores){
+  const payload={
+    firestore_id: data.firestore_id||null,
+    full_name: data.full_name||'Unknown',
+    city: data.city||'', state: data.state||'',
+    preferred_position: data.preferred_position||'Sales',
+    salary_expectation: data.salary_expectation||'Not specified',
+    overall_score: scores.overall_score,
+    initiative_score: scores.initiative_score,
+    professionalism_score: scores.professionalism_score,
+    ownership_score: scores.ownership_score,
+    follow_through_score: scores.follow_through_score,
+    interest_score: scores.interest_score,
+    presence_score: scores.presence_score,
+    communication_score: scores.communication_score,
+    etiquette_score: scores.etiquette_score,
+    critical_thinking_score: scores.critical_thinking_score,
+    curiosity_score: scores.curiosity_score,
+    creativity_score: scores.creativity_score,
+    fear_score: scores.fear_score,
+    consistency_flags: scores.consistency_flags||'None',
+  };
+  await Promise.allSettled([
+    agenticCall('recruiterBriefing',payload),
+    agenticCall('interviewGuide',payload),
+  ]);
+  if(scores.overall_score>=75) agenticCall('capNarrative',payload);
+}
+
+// ══ TAB MONITORING ══
+function startTabMonitoring(){
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden){
+      STATE.tabSwitchCount++;
+      addSecurityFlag('tab_switch',`count_${STATE.tabSwitchCount}`);
+      if(STATE.tabSwitchCount>=3){
+        document.getElementById('securityIndicator').textContent='⚠ Tab switch detected';
+      }
+    }
+  });
+}
+
+// ══ SECURITY FLAGS ══
+function addSecurityFlag(type,detail){
+  STATE.securityFlags.push({type,detail,timestamp:Date.now()});
+}
+
+</script>
+</body>
+</html>
