@@ -7,9 +7,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --black:#FFFFFF; --surface:#F8F8F8; --surface2:#F0F0F0; --surface3:#E8E8E8;
-  --border:#DDDDDD; --border2:#CCCCCC;
-  --white:#0A0A0A; --text:#0A0A0A; --text-mid:#333333; --text-muted:#666666;
+  --black:#FFFFFF; --surface:#F5F5F5; --surface2:#EBEBEB; --surface3:#E0E0E0;
+  --border:#D0D0D0; --border2:#BBBBBB;
+  --white:#0A0A0A; --text:#0A0A0A; --text-mid:#222222; --text-muted:#555555;
   --orange:#FF4500; --orange-dim:#CC3600; --orange-glow:rgba(255,69,0,0.15);
   --green:#00C27C; --yellow:#F0B429; --red:#E05555;
   --font-display:'Bebas Neue',sans-serif;
@@ -29,7 +29,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 /* ── HEADER ── */
-.k-header{background:var(--black);border-bottom:1px solid var(--border);padding:0 5vw;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;flex-shrink:0;}
+.k-header{background:#FFFFFF;border-bottom:1px solid var(--border);padding:0 5vw;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;flex-shrink:0;}
 .k-logo{font-family:var(--font-display);font-size:1.3rem;letter-spacing:0.12em;color:var(--white);}
 .k-logo span{color:var(--orange);}
 .k-header-meta{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-muted);}
@@ -139,7 +139,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .k-rule-text strong{color:var(--white);}
 
 /* ── TIMER ── */
-.k-timer-bar-wrap{position:sticky;top:52px;z-index:99;background:var(--black);border-bottom:1px solid var(--border);padding:0.75rem 5vw;display:flex;align-items:center;gap:1.5rem;}
+.k-timer-bar-wrap{position:sticky;top:52px;z-index:99;background:#FFFFFF;border-bottom:1px solid #D0D0D0;padding:0.75rem 5vw;display:flex;align-items:center;gap:1.5rem;}
 .k-timer-track{flex:1;height:4px;background:var(--surface2);border-radius:2px;overflow:hidden;}
 .k-timer-fill{height:100%;border-radius:2px;transition:width 1s linear,background 0.5s;}
 .k-timer-fill.green{background:var(--green);}
@@ -150,7 +150,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .k-timer-label{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-muted);}
 
 /* ── SECTION TRANSITION ── */
-.section-transition{position:fixed;inset:0;background:var(--black);z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+.section-transition{position:fixed;inset:0;background:#FFFFFF;z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;opacity:0;pointer-events:none;transition:opacity 0.3s;}
 .section-transition.show{opacity:1;pointer-events:all;}
 .st-label{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--orange);}
 .st-title{font-family:var(--font-display);font-size:clamp(2.5rem,8vw,5rem);letter-spacing:0.05em;color:var(--white);text-align:center;}
@@ -256,7 +256,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     </div>
     <button class="k-btn k-btn-primary k-btn-full" id="btnValidateCode" onclick="validateCode()">Verify Access Code →</button>
     <div class="k-divider"></div>
-    <div class="k-body" style="font-size:0.85rem;color:var(--text-muted);">Don't have an access code? Contact your Peak TCS recruiter at <a href="/cdn-cgi/l/email-protection#b0ddd9dbd5f0c0d5d1dbc4d3c39ed3dfdd" style="color:var(--orange);"><span class="__cf_email__" data-cfemail="b9d4d0d2dcf9c9dcd8d2cddaca97dad6d4">[email&#160;protected]</span></a></div>
+    <div class="k-body" style="font-size:0.85rem;color:var(--text-muted);">Don't have an access code? Contact your Peak TCS recruiter at <a href="/cdn-cgi/l/email-protection#177a7e7c72576772767c6374643974787a" style="color:var(--orange);"><span class="__cf_email__" data-cfemail="bed3d7d5dbfecedbdfd5caddcd90ddd1d3">[email&#160;protected]</span></a></div>
   </div>
 </div>
 
@@ -396,7 +396,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
     <div class="k-info-card" style="background:rgba(255,69,0,0.04);border-color:rgba(255,69,0,0.2);">
       <div class="k-info-card-title" style="color:var(--orange)">Camera Access Required</div>
-      <div class="k-info-card-body">If you cannot enable your camera, contact your recruiter at <a href="/cdn-cgi/l/email-protection#92fffbf9f7d2e2f7f3f9e6f1e1bcf1fdff" style="color:var(--orange);"><span class="__cf_email__" data-cfemail="ddb0b4b6b89dadb8bcb6a9beaef3beb2b0">[email&#160;protected]</span></a> to arrange an alternative verification method.</div>
+      <div class="k-info-card-body">If you cannot enable your camera, contact your recruiter at <a href="/cdn-cgi/l/email-protection#4c212527290c3c292d27382f3f622f2321" style="color:var(--orange);"><span class="__cf_email__" data-cfemail="086561636d48786d69637c6b7b266b6765">[email&#160;protected]</span></a> to arrange an alternative verification method.</div>
     </div>
 
     <button class="k-btn k-btn-primary k-btn-full" id="btnProceedWebcam" onclick="proceedFromWebcam()" disabled style="margin-top:1rem">Photo Confirmed — Continue to Assessment →</button>
@@ -1371,4 +1371,19 @@ function startTabMonitoring(){
   document.addEventListener('visibilitychange',()=>{
     if(document.hidden){
       STATE.tabSwitchCount++;
-      addSecurity
+      addSecurityFlag('tab_switch',`count_${STATE.tabSwitchCount}`);
+      if(STATE.tabSwitchCount>=3){
+        document.getElementById('securityIndicator').textContent='⚠ Tab switch detected';
+      }
+    }
+  });
+}
+
+// ══ SECURITY FLAGS ══
+function addSecurityFlag(type,detail){
+  STATE.securityFlags.push({type,detail,timestamp:Date.now()});
+}
+
+</script>
+</body>
+</html>
