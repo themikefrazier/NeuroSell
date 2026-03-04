@@ -7,9 +7,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --black:#0A0A0A; --surface:#111111; --surface2:#1A1A1A; --surface3:#222222;
-  --border:#2A2A2A; --border2:#333333;
-  --white:#FFFFFF; --text:#F0F0F0; --text-mid:#CCCCCC; --text-muted:#999999;
+  --black:#FFFFFF; --surface:#F8F8F8; --surface2:#F0F0F0; --surface3:#E8E8E8;
+  --border:#DDDDDD; --border2:#CCCCCC;
+  --white:#0A0A0A; --text:#0A0A0A; --text-mid:#333333; --text-muted:#666666;
   --orange:#FF4500; --orange-dim:#CC3600; --orange-glow:rgba(255,69,0,0.15);
   --green:#00C27C; --yellow:#F0B429; --red:#E05555;
   --font-display:'Bebas Neue',sans-serif;
@@ -18,7 +18,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-body{font-family:var(--font-body);background:var(--black);color:var(--text);min-height:100vh;overflow-x:hidden;}
+body{font-family:var(--font-body);background:#FFFFFF;color:#0A0A0A;min-height:100vh;overflow-x:hidden;}
 
 /* ── NOISE TEXTURE OVERLAY ── */
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:0.4;}
@@ -256,7 +256,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     </div>
     <button class="k-btn k-btn-primary k-btn-full" id="btnValidateCode" onclick="validateCode()">Verify Access Code →</button>
     <div class="k-divider"></div>
-    <div class="k-body" style="font-size:0.85rem;color:var(--text-muted);">Don't have an access code? Contact your Peak TCS recruiter at <a href="mailto:mike@peaktcs.com" style="color:var(--orange);">mike@peaktcs.com</a></div>
+    <div class="k-body" style="font-size:0.85rem;color:var(--text-muted);">Don't have an access code? Contact your Peak TCS recruiter at <a href="/cdn-cgi/l/email-protection#b0ddd9dbd5f0c0d5d1dbc4d3c39ed3dfdd" style="color:var(--orange);"><span class="__cf_email__" data-cfemail="b9d4d0d2dcf9c9dcd8d2cddaca97dad6d4">[email&#160;protected]</span></a></div>
   </div>
 </div>
 
@@ -396,7 +396,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
     <div class="k-info-card" style="background:rgba(255,69,0,0.04);border-color:rgba(255,69,0,0.2);">
       <div class="k-info-card-title" style="color:var(--orange)">Camera Access Required</div>
-      <div class="k-info-card-body">If you cannot enable your camera, contact your recruiter at <a href="mailto:mike@peaktcs.com" style="color:var(--orange);">mike@peaktcs.com</a> to arrange an alternative verification method.</div>
+      <div class="k-info-card-body">If you cannot enable your camera, contact your recruiter at <a href="/cdn-cgi/l/email-protection#92fffbf9f7d2e2f7f3f9e6f1e1bcf1fdff" style="color:var(--orange);"><span class="__cf_email__" data-cfemail="ddb0b4b6b89dadb8bcb6a9beaef3beb2b0">[email&#160;protected]</span></a> to arrange an alternative verification method.</div>
     </div>
 
     <button class="k-btn k-btn-primary k-btn-full" id="btnProceedWebcam" onclick="proceedFromWebcam()" disabled style="margin-top:1rem">Photo Confirmed — Continue to Assessment →</button>
@@ -507,7 +507,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   </div>
 </div>
 
-<script type="module">
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
 import { getFirestore, doc, getDoc, setDoc, addDoc, collection, serverTimestamp, updateDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 import { getStorage, ref, uploadString } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
@@ -1371,19 +1371,4 @@ function startTabMonitoring(){
   document.addEventListener('visibilitychange',()=>{
     if(document.hidden){
       STATE.tabSwitchCount++;
-      addSecurityFlag('tab_switch',`count_${STATE.tabSwitchCount}`);
-      if(STATE.tabSwitchCount>=3){
-        document.getElementById('securityIndicator').textContent='⚠ Tab switch detected';
-      }
-    }
-  });
-}
-
-// ══ SECURITY FLAGS ══
-function addSecurityFlag(type,detail){
-  STATE.securityFlags.push({type,detail,timestamp:Date.now()});
-}
-
-</script>
-</body>
-</html>
+      addSecurity
