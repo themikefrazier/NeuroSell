@@ -3,233 +3,211 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KAIROS Recruiter Dashboard · Peak Talent Capital Solutions</title>
+<title>KAIROS · Admin Portal</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --orange:#FF4500; --orange-dim:#CC3600; --orange-glow:rgba(255,69,0,0.12);
-  --bg:#F5F5F5; --surface:#FFFFFF;
-  --border:#E0E0E0; --border2:#CCCCCC;
-  --text:#0A0A0A; --text-mid:#333333; --text-muted:#777777;
-  --green:#00A86B; --yellow:#E09000; --red:#D94040;
-  --font-display:'Bebas Neue',sans-serif;
-  --font-body:'DM Sans',sans-serif;
-  --font-mono:'DM Mono',monospace;
+:root{
+  --orange:#FF4500;--orange-dim:#CC3600;--og:rgba(255,69,0,0.1);
+  --bg:#F4F4F4;--surface:#FFFFFF;--border:#E2E2E2;--border2:#CCCCCC;
+  --text:#0A0A0A;--mid:#444444;--muted:#888888;
+  --green:#00A86B;--yellow:#D98F00;--red:#D13030;
+  --fd:'Bebas Neue',sans-serif;--fb:'DM Sans',sans-serif;--fm:'DM Mono',monospace;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;}
-.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:100;}
-.sidebar-logo{padding:1.5rem 1.5rem 1rem;border-bottom:1px solid var(--border);}
-.s-logo{font-family:var(--font-display);font-size:1.6rem;letter-spacing:0.1em;color:#0A0A0A;}
-.s-logo span{color:var(--orange);}
-.s-sub{font-family:var(--font-mono);font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-muted);margin-top:0.2rem;}
-.sidebar-nav{flex:1;padding:1rem 0;}
-.nav-item{display:flex;align-items:center;gap:0.75rem;padding:0.7rem 1.5rem;cursor:pointer;transition:all 0.12s;border-left:2px solid transparent;font-size:0.88rem;font-weight:500;color:var(--text-muted);}
-.nav-item:hover{background:var(--bg);color:var(--text);}
-.nav-item.active{background:var(--orange-glow);color:var(--orange);border-left-color:var(--orange);}
-.nav-section{font-family:var(--font-mono);font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-muted);padding:1rem 1.5rem 0.4rem;}
-.sidebar-footer{padding:1rem 1.5rem;border-top:1px solid var(--border);}
-.sidebar-user{font-size:0.8rem;color:var(--text-muted);}
-.sidebar-user strong{color:var(--text);display:block;font-size:0.85rem;}
-.main{margin-left:220px;min-height:100vh;}
-.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
-.topbar-title{font-family:var(--font-display);font-size:1.2rem;letter-spacing:0.08em;color:#0A0A0A;}
-.topbar-actions{display:flex;align-items:center;gap:0.75rem;}
+body{font-family:var(--fb);background:var(--bg);color:var(--text);min-height:100vh;}
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);}
+.login-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:2.5rem;width:400px;box-shadow:0 2px 16px rgba(0,0,0,0.06);}
+.ll-img{height:80px;display:block;margin-bottom:1.25rem;}
+.ll-sub{font-family:var(--fm);font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:2rem;}
+.lf{margin-bottom:1.25rem;}
+.lfl{font-family:var(--fm);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;display:block;}
+.lfi{width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:3px;padding:0.75rem 1rem;font-family:var(--fb);font-size:0.95rem;color:var(--text);outline:none;}
+.lfi:focus{border-color:var(--orange);box-shadow:0 0 0 3px var(--og);}
+.lerr{font-size:0.82rem;color:var(--red);margin-top:0.75rem;padding:0.6rem 0.875rem;background:rgba(209,48,48,0.06);border-radius:3px;display:none;}
+.lerr.show{display:block;}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:210px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:100;}
+.sl-logo{padding:1.25rem 1.5rem 1rem;border-bottom:1px solid var(--border);}
+.sl-logo img{height:44px;}
+.sl-nav{flex:1;padding:0.75rem 0;}
+.sl-sec{font-family:var(--fm);font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);padding:0.875rem 1.5rem 0.3rem;}
+.ni{display:flex;align-items:center;gap:0.625rem;padding:0.65rem 1.5rem;cursor:pointer;font-size:0.875rem;font-weight:500;color:var(--muted);border-left:2px solid transparent;transition:all 0.1s;}
+.ni:hover{background:var(--bg);color:var(--text);}
+.ni.active{background:var(--og);color:var(--orange);border-left-color:var(--orange);}
+.sl-foot{padding:1rem 1.5rem;border-top:1px solid var(--border);}
+.sl-user{font-size:0.8rem;color:var(--muted);}
+.sl-user strong{display:block;font-size:0.85rem;color:var(--text);}
+.main{margin-left:210px;min-height:100vh;}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);height:54px;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
+.tb-title{font-family:var(--fd);font-size:1.15rem;letter-spacing:0.08em;color:var(--text);}
+.tb-right{display:flex;align-items:center;gap:0.75rem;}
+.tb-meta{font-family:var(--fm);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
 .page{padding:2rem;display:none;}
 .page.active{display:block;}
-.btn{display:inline-flex;align-items:center;gap:0.4rem;padding:0.55rem 1.1rem;border-radius:3px;border:none;cursor:pointer;font-family:var(--font-body);font-size:0.85rem;font-weight:600;transition:all 0.12s;text-decoration:none;}
-.btn-primary{background:var(--orange);color:#FFFFFF;}
-.btn-primary:hover{background:var(--orange-dim);}
-.btn-ghost{background:transparent;color:var(--text-mid);border:1px solid var(--border2);}
-.btn-ghost:hover{border-color:var(--text-muted);color:var(--text);}
-.btn-sm{padding:0.35rem 0.75rem;font-size:0.78rem;}
-.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:1.25rem 1.5rem;}
-.stat-label{font-family:var(--font-mono);font-size:0.58rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.5rem;}
-.stat-num{font-family:var(--font-display);font-size:2.2rem;letter-spacing:0.05em;color:#0A0A0A;line-height:1;}
-.stat-card.orange .stat-num{color:var(--orange);}
-.stat-card.green .stat-num{color:var(--green);}
-.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:6px;overflow:hidden;}
-.table-header{padding:1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;}
-.table-title{font-family:var(--font-display);font-size:1rem;letter-spacing:0.08em;color:#0A0A0A;}
-.table-controls{display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;}
-.search-input{background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:0.4rem 0.75rem;font-family:var(--font-body);font-size:0.85rem;color:var(--text);outline:none;width:200px;}
-.search-input:focus{border-color:var(--orange);}
-.filter-select{background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:0.4rem 0.75rem;font-family:var(--font-mono);font-size:0.72rem;color:var(--text-mid);outline:none;}
-.filter-select:focus{border-color:var(--orange);}
+.btn{display:inline-flex;align-items:center;gap:0.35rem;padding:0.55rem 1rem;border-radius:3px;border:none;cursor:pointer;font-family:var(--fb);font-size:0.84rem;font-weight:600;transition:all 0.1s;text-decoration:none;}
+.btn-p{background:var(--orange);color:#fff;}
+.btn-p:hover{background:var(--orange-dim);}
+.btn-g{background:transparent;color:var(--mid);border:1px solid var(--border2);}
+.btn-g:hover{color:var(--text);border-color:#999;}
+.btn-sm{padding:0.32rem 0.7rem;font-size:0.78rem;}
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.75rem;}
+.sc{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:1.25rem 1.5rem;}
+.sc-l{font-family:var(--fm);font-size:0.56rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;}
+.sc-n{font-family:var(--fd);font-size:2.1rem;letter-spacing:0.04em;color:var(--text);line-height:1;}
+.sc.or .sc-n{color:var(--orange);}
+.sc.gr .sc-n{color:var(--green);}
+.tw{background:var(--surface);border:1px solid var(--border);border-radius:5px;overflow:hidden;margin-bottom:1.5rem;}
+.tw-h{padding:1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;}
+.tw-t{font-family:var(--fd);font-size:1rem;letter-spacing:0.08em;color:var(--text);}
+.tw-c{display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;}
+.srch{background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:0.38rem 0.75rem;font-family:var(--fb);font-size:0.84rem;color:var(--text);outline:none;width:185px;}
+.srch:focus{border-color:var(--orange);}
+.fsel{background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:0.38rem 0.7rem;font-family:var(--fm);font-size:0.7rem;color:var(--mid);outline:none;}
+.fsel:focus{border-color:var(--orange);}
 table{width:100%;border-collapse:collapse;}
 thead tr{background:var(--bg);}
-th{font-family:var(--font-mono);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);padding:0.75rem 1rem;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;}
-td{padding:0.875rem 1rem;border-bottom:1px solid var(--border);font-size:0.88rem;color:var(--text-mid);vertical-align:middle;}
+th{font-family:var(--fm);font-size:0.56rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);padding:0.7rem 1rem;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;}
+td{padding:0.825rem 1rem;border-bottom:1px solid var(--border);font-size:0.875rem;color:var(--mid);vertical-align:middle;}
 tr:last-child td{border-bottom:none;}
-tr:hover td{background:rgba(255,69,0,0.02);}
-.cname{font-weight:600;color:var(--text);font-size:0.9rem;}
-.crole{font-size:0.78rem;color:var(--text-muted);}
-.score-badge{display:inline-flex;align-items:center;justify-content:center;min-width:44px;height:28px;border-radius:3px;font-family:var(--font-mono);font-size:0.8rem;font-weight:500;padding:0 0.5rem;}
-.score-high{background:rgba(0,168,107,0.1);color:var(--green);}
-.score-mid{background:rgba(224,144,0,0.1);color:var(--yellow);}
-.score-low{background:rgba(217,64,64,0.1);color:var(--red);}
-.tier-badge{display:inline-flex;align-items:center;padding:0.2rem 0.6rem;border-radius:2px;font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;}
-.tier-priority{background:rgba(255,69,0,0.1);color:var(--orange);border:1px solid rgba(255,69,0,0.2);}
-.tier-standard{background:rgba(0,168,107,0.08);color:var(--green);border:1px solid rgba(0,168,107,0.2);}
-.tier-review{background:rgba(224,144,0,0.08);color:var(--yellow);border:1px solid rgba(224,144,0,0.2);}
-.tier-pass{background:rgba(150,150,150,0.1);color:var(--text-muted);border:1px solid var(--border);}
-.flag-dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0;}
-.flag-none{background:var(--green);}
-.flag-minor{background:var(--yellow);}
-.flag-major{background:var(--red);}
-.flag-wrap{display:flex;align-items:center;gap:0.4rem;font-size:0.78rem;}
-.detail-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.25);z-index:200;display:none;align-items:flex-start;justify-content:flex-end;}
-.detail-overlay.open{display:flex;}
-.detail-panel{background:var(--surface);width:640px;height:100vh;overflow-y:auto;border-left:1px solid var(--border);animation:slideIn 0.22s ease;}
-@keyframes slideIn{from{transform:translateX(30px);opacity:0}to{transform:translateX(0);opacity:1}}
-.detail-header{padding:1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;position:sticky;top:0;background:var(--surface);z-index:10;}
-.detail-name{font-family:var(--font-display);font-size:1.6rem;letter-spacing:0.06em;color:#0A0A0A;}
-.detail-sub{font-size:0.82rem;color:var(--text-muted);margin-top:0.2rem;}
-.detail-close{background:none;border:none;cursor:pointer;font-size:1.1rem;color:var(--text-muted);padding:0.3rem;}
-.detail-body{padding:1.5rem;}
-.dsec{margin-bottom:2rem;}
-.dsec-title{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--orange);margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;}
-.dsec-title::after{content:'';flex:1;height:1px;background:var(--border);}
-.cbar-row{display:flex;align-items:center;gap:1rem;margin-bottom:0.7rem;}
-.cbar-label{font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-mid);width:150px;flex-shrink:0;}
-.cbar-track{flex:1;height:6px;background:var(--bg);border-radius:3px;overflow:hidden;}
-.cbar-fill{height:100%;border-radius:3px;}
-.cbar-score{font-family:var(--font-mono);font-size:0.72rem;color:var(--text-mid);width:36px;text-align:right;}
-.webcam-photo{width:100%;max-width:260px;border-radius:4px;border:1px solid var(--border);display:block;}
-.webcam-ph{width:260px;height:195px;background:var(--bg);border:1px solid var(--border);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);}
-.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;}
-.iitem-label{font-family:var(--font-mono);font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.2rem;}
-.iitem-value{font-size:0.88rem;color:var(--text);font-weight:500;}
-.agentic-block{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:1.25rem;margin-bottom:1rem;}
-.agentic-label{font-family:var(--font-mono);font-size:0.58rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--orange);margin-bottom:0.75rem;}
-.agentic-text{font-size:0.88rem;line-height:1.8;color:var(--text-mid);white-space:pre-wrap;}
-.flag-list{display:flex;flex-direction:column;gap:0.5rem;}
-.flag-item{display:flex;align-items:center;gap:0.75rem;padding:0.6rem 0.875rem;background:var(--bg);border-radius:3px;border:1px solid var(--border);}
-.flag-item.critical{border-color:rgba(217,64,64,0.3);background:rgba(217,64,64,0.03);}
-.flag-type{font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--red);}
-.flag-detail{font-size:0.82rem;color:var(--text-muted);}
-.no-flags{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.1em;color:var(--green);text-transform:uppercase;}
-.code-gen-wrap{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:1.5rem;margin-bottom:2rem;}
-.code-gen-title{font-family:var(--font-display);font-size:1rem;letter-spacing:0.08em;color:#0A0A0A;margin-bottom:1.25rem;}
-.code-gen-form{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:1rem;align-items:end;}
-.form-label{font-family:var(--font-mono);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.4rem;display:block;}
-.form-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:0.6rem 0.875rem;font-family:var(--font-body);font-size:0.88rem;color:var(--text);outline:none;}
-.form-input:focus{border-color:var(--orange);}
-.form-select{appearance:none;width:100%;background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:0.6rem 0.875rem;font-family:var(--font-body);font-size:0.88rem;color:var(--text);outline:none;}
-.form-select:focus{border-color:var(--orange);}
-.gen-code-display{background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:4px;padding:1rem 1.25rem;margin-top:1rem;display:none;align-items:center;justify-content:space-between;}
-.gen-code-display.show{display:flex;}
-.gen-code-val{font-family:var(--font-mono);font-size:1.4rem;letter-spacing:0.25em;color:#0A0A0A;}
-.gen-code-meta{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);}
-.code-status-badge{font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.15rem 0.5rem;border-radius:2px;}
-.cs-active{background:rgba(0,168,107,0.1);color:var(--green);}
-.cs-used{background:rgba(150,150,150,0.1);color:var(--text-muted);}
-.cs-expired{background:rgba(217,64,64,0.08);color:var(--red);}
-.loading-ring{width:22px;height:22px;border:2px solid var(--border);border-top-color:var(--orange);border-radius:50%;animation:spin 0.7s linear infinite;display:inline-block;}
+tr:hover td{background:rgba(255,69,0,0.018);}
+.cn{font-weight:600;color:var(--text);font-size:0.88rem;}
+.cr{font-size:0.76rem;color:var(--muted);}
+.sb{display:inline-flex;align-items:center;justify-content:center;min-width:42px;height:26px;border-radius:3px;font-family:var(--fm);font-size:0.78rem;padding:0 0.4rem;}
+.s-h{background:rgba(0,168,107,0.1);color:var(--green);}
+.s-m{background:rgba(217,143,0,0.1);color:var(--yellow);}
+.s-l{background:rgba(209,48,48,0.1);color:var(--red);}
+.tb2{display:inline-flex;padding:0.18rem 0.55rem;border-radius:2px;font-family:var(--fm);font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;}
+.t-p{background:rgba(255,69,0,0.1);color:var(--orange);border:1px solid rgba(255,69,0,0.2);}
+.t-s{background:rgba(0,168,107,0.08);color:var(--green);border:1px solid rgba(0,168,107,0.2);}
+.t-r{background:rgba(217,143,0,0.08);color:var(--yellow);border:1px solid rgba(217,143,0,0.2);}
+.t-x{background:rgba(150,150,150,0.08);color:var(--muted);border:1px solid var(--border);}
+.fd3{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0;}
+.fn{background:var(--green);}
+.fmn{background:var(--yellow);}
+.fmj{background:var(--red);}
+.fw{display:flex;align-items:center;gap:0.4rem;font-size:0.78rem;}
+.do{position:fixed;inset:0;background:rgba(0,0,0,0.22);z-index:200;display:none;align-items:flex-start;justify-content:flex-end;}
+.do.open{display:flex;}
+.dp{background:var(--surface);width:620px;height:100vh;overflow-y:auto;border-left:1px solid var(--border);animation:si .22s ease;}
+@keyframes si{from{transform:translateX(30px);opacity:0}to{transform:translateX(0);opacity:1}}
+.dp-h{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;position:sticky;top:0;background:var(--surface);z-index:10;}
+.dp-n{font-family:var(--fd);font-size:1.5rem;letter-spacing:0.06em;color:var(--text);}
+.dp-s{font-size:0.8rem;color:var(--muted);margin-top:0.2rem;}
+.dp-c{background:none;border:none;cursor:pointer;font-size:1.1rem;color:var(--muted);padding:0.25rem;}
+.dp-b{padding:1.5rem;}
+.ds{margin-bottom:1.75rem;}
+.ds-t{font-family:var(--fm);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--orange);margin-bottom:0.875rem;display:flex;align-items:center;gap:0.5rem;}
+.ds-t::after{content:'';flex:1;height:1px;background:var(--border);}
+.cb-r{display:flex;align-items:center;gap:1rem;margin-bottom:0.65rem;}
+.cb-l{font-family:var(--fm);font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--mid);width:145px;flex-shrink:0;}
+.cb-tr{flex:1;height:5px;background:var(--bg);border-radius:3px;overflow:hidden;}
+.cb-f{height:100%;border-radius:3px;}
+.cb-sc{font-family:var(--fm);font-size:0.7rem;color:var(--mid);width:32px;text-align:right;}
+.wph{width:240px;height:180px;background:var(--bg);border:1px solid var(--border);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+.wpi{width:240px;border-radius:4px;border:1px solid var(--border);display:block;}
+.ig{display:grid;grid-template-columns:1fr 1fr;gap:0.625rem;}
+.il{font-family:var(--fm);font-size:0.56rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:0.18rem;}
+.iv{font-size:0.85rem;color:var(--text);font-weight:500;}
+.ab{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:1.1rem;margin-bottom:0.875rem;}
+.al{font-family:var(--fm);font-size:0.56rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--orange);margin-bottom:0.625rem;}
+.at{font-size:0.875rem;line-height:1.8;color:var(--mid);white-space:pre-wrap;}
+.fl-list{display:flex;flex-direction:column;gap:0.4rem;}
+.fi{display:flex;align-items:center;gap:0.625rem;padding:0.55rem 0.875rem;background:var(--bg);border-radius:3px;border:1px solid var(--border);}
+.fi.crit{border-color:rgba(209,48,48,0.25);background:rgba(209,48,48,0.03);}
+.ft{font-family:var(--fm);font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--red);}
+.fd2{font-size:0.8rem;color:var(--muted);}
+.nf{font-family:var(--fm);font-size:0.62rem;letter-spacing:0.1em;color:var(--green);text-transform:uppercase;}
+.cg-wrap{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:1.5rem;margin-bottom:1.5rem;}
+.cg-title{font-family:var(--fd);font-size:1rem;letter-spacing:0.08em;color:var(--text);margin-bottom:1.25rem;}
+.cg-form{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:1rem;align-items:end;}
+.cfl label{font-family:var(--fm);font-size:0.56rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;display:block;}
+.cfi{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:0.58rem 0.875rem;font-family:var(--fb);font-size:0.875rem;color:var(--text);outline:none;}
+.cfi:focus{border-color:var(--orange);}
+.gcd{background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:4px;padding:1rem 1.25rem;margin-top:1rem;display:none;align-items:center;justify-content:space-between;}
+.gcd.show{display:flex;}
+.gcv{font-family:var(--fm);font-size:1.35rem;letter-spacing:0.22em;color:var(--text);}
+.gcm{font-family:var(--fm);font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+.csb{font-family:var(--fm);font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.14rem 0.5rem;border-radius:2px;}
+.cs-a{background:rgba(0,168,107,0.1);color:var(--green);}
+.cs-u{background:rgba(150,150,150,0.1);color:var(--muted);}
+.cs-e{background:rgba(209,48,48,0.08);color:var(--red);}
+.lr{width:22px;height:22px;border:2px solid var(--border);border-top-color:var(--orange);border-radius:50%;animation:spin .7s linear infinite;display:inline-block;}
 @keyframes spin{to{transform:rotate(360deg);}}
-.loading-wrap{display:flex;align-items:center;justify-content:center;padding:3rem;gap:0.75rem;color:var(--text-muted);font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;}
-.empty-state{padding:3rem;text-align:center;color:var(--text-muted);}
-.empty-icon{font-size:2rem;margin-bottom:0.75rem;opacity:0.4;}
-.empty-text{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;}
-.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);}
-.login-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:2.5rem;width:100%;max-width:400px;}
-.login-logo{font-family:var(--font-display);font-size:2rem;letter-spacing:0.1em;color:#0A0A0A;margin-bottom:0.25rem;}
-.login-logo span{color:var(--orange);}
-.login-sub{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-muted);margin-bottom:2rem;}
-.login-field{margin-bottom:1.25rem;}
-.login-label{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.4rem;display:block;}
-.login-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:0.75rem 1rem;font-family:var(--font-body);font-size:0.95rem;color:var(--text);outline:none;}
-.login-input:focus{border-color:var(--orange);box-shadow:0 0 0 3px var(--orange-glow);}
-.login-error{font-size:0.82rem;color:var(--red);margin-top:0.75rem;display:none;}
-.login-error.show{display:block;}
-@media(max-width:900px){.sidebar{display:none;}.main{margin-left:0;}.stat-grid{grid-template-columns:1fr 1fr;}.code-gen-form{grid-template-columns:1fr 1fr;}}
+.lw{display:flex;align-items:center;justify-content:center;padding:3rem;gap:0.75rem;color:var(--muted);font-family:var(--fm);font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;}
+.es{padding:3rem;text-align:center;color:var(--muted);}
+.es-i{font-size:2rem;margin-bottom:0.75rem;opacity:0.35;}
+.es-t{font-family:var(--fm);font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;}
+@media(max-width:900px){.sidebar{display:none;}.main{margin-left:0;}.sg{grid-template-columns:1fr 1fr;}.cg-form{grid-template-columns:1fr 1fr;}}
 </style>
 </head>
 <body>
 
 <div id="loginWrap" class="login-wrap">
   <div class="login-card">
-    <div class="login-logo">KAI<span>ROS</span></div>
-    <div class="login-sub">Recruiter Dashboard · Peak TCS</div>
-    <div class="login-field">
-      <label class="login-label">Email</label>
-      <input type="email" class="login-input" id="loginEmail" placeholder="your@peaktcs.com">
-    </div>
-    <div class="login-field">
-      <label class="login-label">Password</label>
-      <input type="password" class="login-input" id="loginPassword" placeholder="••••••••">
-    </div>
-    <button class="btn btn-primary" style="width:100%;padding:0.875rem;" onclick="doLogin()">Sign In →</button>
-    <div class="login-error" id="loginError">Invalid credentials. Contact mike@peaktcs.com for access.</div>
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.12em;color:#0A0A0A;">KAI<span style="color:#FF4500;">ROS</span></span>
+    <div class="ll-sub">Admin Portal</div>
+    <div class="lf"><label class="lfl">Email</label><input type="email" class="lfi" id="loginEmail" placeholder="your@email.com"></div>
+    <div class="lf"><label class="lfl">Password</label><input type="password" class="lfi" id="loginPassword" placeholder="••••••••"></div>
+    <button class="btn btn-p" style="width:100%;padding:0.875rem;justify-content:center;" onclick="doLogin()">Sign In →</button>
+    <div class="lerr" id="loginErr">—</div>
   </div>
 </div>
 
 <div id="dashWrap" style="display:none;">
   <div class="sidebar">
-    <div class="sidebar-logo">
-      <div class="s-logo">KAI<span>ROS</span></div>
-      <div class="s-sub">Recruiter Dashboard</div>
-    </div>
-    <nav class="sidebar-nav">
-      <div class="nav-section">Main</div>
-      <div class="nav-item active" onclick="showPage('pageCandidates',this)"><span>👤</span> Candidates</div>
-      <div class="nav-item" onclick="showPage('pageCodes',this)"><span>🔑</span> Access Codes</div>
-      <div class="nav-section">Reports</div>
-      <div class="nav-item" onclick="showPage('pageAnalytics',this)"><span>📊</span> Analytics</div>
+    <div class="sl-logo"><span style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.12em;color:#0A0A0A;">KAI<span style="color:#FF4500;">ROS</span></span></div>
+    <nav class="sl-nav">
+      <div class="sl-sec">Main</div>
+      <div class="ni active" onclick="showPage('pgCand',this)"><span>👤</span> Candidates</div>
+      <div class="ni" onclick="showPage('pgCodes',this)"><span>🔑</span> Access Codes</div>
+      <div class="ni" onclick="showPage('pgEmployers',this)"><span>🏢</span> Employers <span id='empNotifBadge' style='background:var(--orange);color:#fff;border-radius:10px;padding:0.1rem 0.4rem;font-size:0.62rem;font-family:var(--fm);margin-left:auto;display:none;'>0</span></div>
+      <div class="sl-sec">Reports</div>
+      <div class="ni" onclick="showPage('pgAnalytics',this)"><span>📊</span> Analytics</div>
     </nav>
-    <div class="sidebar-footer">
-      <div class="sidebar-user"><strong id="sidebarUser">Recruiter</strong>Peak Talent Capital Solutions</div>
-      <button class="btn btn-ghost btn-sm" style="margin-top:0.75rem;width:100%;" onclick="doLogout()">Sign Out</button>
+    <div class="sl-foot">
+      <div class="sl-user"><strong id="slUser">Recruiter</strong>KAIROS Platform</div>
+      <button class="btn btn-g btn-sm" style="margin-top:0.75rem;width:100%;justify-content:center;" onclick="doLogout()">Sign Out</button>
     </div>
   </div>
 
   <div class="main">
     <div class="topbar">
-      <div class="topbar-title" id="topbarTitle">CANDIDATES</div>
-      <div class="topbar-actions">
-        <span id="topbarMeta" style="font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);"></span>
-        <button class="btn btn-primary btn-sm" onclick="loadCandidates()">↻ Refresh</button>
+      <div class="tb-title" id="tbTitle">CANDIDATES</div>
+      <div class="tb-right">
+        <span class="tb-meta" id="tbMeta"></span>
+        <button class="btn btn-p btn-sm" onclick="loadCandidates()">↻ Refresh</button>
       </div>
     </div>
 
-    <div class="page active" id="pageCandidates">
-      <div class="stat-grid">
-        <div class="stat-card"><div class="stat-label">Total Assessed</div><div class="stat-num" id="statTotal">—</div></div>
-        <div class="stat-card orange"><div class="stat-label">Priority Tier</div><div class="stat-num" id="statPriority">—</div></div>
-        <div class="stat-card green"><div class="stat-label">Avg KAIROS Score</div><div class="stat-num" id="statAvg">—</div></div>
-        <div class="stat-card"><div class="stat-label">Flagged for Review</div><div class="stat-num" id="statFlagged">—</div></div>
+    <div class="page active" id="pgCand">
+      <div class="sg">
+        <div class="sc"><div class="sc-l">Total Assessed</div><div class="sc-n" id="stTotal">—</div></div>
+        <div class="sc or"><div class="sc-l">Priority Tier</div><div class="sc-n" id="stPriority">—</div></div>
+        <div class="sc gr"><div class="sc-l">Avg Score</div><div class="sc-n" id="stAvg">—</div></div>
+        <div class="sc"><div class="sc-l">Flagged</div><div class="sc-n" id="stFlagged">—</div></div>
       </div>
-      <div class="table-wrap">
-        <div class="table-header">
-          <div class="table-title">Assessment Results</div>
-          <div class="table-controls">
-            <input type="text" class="search-input" placeholder="Search candidates…" oninput="filterCandidates(this.value)">
-            <select class="filter-select" onchange="filterByTier(this.value)">
+      <div class="tw">
+        <div class="tw-h">
+          <div class="tw-t">Assessment Results</div>
+          <div class="tw-c">
+            <input type="text" class="srch" placeholder="Search…" oninput="filterC(this.value)">
+            <select class="fsel" onchange="filterT(this.value)">
               <option value="">All Tiers</option>
               <option>Priority</option><option>Standard</option><option>Review</option><option>Pass</option>
             </select>
           </div>
         </div>
-        <div id="candidateTableWrap"><div class="loading-wrap"><div class="loading-ring"></div> Loading candidates…</div></div>
+        <div id="candTbl"><div class="lw"><div class="lr"></div> Loading…</div></div>
       </div>
     </div>
 
-    <div class="page" id="pageCodes">
-      <div class="code-gen-wrap">
-        <div class="code-gen-title">Generate Access Code</div>
-        <div class="code-gen-form">
-          <div>
-            <label class="form-label">Employer / Company</label>
-            <input type="text" class="form-input" id="codeEmployer" placeholder="Company name">
-          </div>
-          <div>
-            <label class="form-label">Position / Role</label>
-            <input type="text" class="form-input" id="codeRole" placeholder="e.g. Outside Sales Rep">
-          </div>
-          <div>
-            <label class="form-label">Discipline</label>
-            <select class="form-select" id="codeDiscipline">
+    <div class="page" id="pgCodes">
+      <div class="cg-wrap">
+        <div class="cg-title">Generate Access Code</div>
+        <div class="cg-form">
+          <div class="cfl"><label>Employer / Company</label><input type="text" class="cfi" id="cgEmployer" placeholder="Company name"></div>
+          <div class="cfl"><label>Position / Role</label><input type="text" class="cfi" id="cgRole" placeholder="e.g. Outside Sales Rep"></div>
+          <div class="cfl"><label>Discipline</label>
+            <select class="cfi" id="cgDisc">
               <option value="sales">Sales & Business Development</option>
               <option value="light_industrial">Light Industrial / Entry-Level</option>
               <option value="healthcare">Healthcare & Clinical</option>
@@ -240,349 +218,280 @@ tr:hover td{background:rgba(255,69,0,0.02);}
               <option value="manufacturing">Industrial & Manufacturing</option>
             </select>
           </div>
-          <button class="btn btn-primary" onclick="generateCode()">Generate</button>
+          <button class="btn btn-p" onclick="generateCode()">Generate</button>
         </div>
-        <div class="gen-code-display" id="genCodeDisplay">
-          <div>
-            <div class="gen-code-meta">Access Code Generated</div>
-            <div class="gen-code-val" id="genCodeVal">—</div>
-          </div>
-          <div style="text-align:right;">
-            <div class="gen-code-meta" id="genCodeMeta"></div>
-            <button class="btn btn-ghost btn-sm" style="margin-top:0.5rem;" onclick="copyCode()">Copy Code</button>
-          </div>
+        <div class="gcd" id="gcd">
+          <div><div class="gcm">Code Generated</div><div class="gcv" id="gcv">—</div></div>
+          <div style="text-align:right;"><div class="gcm" id="gcm2"></div><button class="btn btn-g btn-sm" style="margin-top:0.5rem;" onclick="copyCode()">Copy</button></div>
         </div>
       </div>
-      <div class="table-wrap">
-        <div class="table-header">
-          <div class="table-title">Access Code Registry</div>
-          <div class="table-controls"><button class="btn btn-ghost btn-sm" onclick="loadCodes()">↻ Refresh</button></div>
-        </div>
-        <div id="codeTableWrap"><div class="loading-wrap"><div class="loading-ring"></div> Loading…</div></div>
+      <div class="tw">
+        <div class="tw-h"><div class="tw-t">Code Registry</div><div class="tw-c"><button class="btn btn-g btn-sm" onclick="loadCodes()">↻ Refresh</button></div></div>
+        <div id="codeTbl"><div class="lw"><div class="lr"></div> Loading…</div></div>
       </div>
     </div>
 
-    <div class="page" id="pageAnalytics">
-      <div class="stat-grid" style="grid-template-columns:repeat(3,1fr);">
-        <div class="stat-card"><div class="stat-label">Avg Ownership</div><div class="stat-num" id="avgOwnership">—</div></div>
-        <div class="stat-card"><div class="stat-label">Avg Initiative</div><div class="stat-num" id="avgInitiative">—</div></div>
-        <div class="stat-card"><div class="stat-label">Avg Fear Awareness</div><div class="stat-num" id="avgFear">—</div></div>
-        <div class="stat-card"><div class="stat-label">Avg Follow-Through</div><div class="stat-num" id="avgFT">—</div></div>
-        <div class="stat-card"><div class="stat-label">Avg Presence</div><div class="stat-num" id="avgPresence">—</div></div>
-        <div class="stat-card orange"><div class="stat-label">Total Assessed</div><div class="stat-num" id="avgTotal">—</div></div>
+    <div class="page" id="pgAnalytics">
+      <div class="sg" style="grid-template-columns:repeat(3,1fr);">
+        <div class="sc"><div class="sc-l">Avg Ownership</div><div class="sc-n" id="aOwn">—</div></div>
+        <div class="sc"><div class="sc-l">Avg Initiative</div><div class="sc-n" id="aInit">—</div></div>
+        <div class="sc"><div class="sc-l">Avg Fear Awareness</div><div class="sc-n" id="aFear">—</div></div>
+        <div class="sc"><div class="sc-l">Avg Follow-Through</div><div class="sc-n" id="aFT">—</div></div>
+        <div class="sc"><div class="sc-l">Avg Presence</div><div class="sc-n" id="aPres">—</div></div>
+        <div class="sc or"><div class="sc-l">Total Assessed</div><div class="sc-n" id="aTotal">—</div></div>
       </div>
-      <div class="table-wrap">
-        <div class="table-header"><div class="table-title">Construct Breakdown</div></div>
-        <div id="analyticsBody"><div class="loading-wrap"><div class="loading-ring"></div> Calculating…</div></div>
+      <div class="tw">
+        <div class="tw-h"><div class="tw-t">Construct Breakdown</div></div>
+        <div id="analyticsTbl"><div class="lw"><div class="lr"></div> Calculating…</div></div>
+      </div>
+    </div>
+  
+    <div class="page" id="pgEmployers">
+      <div class="sg" style="grid-template-columns:repeat(3,1fr);">
+        <div class="sc or"><div class="sc-l">Pending Approval</div><div class="sc-n" id="empPending">—</div></div>
+        <div class="sc gr"><div class="sc-l">Approved</div><div class="sc-n" id="empApproved">—</div></div>
+        <div class="sc"><div class="sc-l">Total Employers</div><div class="sc-n" id="empTotal">—</div></div>
+      </div>
+      <div class="tw">
+        <div class="tw-h"><div class="tw-t">Employer Applications</div><div class="tw-c"><select class="fsel" onchange="filterEmployers(this.value)"><option value="">All Status</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="rejected">Rejected</option></select></div></div>
+        <div id="empTbl"><div class="lw"><div class="lr"></div> Loading…</div></div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="detail-overlay" id="detailOverlay" onclick="closeDetail(event)">
-  <div class="detail-panel" id="detailPanel">
-    <div class="detail-header">
-      <div>
-        <div class="detail-name" id="detailName">—</div>
-        <div class="detail-sub" id="detailSub">—</div>
-      </div>
-      <button class="detail-close" onclick="closeDetailPanel()">✕</button>
+<div class="do" id="dOverlay" onclick="closeDO(event)">
+  <div class="dp">
+    <div class="dp-h">
+      <div><div class="dp-n" id="dpName">—</div><div class="dp-s" id="dpSub">—</div></div>
+      <button class="dp-c" onclick="closeDP()">✕</button>
     </div>
-    <div class="detail-body" id="detailBody"><div class="loading-wrap"><div class="loading-ring"></div></div></div>
+    <div class="dp-b" id="dpBody"><div class="lw"><div class="lr"></div></div></div>
   </div>
 </div>
 
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { getFirestore, collection, getDocs, getDoc, doc, setDoc, addDoc, updateDoc, serverTimestamp, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import { getFirestore, collection, getDocs, doc, setDoc, updateDoc, serverTimestamp, query, orderBy, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 import { getStorage, ref, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
 
-const FIREBASE_CONFIG = {
-  apiKey:"AIzaSyCaGli9_WpxScvnkMB98d38eQn7kBBewTk",
-  authDomain:"neurosell-9e75f.firebaseapp.com",
-  projectId:"neurosell-9e75f",
-  storageBucket:"neurosell-9e75f.firebasestorage.app",
-  messagingSenderId:"61172265643",
-  appId:"1:61172265643:web:f19815c465d14cd9b9bdee"
-};
+const FB={apiKey:"AIzaSyCaGli9_WpxScvnkMB98d38eQn7kBBewTk",authDomain:"neurosell-9e75f.firebaseapp.com",projectId:"neurosell-9e75f",storageBucket:"neurosell-9e75f.firebasestorage.app",messagingSenderId:"61172265643",appId:"1:61172265643:web:f19815c465d14cd9b9bdee"};
+const app=initializeApp(FB);
+const db=getFirestore(app);
+const auth=getAuth(app);
+const storage=getStorage(app);
+let all=[],filtered=[];
 
-const app = initializeApp(FIREBASE_CONFIG);
-const db = getFirestore(app);
-const auth = getAuth(app);
-const storage = getStorage(app);
+const getTier=s=>s>=75?'Priority':s>=60?'Standard':s>=45?'Review':'Pass';
+const tcls=t=>({Priority:'t-p',Standard:'t-s',Review:'t-r',Pass:'t-x'}[t]||'t-x');
+const scls=s=>s>=75?'s-h':s>=50?'s-m':'s-l';
+const davg=(arr,key)=>{const v=arr.filter(c=>c[key]!=null).map(c=>c[key]);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):'—';};
+const fsev=f=>{if(!f?.length)return'none';return f.map(x=>x.type||x).some(t=>['consistency_delta','tab_switch'].includes(t))?'major':'minor';};
 
-let allCandidates = [];
-let filtered = [];
-
-// ── AUTH ──
-onAuthStateChanged(auth, user => {
+onAuthStateChanged(auth,user=>{
   if(user){
     document.getElementById('loginWrap').style.display='none';
     document.getElementById('dashWrap').style.display='block';
-    document.getElementById('sidebarUser').textContent = user.email.split('@')[0];
-    loadCandidates();
-    loadCodes();
-  } else {
+    document.getElementById('slUser').textContent=user.email.split('@')[0];
+    loadCandidates();loadCodes();loadEmployers();
+  }else{
     document.getElementById('loginWrap').style.display='flex';
     document.getElementById('dashWrap').style.display='none';
   }
 });
 
-window.doLogin = async function(){
-  const email = document.getElementById('loginEmail').value.trim();
-  const pass = document.getElementById('loginPassword').value;
-  try{
-    await signInWithEmailAndPassword(auth, email, pass);
-    document.getElementById('loginError').classList.remove('show');
-  } catch(e){
-    document.getElementById('loginError').classList.add('show');
+window.doLogin=async function(){
+  const email=document.getElementById('loginEmail').value.trim();
+  const pass=document.getElementById('loginPassword').value;
+  const err=document.getElementById('loginErr');
+  if(!email||!pass){err.textContent='Enter email and password.';err.classList.add('show');return;}
+  try{await signInWithEmailAndPassword(auth,email,pass);err.classList.remove('show');}
+  catch(e){
+    const m={'auth/user-not-found':'No account found.','auth/wrong-password':'Incorrect password.','auth/invalid-credential':'Invalid email or password.','auth/unauthorized-domain':'Add themikefrazier.github.io to Firebase Auth → Settings → Authorized Domains.','auth/network-request-failed':'Network error.'};
+    err.textContent=m[e.code]||`Error: ${e.code}`;err.classList.add('show');
   }
 };
+window.doLogout=()=>signOut(auth);
+document.getElementById('loginPassword').addEventListener('keydown',e=>{if(e.key==='Enter')window.doLogin();});
 
-window.doLogout = () => signOut(auth);
-document.getElementById('loginPassword').addEventListener('keydown', e => { if(e.key==='Enter') window.doLogin(); });
-
-// ── NAV ──
-window.showPage = function(id, el){
+window.showPage=function(id,el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  el.classList.add('active');
-  const t={pageCandidates:'CANDIDATES',pageCodes:'ACCESS CODES',pageAnalytics:'ANALYTICS'};
-  document.getElementById('topbarTitle').textContent=t[id]||id;
-  if(id==='pageAnalytics') renderAnalytics();
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  document.getElementById(id).classList.add('active');el.classList.add('active');
+  document.getElementById('tbTitle').textContent={pgCand:'CANDIDATES',pgCodes:'ACCESS CODES',pgAnalytics:'ANALYTICS'}[id]||id;
+  if(id==='pgAnalytics')renderAnalytics();
 };
 
-// ── HELPERS ──
-function getTier(s){ return s>=75?'Priority':s>=60?'Standard':s>=45?'Review':'Pass'; }
-function tierClass(t){ return {Priority:'tier-priority',Standard:'tier-standard',Review:'tier-review',Pass:'tier-pass'}[t]||'tier-pass'; }
-function scoreClass(s){ return s>=75?'score-high':s>=50?'score-mid':'score-low'; }
-function getFlagSev(flags){
-  if(!flags||!flags.length) return 'none';
-  const types=flags.map(f=>f.type||f);
-  return (types.includes('consistency_delta')||types.includes('tab_switch'))?'major':'minor';
-}
-
-// ── LOAD CANDIDATES ──
-window.loadCandidates = async function(){
+window.loadCandidates=async function(){
+  document.getElementById('candTbl').innerHTML='<div class="lw"><div class="lr"></div> Loading…</div>';
   try{
-    document.getElementById('candidateTableWrap').innerHTML='<div class="loading-wrap"><div class="loading-ring"></div> Loading…</div>';
-    const snap = await getDocs(query(collection(db,'neurosell_assessments'),orderBy('submission_time','desc')));
-    allCandidates=[];
-    snap.forEach(d=>{
-      const data=d.data();
-      if(data.platform==='KAIROS v2'||data.overall_score!=null) allCandidates.push({id:d.id,...data});
-    });
-    filtered=[...allCandidates];
-    renderStats();
-    renderTable(filtered);
-    document.getElementById('topbarMeta').textContent=`${allCandidates.length} records`;
-  } catch(e){
-    document.getElementById('candidateTableWrap').innerHTML=`<div class="loading-wrap" style="color:var(--red)">Error loading. Check Firestore rules.</div>`;
-  }
+    const snap=await getDocs(query(collection(db,'neurosell_assessments'),orderBy('submission_time','desc')));
+    all=[];
+    snap.forEach(d=>{const data=d.data();if(data.platform==='KAIROS v2'||data.overall_score!=null)all.push({id:d.id,...data});});
+    filtered=[...all];renderStats();renderTable(filtered);
+    document.getElementById('tbMeta').textContent=`${all.length} records`;
+  }catch(e){document.getElementById('candTbl').innerHTML=`<div class="lw" style="color:var(--red)">${e.message}</div>`;}
 };
 
 function renderStats(){
-  const t=allCandidates.length;
-  const p=allCandidates.filter(c=>getTier(c.overall_score||0)==='Priority').length;
-  const a=t?Math.round(allCandidates.reduce((s,c)=>s+(c.overall_score||0),0)/t):0;
-  const f=allCandidates.filter(c=>c.security_flags&&c.security_flags.length).length;
-  document.getElementById('statTotal').textContent=t;
-  document.getElementById('statPriority').textContent=p;
-  document.getElementById('statAvg').textContent=a||'—';
-  document.getElementById('statFlagged').textContent=f;
+  document.getElementById('stTotal').textContent=all.length;
+  document.getElementById('stPriority').textContent=all.filter(c=>getTier(c.overall_score||0)==='Priority').length;
+  const a=all.length?Math.round(all.reduce((s,c)=>s+(c.overall_score||0),0)/all.length):0;
+  document.getElementById('stAvg').textContent=a||'—';
+  document.getElementById('stFlagged').textContent=all.filter(c=>c.security_flags?.length).length;
 }
 
-function renderTable(candidates){
-  if(!candidates.length){
-    document.getElementById('candidateTableWrap').innerHTML='<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-text">No candidates found</div></div>';
-    return;
-  }
-  const rows=candidates.map(c=>{
+function renderTable(cands){
+  if(!cands.length){document.getElementById('candTbl').innerHTML='<div class="es"><div class="es-i">📋</div><div class="es-t">No candidates found</div></div>';return;}
+  const rows=cands.map(c=>{
     const tier=getTier(c.overall_score||0);
-    const fsev=getFlagSev(c.security_flags);
-    const date=c.submission_time?new Date(c.submission_time).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—';
-    return `<tr onclick="openDetail('${c.id}')" style="cursor:pointer;">
-      <td><div class="cname">${c.full_name||'Unknown'}</div><div class="crole">${c.preferred_position||'—'}</div></td>
-      <td>${c.assigned_employer||'—'}</td>
-      <td><span class="tier-badge ${tierClass(tier)}">${tier}</span></td>
-      <td><span class="score-badge ${scoreClass(c.overall_score||0)}">${c.overall_score||'—'}</span></td>
-      <td><div class="flag-wrap"><span class="flag-dot flag-${fsev}"></span><span>${fsev==='none'?'Clean':fsev==='major'?'Review Required':'Minor'}</span></div></td>
-      <td style="font-size:0.82rem;color:var(--text-muted);">${date}</td>
-      <td><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openDetail('${c.id}')">View →</button></td>
-    </tr>`;
+    const sv=fsev(c.security_flags);
+    const dt=c.submission_time?new Date(c.submission_time).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—';
+    return `<tr onclick="openDP('${c.id}')" style="cursor:pointer;"><td><div class="cn">${c.full_name||'Unknown'}</div><div class="cr">${c.preferred_position||'—'}</div></td><td>${c.assigned_employer||'—'}</td><td><span class="tb2 ${tcls(tier)}">${tier}</span></td><td><span class="sb ${scls(c.overall_score||0)}">${c.overall_score||'—'}</span></td><td><div class="fw"><span class="fd3 ${sv==='none'?'fn':sv==='major'?'fmj':'fmn'}"></span><span>${sv==='none'?'Clean':sv==='major'?'Review Required':'Minor'}</span></div></td><td style="font-size:0.8rem;color:var(--muted);">${dt}</td><td><button class="btn btn-g btn-sm" onclick="event.stopPropagation();openDP('${c.id}')">View →</button></td></tr>`;
   }).join('');
-  document.getElementById('candidateTableWrap').innerHTML=`
-    <table><thead><tr><th>Candidate</th><th>Employer</th><th>Tier</th><th>Score</th><th>Flags</th><th>Date</th><th></th></tr></thead>
-    <tbody>${rows}</tbody></table>`;
+  document.getElementById('candTbl').innerHTML=`<table><thead><tr><th>Candidate</th><th>Employer</th><th>Tier</th><th>Score</th><th>Flags</th><th>Date</th><th></th></tr></thead><tbody>${rows}</tbody></table>`;
 }
 
-window.filterCandidates = function(q){
-  const t=q.toLowerCase();
-  filtered=allCandidates.filter(c=>(c.full_name||'').toLowerCase().includes(t)||(c.preferred_position||'').toLowerCase().includes(t)||(c.assigned_employer||'').toLowerCase().includes(t));
-  renderTable(filtered);
-};
+window.filterC=q=>{const t=q.toLowerCase();filtered=all.filter(c=>(c.full_name||'').toLowerCase().includes(t)||(c.preferred_position||'').toLowerCase().includes(t)||(c.assigned_employer||'').toLowerCase().includes(t));renderTable(filtered);};
+window.filterT=tier=>{filtered=tier?all.filter(c=>getTier(c.overall_score||0)===tier):[...all];renderTable(filtered);};
 
-window.filterByTier = function(tier){
-  filtered=tier?allCandidates.filter(c=>getTier(c.overall_score||0)===tier):[...allCandidates];
-  renderTable(filtered);
-};
-
-// ── DETAIL PANEL ──
-window.openDetail = async function(id){
-  document.getElementById('detailOverlay').classList.add('open');
-  document.getElementById('detailBody').innerHTML='<div class="loading-wrap"><div class="loading-ring"></div></div>';
-  const c=allCandidates.find(x=>x.id===id);
-  if(!c) return;
-  document.getElementById('detailName').textContent=c.full_name||'Unknown';
-  document.getElementById('detailSub').textContent=`${c.preferred_position||'—'} · ${c.assigned_employer||'—'} · ${getTier(c.overall_score||0)} Tier`;
-
-  const constructs=[
-    {label:'Ownership',key:'ownership_score'},{label:'Initiative',key:'initiative_score'},
-    {label:'Follow-Through',key:'follow_through_score'},{label:'Interest',key:'interest_score'},
-    {label:'Presence',key:'presence_score'},{label:'Fear Awareness',key:'fear_score'},
-    {label:'Professionalism',key:'professionalism_score'},{label:'Communication',key:'communication_score'},
-    {label:'Critical Thinking',key:'critical_thinking_score'},{label:'Curiosity',key:'curiosity_score'},
-  ];
-
-  const bars=constructs.map(con=>{
-    const s=c[con.key]||0;
-    const col=s>=75?'var(--green)':s>=50?'var(--yellow)':'var(--red)';
-    return `<div class="cbar-row"><div class="cbar-label">${con.label}</div><div class="cbar-track"><div class="cbar-fill" style="width:${s}%;background:${col};"></div></div><div class="cbar-score">${s}</div></div>`;
-  }).join('');
-
-  let photoHtml='<div class="webcam-ph">No Photo</div>';
-  if(c.webcam_photo_path){
-    try{ const url=await getDownloadURL(ref(storage,c.webcam_photo_path)); photoHtml=`<img src="${url}" class="webcam-photo">`; }catch(e){}
-  }
-
+window.openDP=async function(id){
+  document.getElementById('dOverlay').classList.add('open');
+  document.getElementById('dpBody').innerHTML='<div class="lw"><div class="lr"></div></div>';
+  const c=all.find(x=>x.id===id);if(!c)return;
+  document.getElementById('dpName').textContent=c.full_name||'Unknown';
+  document.getElementById('dpSub').textContent=`${c.preferred_position||'—'} · ${c.assigned_employer||'—'} · ${getTier(c.overall_score||0)} Tier`;
+  const cons=[{l:'Ownership',k:'ownership_score'},{l:'Initiative',k:'initiative_score'},{l:'Follow-Through',k:'follow_through_score'},{l:'Interest',k:'interest_score'},{l:'Presence',k:'presence_score'},{l:'Fear Awareness',k:'fear_score'},{l:'Professionalism',k:'professionalism_score'},{l:'Communication',k:'communication_score'},{l:'Critical Thinking',k:'critical_thinking_score'},{l:'Curiosity',k:'curiosity_score'}];
+  const bars=cons.map(({l,k})=>{const s=c[k]||0;const col=s>=75?'var(--green)':s>=50?'var(--yellow)':'var(--red)';return `<div class="cb-r"><div class="cb-l">${l}</div><div class="cb-tr"><div class="cb-f" style="width:${s}%;background:${col};"></div></div><div class="cb-sc">${s}</div></div>`;}).join('');
+  let ph='<div class="wph">No Photo</div>';
+  if(c.webcam_photo_path){try{const url=await getDownloadURL(ref(storage,c.webcam_photo_path));ph=`<img src="${url}" class="wpi">`;}catch(e){}}
   const flags=c.security_flags||[];
-  const flagsHtml=flags.length?flags.map(f=>`<div class="flag-item ${['consistency_delta','tab_switch'].includes(f.type)?'critical':''}"><span class="flag-type">${(f.type||'').replace(/_/g,' ')}</span><span class="flag-detail">${f.detail||''}</span></div>`).join(''):'<div class="no-flags">✓ No flags detected</div>';
-
-  const infoItems=[
-    {l:'Email',v:c.email||'—'},{l:'Phone',v:c.phone||'—'},
-    {l:'Location',v:`${c.city||'—'}, ${c.state||'—'}`},{l:'Education',v:c.education||'—'},
-    {l:'Employed',v:c.currently_employed||'—'},{l:'Salary Exp.',v:c.salary_expectation||'—'},
-    {l:'Access Code',v:c.access_code||'—'},{l:'Duration',v:c.assessment_duration_seconds?`${Math.round(c.assessment_duration_seconds/60)} min`:'—'},
-  ].map(i=>`<div><div class="iitem-label">${i.l}</div><div class="iitem-value">${i.v}</div></div>`).join('');
-
-  const scoreColor=(c.overall_score||0)>=75?'var(--green)':(c.overall_score||0)>=50?'var(--yellow)':'var(--red)';
-
-  document.getElementById('detailBody').innerHTML=`
-    <div class="dsec">
-      <div class="dsec-title">Overall Score</div>
-      <div style="display:flex;align-items:center;gap:1.5rem;">
-        <div style="font-family:var(--font-display);font-size:4rem;color:${scoreColor};letter-spacing:0.05em;line-height:1;">${c.overall_score||'—'}</div>
-        <div><span class="tier-badge ${tierClass(getTier(c.overall_score||0))}" style="font-size:0.75rem;padding:0.3rem 0.875rem;">${getTier(c.overall_score||0)} Tier</span>
-        <div style="font-size:0.82rem;color:var(--text-muted);margin-top:0.5rem;">Tab switches: ${c.tab_switch_count||0}</div></div>
-      </div>
-    </div>
-    <div class="dsec">
-      <div class="dsec-title">Identity Verification</div>
-      <div style="display:flex;gap:1.5rem;align-items:flex-start;">
-        ${photoHtml}
-        <div class="info-grid" style="flex:1;">${infoItems}</div>
-      </div>
-    </div>
-    <div class="dsec">
-      <div class="dsec-title">Six Unmeasurables + Constructs</div>
-      ${bars}
-    </div>
-    <div class="dsec">
-      <div class="dsec-title">Security Flags</div>
-      <div class="flag-list">${flagsHtml}</div>
-    </div>
-    <div class="dsec">
-      <div class="dsec-title">Recruiter Briefing</div>
-      <div class="agentic-block">
-        <div class="agentic-label">AI-Generated · KAIROS Agentic Layer</div>
-        <div class="agentic-text">${c.agentic_briefing||'Generating briefing — check back shortly.'}</div>
-      </div>
-    </div>
-    <div class="dsec">
-      <div class="dsec-title">Interview Guide</div>
-      <div class="agentic-block">
-        <div class="agentic-label">Targeted Interview Questions</div>
-        <div class="agentic-text">${c.agentic_interview_guide||'Generating interview guide — check back shortly.'}</div>
-      </div>
-    </div>
-    ${c.agentic_cap?`<div class="dsec"><div class="dsec-title">Capacity Acceleration Plan</div><div class="agentic-block"><div class="agentic-label">CAP · Priority Tier</div><div class="agentic-text">${c.agentic_cap}</div></div></div>`:''}
-    <div style="display:flex;gap:0.75rem;padding-top:1rem;border-top:1px solid var(--border);">
-      <a href="kairos-results.html?id=${c.id}" target="_blank" class="btn btn-primary btn-sm">View Results Page →</a>
-      <button class="btn btn-ghost btn-sm" onclick="window.print()">Print</button>
-    </div>`;
+  const fh=flags.length?flags.map(f=>`<div class="fi ${['consistency_delta','tab_switch'].includes(f.type)?'crit':''}"><span class="ft">${(f.type||'').replace(/_/g,' ')}</span><span class="fd2">${f.detail||''}</span></div>`).join(''):'<div class="nf">✓ No flags detected</div>';
+  const info=[{l:'Email',v:c.email||'—'},{l:'Phone',v:c.phone||'—'},{l:'Location',v:`${c.city||'—'}, ${c.state||'—'}`},{l:'Education',v:c.education||'—'},{l:'Employed',v:c.currently_employed||'—'},{l:'Salary Exp.',v:c.salary_expectation||'—'},{l:'Access Code',v:c.access_code||'—'},{l:'Duration',v:c.assessment_duration_seconds?`${Math.round(c.assessment_duration_seconds/60)} min`:'—'}].map(i=>`<div><div class="il">${i.l}</div><div class="iv">${i.v}</div></div>`).join('');
+  const sc=c.overall_score||0;const scol=sc>=75?'var(--green)':sc>=50?'var(--yellow)':'var(--red)';
+  document.getElementById('dpBody').innerHTML=`
+    <div class="ds"><div class="ds-t">Overall Score</div><div style="display:flex;align-items:center;gap:1.5rem;"><div style="font-family:var(--fd);font-size:3.8rem;color:${scol};letter-spacing:0.05em;line-height:1;">${sc||'—'}</div><div><span class="tb2 ${tcls(getTier(sc))}" style="font-size:0.7rem;padding:0.3rem 0.875rem;">${getTier(sc)} Tier</span><div style="font-size:0.8rem;color:var(--muted);margin-top:0.5rem;">Tab switches: ${c.tab_switch_count||0}</div></div></div></div>
+    <div class="ds"><div class="ds-t">Identity Verification</div><div style="display:flex;gap:1.25rem;align-items:flex-start;">${ph}<div class="ig" style="flex:1;">${info}</div></div></div>
+    <div class="ds"><div class="ds-t">Six Unmeasurables + Constructs</div>${bars}</div>
+    <div class="ds"><div class="ds-t">Security Flags</div><div class="fl-list">${fh}</div></div>
+    <div class="ds"><div class="ds-t">Recruiter Briefing</div><div class="ab"><div class="al">AI-Generated · KAIROS Agentic Layer</div><div class="at">${c.agentic_briefing||'Generating — check back shortly.'}</div></div></div>
+    <div class="ds"><div class="ds-t">Interview Guide</div><div class="ab"><div class="al">Targeted Interview Questions</div><div class="at">${c.agentic_interview_guide||'Generating — check back shortly.'}</div></div></div>
+    ${c.agentic_cap?`<div class="ds"><div class="ds-t">Capacity Acceleration Plan</div><div class="ab"><div class="al">CAP · Priority Tier</div><div class="at">${c.agentic_cap}</div></div></div>`:''}
+    <div style="display:flex;gap:0.75rem;padding-top:1rem;border-top:1px solid var(--border);"><a href="kairos-results.html?id=${c.id}" target="_blank" class="btn btn-p btn-sm">View Results Page →</a><button class="btn btn-g btn-sm" onclick="window.print()">Print</button></div>`;
 };
 
-window.closeDetailPanel = () => document.getElementById('detailOverlay').classList.remove('open');
-window.closeDetail = e => { if(e.target===document.getElementById('detailOverlay')) window.closeDetailPanel(); };
+window.closeDP=()=>document.getElementById('dOverlay').classList.remove('open');
+window.closeDO=e=>{if(e.target===document.getElementById('dOverlay'))window.closeDP();};
 
-// ── ACCESS CODES ──
-window.loadCodes = async function(){
+window.loadCodes=async function(){
   try{
     const snap=await getDocs(collection(db,'kairos_access_codes'));
-    const codes=[];
-    snap.forEach(d=>codes.push({id:d.id,...d.data()}));
-    if(!codes.length){ document.getElementById('codeTableWrap').innerHTML='<div class="empty-state"><div class="empty-icon">🔑</div><div class="empty-text">No codes yet</div></div>'; return; }
-    const rows=codes.map(c=>{
-      const sc={active:'cs-active',used:'cs-used',expired:'cs-expired'}[c.status]||'cs-used';
-      return `<tr><td style="font-family:var(--font-mono);letter-spacing:0.15em;">${c.id}</td><td>${c.assigned_employer||'—'}</td><td>${c.assigned_role||'—'}</td><td>${c.discipline||'sales'}</td><td><span class="code-status-badge ${sc}">${c.status||'active'}</span></td><td style="font-size:0.82rem;color:var(--text-muted);">${c.used_by||'—'}</td><td style="font-size:0.82rem;color:var(--text-muted);">${c.expires_at||'—'}</td></tr>`;
-    }).join('');
-    document.getElementById('codeTableWrap').innerHTML=`<table><thead><tr><th>Code</th><th>Employer</th><th>Role</th><th>Discipline</th><th>Status</th><th>Used By</th><th>Expires</th></tr></thead><tbody>${rows}</tbody></table>`;
-  }catch(e){ document.getElementById('codeTableWrap').innerHTML='<div class="loading-wrap" style="color:var(--red)">Error loading codes.</div>'; }
+    const codes=[];snap.forEach(d=>codes.push({id:d.id,...d.data()}));
+    if(!codes.length){document.getElementById('codeTbl').innerHTML='<div class="es"><div class="es-i">🔑</div><div class="es-t">No codes yet</div></div>';return;}
+    const rows=codes.map(c=>{const sc2={active:'cs-a',used:'cs-u',expired:'cs-e'}[c.status]||'cs-u';return `<tr><td style="font-family:var(--fm);letter-spacing:0.15em;">${c.id}</td><td>${c.assigned_employer||'—'}</td><td>${c.assigned_role||'—'}</td><td>${c.discipline||'sales'}</td><td><span class="csb ${sc2}">${c.status||'active'}</span></td><td style="font-size:0.8rem;color:var(--muted);">${c.used_by||'—'}</td><td style="font-size:0.8rem;color:var(--muted);">${c.expires_at||'—'}</td></tr>`;}).join('');
+    document.getElementById('codeTbl').innerHTML=`<table><thead><tr><th>Code</th><th>Employer</th><th>Role</th><th>Discipline</th><th>Status</th><th>Used By</th><th>Expires</th></tr></thead><tbody>${rows}</tbody></table>`;
+  }catch(e){document.getElementById('codeTbl').innerHTML=`<div class="lw" style="color:var(--red)">${e.message}</div>`;}
 };
 
-window.generateCode = async function(){
-  const employer=document.getElementById('codeEmployer').value.trim();
-  const role=document.getElementById('codeRole').value.trim();
-  const discipline=document.getElementById('codeDiscipline').value;
-  if(!employer||!role){ alert('Enter employer and role.'); return; }
-  const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  const p1=Array.from({length:4},()=>chars[Math.floor(Math.random()*chars.length)]).join('');
-  const p2=Array.from({length:4},()=>chars[Math.floor(Math.random()*chars.length)]).join('');
-  const code=`${p1}${p2}`;
-  const exp=new Date(); exp.setDate(exp.getDate()+7);
-  const codeData={assigned_employer:employer,assigned_role:role,discipline,status:'active',expires_at:exp.toISOString().split('T')[0],created_at:serverTimestamp()};
+window.generateCode=async function(){
+  const employer=document.getElementById('cgEmployer').value.trim();
+  const role=document.getElementById('cgRole').value.trim();
+  const disc=document.getElementById('cgDisc').value;
+  if(!employer||!role){alert('Enter employer and role.');return;}
+  const ch='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const mk=()=>Array.from({length:4},()=>ch[Math.floor(Math.random()*ch.length)]).join('');
+  const code=mk()+mk();
+  const exp=new Date();exp.setDate(exp.getDate()+7);
   try{
-    await setDoc(doc(db,'kairos_access_codes',code),codeData);
-    document.getElementById('genCodeVal').textContent=code;
-    document.getElementById('genCodeMeta').textContent=`${employer} · ${role} · Expires ${exp.toLocaleDateString()}`;
-    document.getElementById('genCodeDisplay').classList.add('show');
+    await setDoc(doc(db,'kairos_access_codes',code),{assigned_employer:employer,assigned_role:role,discipline:disc,status:'active',expires_at:exp.toISOString().split('T')[0],created_at:serverTimestamp()});
+    document.getElementById('gcv').textContent=code;
+    document.getElementById('gcm2').textContent=`${employer} · ${role} · Expires ${exp.toLocaleDateString()}`;
+    document.getElementById('gcd').classList.add('show');
     loadCodes();
-  }catch(e){ alert('Error generating code. Check Firestore rules.'); }
+  }catch(e){alert(`Error: ${e.message}`);}
 };
 
-window.copyCode = function(){
-  navigator.clipboard.writeText(document.getElementById('genCodeVal').textContent).then(()=>{
-    const btn=document.querySelector('[onclick="copyCode()"]');
-    btn.textContent='Copied ✓'; setTimeout(()=>btn.textContent='Copy Code',2000);
+window.copyCode=function(){
+  navigator.clipboard.writeText(document.getElementById('gcv').textContent).then(()=>{
+    const b=document.querySelector('[onclick="copyCode()"]');b.textContent='Copied ✓';setTimeout(()=>b.textContent='Copy',2000);
   });
 };
 
-// ── ANALYTICS ──
 function renderAnalytics(){
-  if(!allCandidates.length) return;
-  const avg=key=>{
-    const v=allCandidates.filter(c=>c[key]!=null).map(c=>c[key]);
-    return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):'—';
-  };
-  document.getElementById('avgOwnership').textContent=avg('ownership_score');
-  document.getElementById('avgInitiative').textContent=avg('initiative_score');
-  document.getElementById('avgFear').textContent=avg('fear_score');
-  document.getElementById('avgFT').textContent=avg('follow_through_score');
-  document.getElementById('avgPresence').textContent=avg('presence_score');
-  document.getElementById('avgTotal').textContent=allCandidates.length;
-  const constructs=['ownership_score','initiative_score','follow_through_score','interest_score','presence_score','fear_score','professionalism_score','communication_score','critical_thinking_score','curiosity_score'];
-  const rows=constructs.map(key=>{
-    const a=avg(key);
+  if(!all.length)return;
+  const keys=['ownership_score','initiative_score','fear_score','follow_through_score','presence_score'];
+  ['aOwn','aInit','aFear','aFT','aPres'].forEach((id,i)=>document.getElementById(id).textContent=davg(all,keys[i]));
+  document.getElementById('aTotal').textContent=all.length;
+  const allKeys=['ownership_score','initiative_score','follow_through_score','interest_score','presence_score','fear_score','professionalism_score','communication_score','critical_thinking_score','curiosity_score'];
+  const rows=allKeys.map(key=>{
+    const a=davg(all,key);
     const label=key.replace('_score','').replace(/_/g,' ');
-    const col=a>=75?'var(--green)':a>=50?'var(--yellow)':'var(--red)';
-    return `<tr><td style="font-family:var(--font-mono);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;">${label}</td><td style="width:55%;"><div style="background:var(--bg);border-radius:3px;height:8px;overflow:hidden;"><div style="width:${a||0}%;height:100%;background:${col};border-radius:3px;"></div></div></td><td><span class="score-badge ${typeof a==='number'?scoreClass(a):''}">${a}</span></td><td style="font-size:0.8rem;color:var(--text-muted);">${allCandidates.filter(c=>c[key]!=null).length} assessed</td></tr>`;
+    const col=typeof a==='number'?(a>=75?'var(--green)':a>=50?'var(--yellow)':'var(--red)'):'var(--muted)';
+    return `<tr><td style="font-family:var(--fm);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;">${label}</td><td style="width:55%;"><div style="background:var(--bg);border-radius:3px;height:7px;overflow:hidden;"><div style="width:${typeof a==='number'?a:0}%;height:100%;background:${col};border-radius:3px;"></div></div></td><td><span class="sb ${typeof a==='number'?scls(a):''}">${a}</span></td><td style="font-size:0.78rem;color:var(--muted);">${all.filter(c=>c[key]!=null).length} assessed</td></tr>`;
   }).join('');
-  document.getElementById('analyticsBody').innerHTML=`<table><thead><tr><th>Construct</th><th>Distribution</th><th>Avg</th><th>Sample</th></tr></thead><tbody>${rows}</tbody></table>`;
+  document.getElementById('analyticsTbl').innerHTML=`<table><thead><tr><th>Construct</th><th>Distribution</th><th>Avg</th><th>Sample</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+// ── EMPLOYERS ──
+let allEmployers = [];
+async function loadEmployers(){
+  try{
+    const snap = await getDocs(collection(db,'kairos_employers'));
+    allEmployers = [];
+    snap.forEach(d => allEmployers.push({id:d.id,...d.data()}));
+    const pending = allEmployers.filter(e=>e.status==='pending').length;
+    const approved = allEmployers.filter(e=>e.status==='approved').length;
+    document.getElementById('empPending').textContent = pending;
+    document.getElementById('empApproved').textContent = approved;
+    document.getElementById('empTotal').textContent = allEmployers.length;
+    const badge = document.getElementById('empNotifBadge');
+    if(pending>0){badge.textContent=pending;badge.style.display='inline';}else{badge.style.display='none';}
+    renderEmployerTable(allEmployers);
+  }catch(e){document.getElementById('empTbl').innerHTML=`<div class="lw" style="color:var(--red)">${e.message}</div>`;}
 }
 
-function scoreClass(s){ return s>=75?'score-high':s>=50?'score-mid':'score-low'; }
+function renderEmployerTable(employers){
+  if(!employers.length){document.getElementById('empTbl').innerHTML='<div class="es"><div class="es-i">🏢</div><div class="es-t">No employers yet</div></div>';return;}
+  const rows = employers.map(e => {
+    const sc = {pending:'b-yellow',approved:'b-green',rejected:'b-red'}[e.status]||'b-grey';
+    const created = e.created_at?.toDate?e.created_at.toDate().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—';
+    const approveBtn = e.status==='pending'?`<button class="btn btn-p btn-sm" onclick="approveEmployer('${e.id}')">Approve</button> <button class="btn btn-g btn-sm" onclick="rejectEmployer('${e.id}')">Reject</button>`:(e.status==='approved'?'<span style="color:var(--green);font-family:var(--fm);font-size:0.62rem;">✓ Active</span>':'<span style="color:var(--red);font-family:var(--fm);font-size:0.62rem;">Rejected</span>');
+    return `<tr>
+      <td><div style="font-weight:600;color:var(--text);">${e.contact_name||'—'}</div><div style="font-size:0.76rem;color:var(--muted);">${e.email||'—'}</div></td>
+      <td>${e.company_name||'—'}</td>
+      <td>${e.industry||'—'}</td>
+      <td><span class="badge ${sc}">${e.status||'pending'}</span></td>
+      <td>${e.wants_more_info?'<span style="color:var(--green);font-size:0.8rem;">✓ Yes</span>':'—'}</td>
+      <td style="font-size:0.8rem;color:var(--muted);">${created}</td>
+      <td>${approveBtn}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('empTbl').innerHTML=`<table><thead><tr><th>Contact</th><th>Company</th><th>Industry</th><th>Status</th><th>Info Request</th><th>Applied</th><th>Action</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+window.filterEmployers = status => {
+  const filtered = status ? allEmployers.filter(e=>e.status===status) : allEmployers;
+  renderEmployerTable(filtered);
+};
+
+window.approveEmployer = async function(id){
+  if(!confirm('Approve this employer? They will be notified and their portal will activate.'))return;
+  try{
+    await updateDoc(doc(db,'kairos_employers',id),{status:'approved',approved_at:serverTimestamp(),approved_by:'admin'});
+    // Approve their pending jobs too
+    const jobsSnap = await getDocs(query(collection(db,'kairos_jobs'),where('employer_id','==',id)));
+    for(const j of jobsSnap.docs) await updateDoc(doc(db,'kairos_jobs',j.id),{status:'approved'});
+    await loadEmployers();
+  }catch(e){alert(`Error: ${e.message}`);}
+};
+
+window.rejectEmployer = async function(id){
+  if(!confirm('Reject this employer?'))return;
+  try{
+    await updateDoc(doc(db,'kairos_employers',id),{status:'rejected',rejected_at:serverTimestamp()});
+    await loadEmployers();
+  }catch(e){alert(`Error: ${e.message}`);}
+};
 </script>
 </body>
 </html>
