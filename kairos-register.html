@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KAIROS · Partner Registration</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --orange:#FF4500;--od:#CC3600;--og:rgba(255,69,0,0.1);
+  --bg:#F4F4F4;--surface:#FFFFFF;--border:#E2E2E2;--b2:#CCCCCC;
+  --text:#0A0A0A;--mid:#444;--muted:#888;
+  --green:#00A86B;--yellow:#D98F00;--red:#D13030;
+  --fd:'Bebas Neue',sans-serif;--fb:'DM Sans',sans-serif;--fm:'DM Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:var(--fb);background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* HEADER */
+.header{background:var(--surface);border-bottom:1px solid var(--border);height:58px;padding:0 5vw;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.hmark{font-family:var(--fd);font-size:1.6rem;letter-spacing:0.12em;color:var(--text);}
+.hmark span{color:var(--orange);}
+.hmeta{font-family:var(--fm);font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);}
+.hlogin{font-family:var(--fm);font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--orange);cursor:pointer;border:1px solid rgba(255,69,0,0.3);padding:0.35rem 0.875rem;border-radius:3px;}
+.hlogin:hover{background:var(--og);}
+
+/* HERO */
+.hero{background:var(--surface);border-bottom:1px solid var(--border);padding:4rem 5vw 3.5rem;text-align:center;}
+.hero-eye{font-family:var(--fm);font-size:0.6rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--orange);margin-bottom:1rem;}
+.hero-h1{font-family:var(--fd);font-size:clamp(2.8rem,6vw,5rem);letter-spacing:0.06em;color:var(--text);line-height:0.92;margin-bottom:1.25rem;}
+.hero-h1 span{color:var(--orange);}
+.hero-body{font-size:1rem;line-height:1.85;color:var(--mid);max-width:560px;margin:0 auto 2rem;}
+.hero-stats{display:flex;align-items:center;justify-content:center;gap:3rem;flex-wrap:wrap;}
+.hs-num{font-family:var(--fd);font-size:2.2rem;color:var(--orange);letter-spacing:0.06em;line-height:1;}
+.hs-label{font-family:var(--fm);font-size:0.54rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-top:0.2rem;}
+
+/* SCREENS */
+.screen{display:none;}.screen.active{display:block;}
+
+/* TYPE SELECTOR */
+.type-wrap{max-width:900px;margin:0 auto;padding:3.5rem 5vw;}
+.section-eye{font-family:var(--fm);font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--orange);margin-bottom:0.5rem;display:flex;align-items:center;gap:0.5rem;}
+.section-eye::before{content:'';width:20px;height:1px;background:var(--orange);}
+.section-h2{font-family:var(--fd);font-size:clamp(1.8rem,4vw,2.8rem);letter-spacing:0.06em;color:var(--text);margin-bottom:0.5rem;}
+.section-body{font-size:0.95rem;line-height:1.8;color:var(--mid);margin-bottom:2.5rem;}
+.type-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin-bottom:2.5rem;}
+.type-card{background:var(--surface);border:2px solid var(--border);border-radius:6px;padding:1.5rem;cursor:pointer;transition:all 0.15s;position:relative;}
+.type-card:hover{border-color:rgba(255,69,0,0.4);box-shadow:0 2px 12px rgba(255,69,0,0.08);}
+.type-card.selected{border-color:var(--orange);background:linear-gradient(135deg,#FFF8F5,#FFFFFF);}
+.type-card.selected::after{content:'✓';position:absolute;top:0.75rem;right:0.875rem;font-size:0.9rem;color:var(--orange);font-weight:700;}
+.tc-icon{font-size:1.75rem;margin-bottom:0.75rem;}
+.tc-name{font-family:var(--fd);font-size:1.1rem;letter-spacing:0.07em;color:var(--text);margin-bottom:0.3rem;}
+.tc-desc{font-size:0.82rem;line-height:1.65;color:var(--muted);}
+.tc-tag{display:inline-flex;margin-top:0.625rem;padding:0.15rem 0.5rem;border-radius:2px;font-family:var(--fm);font-size:0.54rem;letter-spacing:0.1em;text-transform:uppercase;}
+.tag-free{background:rgba(0,168,107,0.08);color:var(--green);border:1px solid rgba(0,168,107,0.2);}
+.tag-partner{background:rgba(255,69,0,0.08);color:var(--orange);border:1px solid rgba(255,69,0,0.2);}
+.tag-enterprise{background:rgba(26,35,64,0.06);color:var(--navy);border:1px solid rgba(26,35,64,0.15);}
+
+/* FORM */
+.form-wrap{max-width:680px;margin:0 auto;padding:0 5vw 4rem;}
+.form-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:2rem;margin-bottom:1.5rem;}
+.form-card-title{font-family:var(--fd);font-size:1.1rem;letter-spacing:0.08em;color:var(--text);margin-bottom:1.25rem;padding-bottom:0.75rem;border-bottom:1px solid var(--border);}
+.selected-type-bar{background:var(--og);border:1px solid rgba(255,69,0,0.2);border-radius:4px;padding:0.75rem 1.1rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;}
+.stb-label{font-family:var(--fm);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);}
+.stb-val{font-family:var(--fd);font-size:1rem;letter-spacing:0.08em;color:var(--orange);}
+.stb-change{font-family:var(--fm);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);cursor:pointer;text-decoration:underline;}
+.k-field{margin-bottom:1.25rem;}
+.k-label{font-family:var(--fm);font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;display:block;}
+.req{color:var(--orange);}
+.k-input{width:100%;background:var(--bg);border:1px solid var(--b2);border-radius:3px;padding:0.75rem 1rem;font-family:var(--fb);font-size:0.95rem;color:var(--text);outline:none;transition:border-color 0.15s;}
+.k-input:focus{border-color:var(--orange);box-shadow:0 0 0 3px var(--og);}
+.k-input::placeholder{color:var(--muted);}
+.k-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;}
+.k-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.k-textarea{min-height:100px;resize:vertical;}
+.k-divider{height:1px;background:var(--border);margin:1.5rem 0;}
+.k-check-row{display:flex;align-items:flex-start;gap:0.75rem;cursor:pointer;margin-bottom:0.875rem;}
+.k-check{width:18px;height:18px;border:1px solid var(--b2);border-radius:2px;background:var(--surface);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.12s;margin-top:2px;}
+.k-check.on{background:var(--orange);border-color:var(--orange);}
+.k-check.on::after{content:'✓';color:#fff;font-size:11px;font-weight:700;}
+.k-check-label{font-size:0.875rem;line-height:1.65;color:var(--mid);}
+.pitch-box{background:linear-gradient(135deg,#FFF8F5,#FFFFFF);border:1px solid rgba(255,69,0,0.2);border-radius:5px;padding:1.25rem;margin-bottom:1.5rem;}
+.pitch-box-title{font-family:var(--fd);font-size:1.1rem;letter-spacing:0.07em;color:var(--text);margin-bottom:0.4rem;}
+.pitch-box-body{font-size:0.86rem;line-height:1.75;color:var(--mid);}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:0.4rem;padding:0.75rem 1.75rem;border-radius:3px;border:none;cursor:pointer;font-family:var(--fb);font-size:0.9rem;font-weight:600;transition:all 0.12s;}
+.btn-p{background:var(--orange);color:#fff;}.btn-p:hover{background:var(--od);}
+.btn-p:disabled{opacity:0.4;cursor:not-allowed;}
+.btn-g{background:transparent;color:var(--mid);border:1px solid var(--b2);}.btn-g:hover{color:var(--text);border-color:#999;}
+.btn-full{width:100%;}
+.err-msg{color:var(--red);font-size:0.85rem;padding:0.6rem 0.875rem;background:rgba(209,48,48,0.06);border-radius:3px;margin-bottom:1rem;display:none;}
+.err-msg.show{display:block;}
+
+/* PENDING */
+.pending-wrap{min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:1rem;padding:4rem 5vw;}
+.pending-icon{font-size:3.5rem;}
+.pending-title{font-family:var(--fd);font-size:2.2rem;letter-spacing:0.06em;color:var(--text);}
+.pending-body{font-size:0.95rem;color:var(--mid);line-height:1.8;max-width:480px;}
+.pending-detail{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:1.25rem 1.75rem;font-family:var(--fm);font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-top:0.5rem;}
+
+/* LOGIN MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:500;display:none;align-items:center;justify-content:center;}
+.modal-bg.open{display:flex;}
+.modal{background:var(--surface);border-radius:6px;padding:2rem;width:380px;box-shadow:0 8px 40px rgba(0,0,0,0.15);}
+.modal-title{font-family:var(--fd);font-size:1.4rem;letter-spacing:0.08em;color:var(--text);margin-bottom:0.25rem;}
+.modal-sub{font-family:var(--fm);font-size:0.58rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:1.5rem;}
+.modal-close{float:right;background:none;border:none;cursor:pointer;font-size:1rem;color:var(--muted);margin-top:-0.25rem;}
+
+@media(max-width:700px){.type-grid{grid-template-columns:1fr;}.k-row{grid-template-columns:1fr;}.hero-stats{gap:1.5rem;}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="hmark">KAI<span>ROS</span></div>
+  <div class="hmeta">Behavioral Intelligence Platform</div>
+  <div class="hlogin" onclick="openLogin()">Sign In</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eye">KAIROS Platform Access</div>
+  <div class="hero-h1">The Right Person.<br>At The <span>Right Moment.</span></div>
+  <div class="hero-body">KAIROS doesn't read resumes. It reads people. Whether you are a candidate, recruiter, agency, or enterprise partner — one portal connects you to behavioral intelligence that changes how hiring works.</div>
+  <div class="hero-stats">
+    <div><div class="hs-num">6</div><div class="hs-label">Unmeasurables Assessed</div></div>
+    <div><div class="hs-num">39</div><div class="hs-label">Years of Diagnostic IP</div></div>
+    <div><div class="hs-num">12</div><div class="hs-label">Scored Constructs</div></div>
+    <div><div class="hs-num">8</div><div class="hs-label">Industry Disciplines</div></div>
+  </div>
+</div>
+
+<!-- SCREEN: TYPE SELECTION -->
+<div class="screen active" id="scrType">
+  <div class="type-wrap">
+    <div class="section-eye">Step 1 of 3</div>
+    <div class="section-h2">Who Are You?</div>
+    <div class="section-body">Select the option that best describes you. This determines your portal access, your experience, and how KAIROS serves you.</div>
+
+    <div class="type-grid">
+      <div class="type-card" onclick="selectType('candidate','Job Applicant / Candidate')">
+        <div class="tc-icon">🎯</div>
+        <div class="tc-name">Job Applicant</div>
+        <div class="tc-desc">I am looking for work and want to demonstrate my true behavioral capacity to employers.</div>
+        <div class="tc-tag tag-free">Free · No employer needed</div>
+      </div>
+      <div class="type-card" onclick="selectType('independent_recruiter','Independent Recruiter')">
+        <div class="tc-icon">👤</div>
+        <div class="tc-name">Independent Recruiter</div>
+        <div class="tc-desc">I place candidates independently and want to use KAIROS to assess and match talent for my clients.</div>
+        <div class="tc-tag tag-partner">Partner Access</div>
+      </div>
+      <div class="type-card" onclick="selectType('staffing_agency','Recruiting Agency / Staffing Firm')">
+        <div class="tc-icon">🏢</div>
+        <div class="tc-name">Staffing Agency</div>
+        <div class="tc-desc">Our firm places candidates at scale. We want KAIROS as our assessment engine across all client engagements.</div>
+        <div class="tc-tag tag-partner">Partner Access</div>
+      </div>
+      <div class="type-card" onclick="selectType('hr_consultant','HR Consultant / I-O Practitioner')">
+        <div class="tc-icon">🔬</div>
+        <div class="tc-name">HR Consultant</div>
+        <div class="tc-desc">I advise organizations on talent strategy and want to deploy KAIROS as part of my consulting practice.</div>
+        <div class="tc-tag tag-partner">Partner Access</div>
+      </div>
+      <div class="type-card" onclick="selectType('workforce_dev','Workforce Development Org')">
+        <div class="tc-icon">🌱</div>
+        <div class="tc-name">Workforce Development</div>
+        <div class="tc-desc">We prepare job seekers for employment through training, reentry, or community programs.</div>
+        <div class="tc-tag tag-partner">Partner Access</div>
+      </div>
+      <div class="type-card" onclick="selectType('enterprise_hr','Enterprise HR Department')">
+        <div class="tc-icon">🏗️</div>
+        <div class="tc-name">Enterprise HR</div>
+        <div class="tc-desc">Our organization wants to deploy KAIROS internally as our primary behavioral assessment platform.</div>
+        <div class="tc-tag tag-enterprise">Enterprise Licensing</div>
+      </div>
+      <div class="type-card" onclick="selectType('platform_integrator','Platform Integrator / API')">
+        <div class="tc-icon">⚙️</div>
+        <div class="tc-name">Platform Integrator</div>
+        <div class="tc-desc">We want to embed KAIROS behavioral assessment into our HR tech platform via API.</div>
+        <div class="tc-tag tag-enterprise">API Access</div>
+      </div>
+    </div>
+
+    <div style="text-align:center;font-size:0.85rem;color:var(--muted);">Already registered? <span onclick="openLogin()" style="color:var(--orange);cursor:pointer;">Sign in to your portal</span></div>
+  </div>
+</div>
+
+<!-- SCREEN: REGISTRATION FORM -->
+<div class="screen" id="scrForm">
+  <div class="type-wrap" style="padding-bottom:1rem;">
+    <div class="section-eye">Step 2 of 3</div>
+    <div class="section-h2">Create Your Account</div>
+  </div>
+  <div class="form-wrap">
+    <div class="selected-type-bar">
+      <div><div class="stb-label">Registering as</div><div class="stb-val" id="selectedTypeLabel">—</div></div>
+      <div class="stb-change" onclick="showScreen('scrType')">Change ↩</div>
+    </div>
+
+    <!-- CANDIDATE PITCH -->
+    <div id="candidatePitch" style="display:none;">
+      <div class="pitch-box">
+        <div class="pitch-box-title">What Happens Next</div>
+        <div class="pitch-box-body">After registering, you will receive a unique assessment link. The KAIROS behavioral assessment takes approximately 45 minutes and measures what resumes cannot — your ownership, initiative, follow-through, presence, interest, and fear awareness. Your results become a verified behavioral record that employers and recruiters can match against open positions.</div>
+      </div>
+    </div>
+
+    <!-- PARTNER PITCH -->
+    <div id="partnerPitch" style="display:none;">
+      <div class="pitch-box">
+        <div class="pitch-box-title">Partner Application</div>
+        <div class="pitch-box-body">Your application will be reviewed by a KAIROS administrator within one business day. Upon approval, you will receive access to your partner portal, onboarding materials, and your first access codes. All partner applications are manually reviewed to maintain platform integrity.</div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-title">Personal Information</div>
+      <div class="k-row">
+        <div class="k-field"><label class="k-label">First Name <span class="req">*</span></label><input type="text" class="k-input" id="fFN" placeholder="First name"></div>
+        <div class="k-field"><label class="k-label">Last Name <span class="req">*</span></label><input type="text" class="k-input" id="fLN" placeholder="Last name"></div>
+      </div>
+      <div class="k-field"><label class="k-label">Email Address <span class="req">*</span></label><input type="email" class="k-input" id="fEmail" placeholder="your@email.com"></div>
+      <div class="k-field"><label class="k-label">Password <span class="req">*</span></label><input type="password" class="k-input" id="fPass" placeholder="Minimum 8 characters"></div>
+      <div class="k-field"><label class="k-label">Phone Number</label><input type="tel" class="k-input" id="fPhone" placeholder="(555) 000-0000"></div>
+      <div class="k-row">
+        <div class="k-field"><label class="k-label">City</label><input type="text" class="k-input" id="fCity" placeholder="City"></div>
+        <div class="k-field"><label class="k-label">State</label><input type="text" class="k-input" id="fState" placeholder="State"></div>
+      </div>
+    </div>
+
+    <!-- ORG FIELDS — hidden for candidates -->
+    <div class="form-card" id="orgFields" style="display:none;">
+      <div class="form-card-title">Organization Information</div>
+      <div class="k-field"><label class="k-label">Organization / Firm Name <span class="req">*</span></label><input type="text" class="k-input" id="fOrg" placeholder="Your organization name"></div>
+      <div class="k-row">
+        <div class="k-field"><label class="k-label">Industry / Specialty</label>
+          <select class="k-input k-select" id="fIndustry">
+            <option value="">Select industry</option>
+            <option>Manufacturing</option><option>Healthcare</option><option>Technology</option>
+            <option>Financial Services</option><option>Logistics & Distribution</option>
+            <option>Retail & Consumer</option><option>Construction & Trades</option>
+            <option>Professional Services</option><option>Education</option>
+            <option>Government / Nonprofit</option><option>Other</option>
+          </select>
+        </div>
+        <div class="k-field"><label class="k-label">Organization Size</label>
+          <select class="k-input k-select" id="fSize">
+            <option value="">Select size</option>
+            <option>Solo / 1 person</option><option>2–10</option><option>11–50</option>
+            <option>51–200</option><option>201–500</option><option>500+</option>
+          </select>
+        </div>
+      </div>
+      <div class="k-field"><label class="k-label">Website</label><input type="url" class="k-input" id="fWeb" placeholder="https://yoursite.com"></div>
+      <div class="k-field"><label class="k-label">How do you plan to use KAIROS? <span class="req">*</span></label>
+        <textarea class="k-input k-textarea" id="fIntent" placeholder="Describe your intended use case, client base, or deployment plan."></textarea>
+      </div>
+    </div>
+
+    <!-- CANDIDATE EXTRA FIELDS -->
+    <div class="form-card" id="candidateFields" style="display:none;">
+      <div class="form-card-title">Career Information</div>
+      <div class="k-field"><label class="k-label">Current / Target Job Title</label><input type="text" class="k-input" id="fJobTitle" placeholder="e.g. Outside Sales Representative"></div>
+      <div class="k-field"><label class="k-label">Primary Discipline</label>
+        <select class="k-input k-select" id="fDisc">
+          <option value="">Select discipline</option>
+          <option value="sales">Sales & Business Development</option>
+          <option value="light_industrial">Light Industrial / Entry-Level</option>
+          <option value="healthcare">Healthcare & Clinical</option>
+          <option value="administrative">Administrative & Corporate</option>
+          <option value="leadership">Supervisory & Leadership</option>
+          <option value="trades">Skilled Trades & Technical</option>
+          <option value="stem">Professional & Technical / STEM</option>
+          <option value="manufacturing">Industrial & Manufacturing</option>
+        </select>
+      </div>
+      <div class="k-row">
+        <div class="k-field"><label class="k-label">Currently Employed?</label>
+          <select class="k-input k-select" id="fEmployed">
+            <option value="">Select</option><option>Yes</option><option>No</option><option>Self-Employed</option>
+          </select>
+        </div>
+        <div class="k-field"><label class="k-label">Salary Expectation</label><input type="text" class="k-input" id="fSalary" placeholder="e.g. $45,000–$55,000"></div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-title">Preferences</div>
+      <div class="k-check-row" onclick="toggleCheck('chkInfo')">
+        <div class="k-check" id="chkInfo"></div>
+        <div class="k-check-label">Send me information about KAIROS research, platform updates, and behavioral science insights.</div>
+      </div>
+      <div class="k-check-row" onclick="toggleCheck('chkTerms')">
+        <div class="k-check" id="chkTerms"></div>
+        <div class="k-check-label">I agree to the KAIROS Terms of Use and Privacy Policy. <span class="req">*</span></div>
+      </div>
+
+      <div style="background:rgba(255,69,0,0.04);border:1px solid rgba(255,69,0,0.15);border-radius:4px;padding:1rem 1.25rem;margin-top:0.5rem;font-size:0.84rem;color:var(--mid);line-height:1.7;" id="reviewNotice">
+        <strong style="color:var(--text);">Admin Review Required:</strong> Partner applications are manually reviewed within one business day. You will receive an email confirmation when your account is activated.
+      </div>
+    </div>
+
+    <div class="err-msg" id="formErr"></div>
+    <button class="btn btn-p btn-full" id="submitBtn" onclick="submitForm()">Submit Application →</button>
+    <div style="text-align:center;margin-top:1.25rem;font-size:0.85rem;color:var(--muted);">Already registered? <span onclick="openLogin()" style="color:var(--orange);cursor:pointer;">Sign in</span></div>
+  </div>
+</div>
+
+<!-- SCREEN: PENDING / SUCCESS -->
+<div class="screen" id="scrPending">
+  <div class="pending-wrap">
+    <div class="pending-icon" id="pendingIcon">⏳</div>
+    <div class="pending-title" id="pendingTitle">Application Submitted</div>
+    <div class="pending-body" id="pendingBody">Your application is under review. A KAIROS administrator will verify your information and activate your account within one business day. You will receive an email when your portal is ready.</div>
+    <div class="pending-detail" id="pendingDetail"></div>
+    <button class="btn btn-g" style="margin-top:1rem;" onclick="window.location.reload()">Register Another Account</button>
+  </div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="modal-bg" id="loginModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeLogin()">✕</button>
+    <div class="modal-title">Sign In</div>
+    <div class="modal-sub">Access your KAIROS portal</div>
+    <div class="k-field"><label class="k-label">Email</label><input type="email" class="k-input" id="liEmail" placeholder="your@email.com"></div>
+    <div class="k-field"><label class="k-label">Password</label><input type="password" class="k-input" id="liPass" placeholder="••••••••"></div>
+    <div class="err-msg" id="liErr"></div>
+    <button class="btn btn-p btn-full" onclick="doLogin()">Sign In →</button>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+import { getFirestore, collection, doc, setDoc, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+const FB={apiKey:"AIzaSyCaGli9_WpxScvnkMB98d38eQn7kBBewTk",authDomain:"neurosell-9e75f.firebaseapp.com",projectId:"neurosell-9e75f",storageBucket:"neurosell-9e75f.firebasestorage.app",messagingSenderId:"61172265643",appId:"1:61172265643:web:f19815c465d14cd9b9bdee"};
+const app=initializeApp(FB);
+const db=getFirestore(app);
+const auth=getAuth(app);
+
+let selectedType='', selectedTypeLabel='', wantsInfo=false, agreeTerms=false;
+
+// ── SCREEN NAV ──
+window.showScreen=function(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+};
+
+// ── TYPE SELECTION ──
+window.selectType=function(type, label){
+  selectedType=type; selectedTypeLabel=label;
+  document.querySelectorAll('.type-card').forEach(c=>c.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+
+  // Show correct form sections
+  const isCandidate=type==='candidate';
+  document.getElementById('orgFields').style.display=isCandidate?'none':'block';
+  document.getElementById('candidateFields').style.display=isCandidate?'block':'none';
+  document.getElementById('candidatePitch').style.display=isCandidate?'block':'none';
+  document.getElementById('partnerPitch').style.display=isCandidate?'none':'block';
+  document.getElementById('reviewNotice').style.display=isCandidate?'none':'block';
+  document.getElementById('selectedTypeLabel').textContent=label;
+
+  // Candidate submit text
+  document.getElementById('submitBtn').textContent=isCandidate?'Create Account & Get Assessment Link →':'Submit Partner Application →';
+
+  setTimeout(()=>showScreen('scrForm'),180);
+};
+
+// ── CHECKBOXES ──
+window.toggleCheck=function(id){
+  const el=document.getElementById(id);
+  if(id==='chkInfo'){wantsInfo=!wantsInfo;el.classList.toggle('on',wantsInfo);}
+  if(id==='chkTerms'){agreeTerms=!agreeTerms;el.classList.toggle('on',agreeTerms);}
+};
+
+// ── SUBMIT ──
+window.submitForm=async function(){
+  const fn=document.getElementById('fFN').value.trim();
+  const ln=document.getElementById('fLN').value.trim();
+  const email=document.getElementById('fEmail').value.trim();
+  const pass=document.getElementById('fPass').value;
+  const errEl=document.getElementById('formErr');
+
+  if(!fn||!ln||!email||!pass){errEl.textContent='Please complete all required fields.';errEl.classList.add('show');return;}
+  if(pass.length<8){errEl.textContent='Password must be at least 8 characters.';errEl.classList.add('show');return;}
+  if(!agreeTerms){errEl.textContent='Please agree to the Terms of Use to continue.';errEl.classList.add('show');return;}
+
+  const isCandidate=selectedType==='candidate';
+  const org=document.getElementById('fOrg')?.value.trim()||'';
+  if(!isCandidate&&!org){errEl.textContent='Please enter your organization name.';errEl.classList.add('show');return;}
+  const intent=document.getElementById('fIntent')?.value.trim()||'';
+  if(!isCandidate&&!intent){errEl.textContent='Please describe your intended use of KAIROS.';errEl.classList.add('show');return;}
+
+  errEl.classList.remove('show');
+  const btn=document.getElementById('submitBtn');
+  btn.disabled=true;btn.textContent='Submitting…';
+
+  try{
+    const cred=await createUserWithEmailAndPassword(auth,email,pass);
+    const uid=cred.user.uid;
+
+    const userData={
+      uid,email,
+      first_name:fn,last_name:ln,full_name:`${fn} ${ln}`,
+      phone:document.getElementById('fPhone').value.trim(),
+      city:document.getElementById('fCity').value.trim(),
+      state:document.getElementById('fState').value.trim(),
+      partner_type:selectedType,
+      partner_type_label:selectedTypeLabel,
+      status:isCandidate?'active':'pending',
+      wants_more_info:wantsInfo,
+      created_at:serverTimestamp(),
+    };
+
+    if(!isCandidate){
+      Object.assign(userData,{
+        organization:org,
+        industry:document.getElementById('fIndustry').value,
+        org_size:document.getElementById('fSize').value,
+        website:document.getElementById('fWeb').value.trim(),
+        intended_use:intent,
+        plan:null,
+      });
+    } else {
+      Object.assign(userData,{
+        target_position:document.getElementById('fJobTitle').value.trim(),
+        discipline:document.getElementById('fDisc').value,
+        currently_employed:document.getElementById('fEmployed').value,
+        salary_expectation:document.getElementById('fSalary').value.trim(),
+      });
+    }
+
+    await setDoc(doc(db,'kairos_partners',uid),userData);
+
+    // Admin notification for non-candidates
+    if(!isCandidate){
+      await addDoc(collection(db,'kairos_admin_notifications'),{
+        type:'new_partner_application',
+        partner_type:selectedType,
+        partner_type_label:selectedTypeLabel,
+        uid,email,
+        full_name:`${fn} ${ln}`,
+        organization:org,
+        created_at:serverTimestamp(),
+        read:false,
+      });
+    }
+
+    // Candidate gets routed to assessment
+    if(isCandidate){
+      document.getElementById('pendingIcon').textContent='✅';
+      document.getElementById('pendingTitle').textContent='Account Created';
+      document.getElementById('pendingBody').textContent='Welcome to KAIROS. Your behavioral assessment is ready. Click below to begin — it takes approximately 45 minutes and measures what no resume can capture.';
+      document.getElementById('pendingDetail').textContent=`Registered as: ${fn} ${ln} · ${email}`;
+      const btn2=document.createElement('a');
+      btn2.href=`kairos-intake-v2.html?email=${encodeURIComponent(email)}`;
+      btn2.className='btn btn-p';btn2.style.marginTop='1.5rem';
+      btn2.textContent='Begin KAIROS Assessment →';
+      document.querySelector('.pending-wrap').appendChild(btn2);
+    } else {
+      document.getElementById('pendingIcon').textContent='⏳';
+      document.getElementById('pendingTitle').textContent='Application Submitted';
+      document.getElementById('pendingBody').textContent=`Your ${selectedTypeLabel} application is under review. A KAIROS administrator will verify your information and activate your portal within one business day. You will receive an email at ${email} when your account is ready.`;
+      document.getElementById('pendingDetail').textContent=`Application type: ${selectedTypeLabel}`;
+    }
+    showScreen('scrPending');
+
+  }catch(e){
+    const m={'auth/email-already-in-use':'An account with that email already exists.','auth/weak-password':'Password is too weak — use at least 8 characters.'};
+    errEl.textContent=m[e.code]||`Error: ${e.message}`;
+    errEl.classList.add('show');
+    btn.disabled=false;
+    btn.textContent=selectedType==='candidate'?'Create Account & Get Assessment Link →':'Submit Partner Application →';
+  }
+};
+
+// ── LOGIN ──
+window.openLogin=()=>document.getElementById('loginModal').classList.add('open');
+window.closeLogin=()=>document.getElementById('loginModal').classList.remove('open');
+
+window.doLogin=async function(){
+  const email=document.getElementById('liEmail').value.trim();
+  const pass=document.getElementById('liPass').value;
+  const err=document.getElementById('liErr');
+  if(!email||!pass){err.textContent='Enter email and password.';err.classList.add('show');return;}
+  try{
+    await signInWithEmailAndPassword(auth,email,pass);
+    // Route by partner type stored in Firestore
+    window.location.href='kairos-recruiter.html'; // Default — admin can route properly
+  }catch(e){
+    const m={'auth/invalid-credential':'Invalid email or password.','auth/user-not-found':'No account found.'};
+    err.textContent=m[e.code]||`Error: ${e.code}`;err.classList.add('show');
+  }
+};
+document.getElementById('liPass').addEventListener('keydown',e=>{if(e.key==='Enter')window.doLogin();});
+document.getElementById('loginModal').addEventListener('click',e=>{if(e.target===document.getElementById('loginModal'))window.closeLogin();});
+</script>
+</body>
+</html>
