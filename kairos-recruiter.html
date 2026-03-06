@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KAIROS · Recruiter Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --orange:#FF4500;--od:#CC3600;--og:rgba(255,69,0,0.1);
+  --bg:#F4F4F4;--surface:#FFFFFF;--border:#E2E2E2;--b2:#CCCCCC;
+  --text:#0A0A0A;--mid:#444;--muted:#888;
+  --green:#00A86B;--yellow:#D98F00;--red:#D13030;
+  --fd:'Bebas Neue',sans-serif;--fb:'DM Sans',sans-serif;--fm:'DM Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:var(--fb);background:var(--bg);color:var(--text);min-height:100vh;}
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;}
+.login-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:2.5rem;width:400px;box-shadow:0 2px 16px rgba(0,0,0,0.06);}
+.lmark{font-family:var(--fd);font-size:2rem;letter-spacing:0.12em;color:var(--text);margin-bottom:0.2rem;}
+.lmark span{color:var(--orange);}
+.lsub{font-family:var(--fm);font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:2rem;}
+.lf{margin-bottom:1.25rem;}
+.ll{font-family:var(--fm);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;display:block;}
+.li{width:100%;background:var(--bg);border:1px solid var(--b2);border-radius:3px;padding:0.75rem 1rem;font-family:var(--fb);font-size:0.95rem;color:var(--text);outline:none;}
+.li:focus{border-color:var(--orange);box-shadow:0 0 0 3px var(--og);}
+.lerr{font-size:0.82rem;color:var(--red);margin-top:0.75rem;padding:0.6rem 0.875rem;background:rgba(209,48,48,0.06);border-radius:3px;display:none;}
+.lerr.show{display:block;}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:210px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:100;}
+.sl-logo{padding:1.25rem 1.5rem 1rem;border-bottom:1px solid var(--border);}
+.sl-mark{font-family:var(--fd);font-size:1.4rem;letter-spacing:0.12em;color:var(--text);}
+.sl-mark span{color:var(--orange);}
+.sl-role{font-family:var(--fm);font-size:0.52rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-top:0.15rem;}
+.sl-nav{flex:1;padding:0.75rem 0;overflow-y:auto;}
+.sl-sec{font-family:var(--fm);font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);padding:0.875rem 1.5rem 0.3rem;}
+.ni{display:flex;align-items:center;gap:0.625rem;padding:0.65rem 1.5rem;cursor:pointer;font-size:0.875rem;font-weight:500;color:var(--muted);border-left:2px solid transparent;transition:all 0.1s;}
+.ni:hover{background:var(--bg);color:var(--text);}
+.ni.active{background:var(--og);color:var(--orange);border-left-color:var(--orange);}
+.sl-foot{padding:1rem 1.5rem;border-top:1px solid var(--border);}
+.sl-user strong{display:block;font-size:0.85rem;color:var(--text);}
+.sl-user{font-size:0.78rem;color:var(--muted);}
+.main{margin-left:210px;min-height:100vh;}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);height:54px;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
+.tb-title{font-family:var(--fd);font-size:1.15rem;letter-spacing:0.08em;}
+.tb-right{display:flex;align-items:center;gap:0.75rem;}
+.page{padding:2rem;display:none;}
+.page.active{display:block;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:0.35rem;padding:0.55rem 1rem;border-radius:3px;border:none;cursor:pointer;font-family:var(--fb);font-size:0.84rem;font-weight:600;transition:all 0.1s;text-decoration:none;}
+.btn-p{background:var(--orange);color:#fff;}.btn-p:hover{background:var(--od);}
+.btn-g{background:transparent;color:var(--mid);border:1px solid var(--b2);}.btn-g:hover{color:var(--text);border-color:#999;}
+.btn-sm{padding:0.32rem 0.7rem;font-size:0.78rem;}
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.75rem;}
+.sc{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:1.25rem 1.5rem;}
+.sc-l{font-family:var(--fm);font-size:0.56rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;}
+.sc-n{font-family:var(--fd);font-size:2.1rem;letter-spacing:0.04em;color:var(--text);line-height:1;}
+.sc.or .sc-n{color:var(--orange);}.sc.gr .sc-n{color:var(--green);}
+.tw{background:var(--surface);border:1px solid var(--border);border-radius:5px;overflow:hidden;margin-bottom:1.5rem;}
+.tw-h{padding:1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;}
+.tw-t{font-family:var(--fd);font-size:1rem;letter-spacing:0.08em;color:var(--text);}
+.tw-c{display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;}
+table{width:100%;border-collapse:collapse;}
+thead tr{background:var(--bg);}
+th{font-family:var(--fm);font-size:0.56rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);padding:0.7rem 1rem;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;}
+td{padding:0.825rem 1rem;border-bottom:1px solid var(--border);font-size:0.875rem;color:var(--mid);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,69,0,0.018);}
+.srch{background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:0.38rem 0.75rem;font-family:var(--fb);font-size:0.84rem;color:var(--text);outline:none;width:185px;}
+.srch:focus{border-color:var(--orange);}
+.fsel{background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:0.38rem 0.7rem;font-family:var(--fm);font-size:0.7rem;color:var(--mid);outline:none;}
+.badge{display:inline-flex;padding:0.18rem 0.55rem;border-radius:2px;font-family:var(--fm);font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;}
+.b-or{background:rgba(255,69,0,0.1);color:var(--orange);border:1px solid rgba(255,69,0,0.2);}
+.b-gr{background:rgba(0,168,107,0.08);color:var(--green);border:1px solid rgba(0,168,107,0.2);}
+.b-ye{background:rgba(217,143,0,0.08);color:var(--yellow);border:1px solid rgba(217,143,0,0.2);}
+.b-gy{background:rgba(150,150,150,0.08);color:var(--muted);border:1px solid var(--border);}
+.b-rd{background:rgba(209,48,48,0.08);color:var(--red);border:1px solid rgba(209,48,48,0.2);}
+.sb{display:inline-flex;align-items:center;justify-content:center;min-width:42px;height:26px;border-radius:3px;font-family:var(--fm);font-size:0.78rem;padding:0 0.4rem;}
+.s-h{background:rgba(0,168,107,0.1);color:var(--green);}
+.s-m{background:rgba(217,143,0,0.1);color:var(--yellow);}
+.s-l{background:rgba(209,48,48,0.1);color:var(--red);}
+.fd3{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0;}
+.fn{background:var(--green);}.fmn{background:var(--yellow);}.fmj{background:var(--red);}
+.fw{display:flex;align-items:center;gap:0.4rem;font-size:0.78rem;}
+/* DETAIL PANEL */
+.do{position:fixed;inset:0;background:rgba(0,0,0,0.22);z-index:200;display:none;align-items:flex-start;justify-content:flex-end;}
+.do.open{display:flex;}
+.dp{background:var(--surface);width:640px;height:100vh;overflow-y:auto;border-left:1px solid var(--border);animation:si .22s ease;}
+@keyframes si{from{transform:translateX(30px);opacity:0}to{transform:translateX(0);opacity:1}}
+.dp-h{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;position:sticky;top:0;background:var(--surface);z-index:10;}
+.dp-n{font-family:var(--fd);font-size:1.5rem;letter-spacing:0.06em;}
+.dp-s{font-size:0.8rem;color:var(--muted);margin-top:0.2rem;}
+.dp-c{background:none;border:none;cursor:pointer;font-size:1.1rem;color:var(--muted);}
+.dp-b{padding:1.5rem;}
+.ds{margin-bottom:1.75rem;}
+.ds-t{font-family:var(--fm);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--orange);margin-bottom:0.875rem;display:flex;align-items:center;gap:0.5rem;}
+.ds-t::after{content:'';flex:1;height:1px;background:var(--border);}
+.cb-r{display:flex;align-items:center;gap:1rem;margin-bottom:0.65rem;}
+.cb-l{font-family:var(--fm);font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--mid);width:145px;flex-shrink:0;}
+.cb-tr{flex:1;height:5px;background:var(--bg);border-radius:3px;overflow:hidden;}
+.cb-f{height:100%;border-radius:3px;}
+.cb-sc{font-family:var(--fm);font-size:0.7rem;color:var(--mid);width:32px;text-align:right;}
+.ab{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:1.1rem;margin-bottom:0.875rem;}
+.al{font-family:var(--fm);font-size:0.56rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--orange);margin-bottom:0.625rem;}
+.at{font-size:0.875rem;line-height:1.8;color:var(--mid);white-space:pre-wrap;}
+.ig{display:grid;grid-template-columns:1fr 1fr;gap:0.625rem;}
+.il{font-family:var(--fm);font-size:0.56rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:0.18rem;}
+.iv{font-size:0.85rem;color:var(--text);font-weight:500;}
+/* CODE GEN */
+.cg-wrap{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:1.5rem;margin-bottom:1.5rem;}
+.cg-title{font-family:var(--fd);font-size:1rem;letter-spacing:0.08em;color:var(--text);margin-bottom:1.25rem;}
+.cg-form{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:1rem;align-items:end;}
+.cfl label{font-family:var(--fm);font-size:0.56rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;display:block;}
+.cfi{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:0.58rem 0.875rem;font-family:var(--fb);font-size:0.875rem;color:var(--text);outline:none;}
+.cfi:focus{border-color:var(--orange);}
+.gcd{background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:4px;padding:1rem 1.25rem;margin-top:1rem;display:none;align-items:center;justify-content:space-between;}
+.gcd.show{display:flex;}
+.gcv{font-family:var(--fm);font-size:1.35rem;letter-spacing:0.22em;color:var(--text);}
+.gcm{font-family:var(--fm);font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+/* NOTE INPUT */
+.note-input{width:100%;background:var(--bg);border:1px solid var(--b2);border-radius:3px;padding:0.6rem 0.875rem;font-family:var(--fb);font-size:0.875rem;color:var(--text);outline:none;resize:vertical;min-height:80px;}
+.note-input:focus{border-color:var(--orange);}
+/* HIRE BADGE */
+.hire-badge{display:inline-flex;align-items:center;gap:0.4rem;padding:0.3rem 0.75rem;background:rgba(255,69,0,0.1);border:1px solid rgba(255,69,0,0.25);border-radius:3px;font-family:var(--fm);font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--orange);font-weight:600;}
+.lr{width:22px;height:22px;border:2px solid var(--border);border-top-color:var(--orange);border-radius:50%;animation:spin .7s linear infinite;display:inline-block;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.lw{display:flex;align-items:center;justify-content:center;padding:3rem;gap:0.75rem;color:var(--muted);font-family:var(--fm);font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;}
+.es{padding:3rem;text-align:center;color:var(--muted);}
+.es-i{font-size:2rem;margin-bottom:0.75rem;opacity:0.35;}
+.es-t{font-family:var(--fm);font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;}
+@media(max-width:900px){.sidebar{display:none;}.main{margin-left:0;}.sg{grid-template-columns:1fr 1fr;}.cg-form{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<div id="loginWrap" class="login-wrap">
+  <div class="login-card">
+    <div class="lmark">KAI<span>ROS</span></div>
+    <div class="lsub">Recruiter Portal</div>
+    <div class="lf"><label class="ll">Email</label><input type="email" class="li" id="loginEmail" placeholder="your@email.com"></div>
+    <div class="lf"><label class="ll">Password</label><input type="password" class="li" id="loginPass" placeholder="••••••••"></div>
+    <button class="btn btn-p" style="width:100%;padding:0.875rem;" onclick="doLogin()">Sign In →</button>
+    <div class="lerr" id="loginErr"></div>
+  </div>
+</div>
+
+<div id="dashWrap" style="display:none;">
+  <div class="sidebar">
+    <div class="sl-logo">
+      <div class="sl-mark">KAI<span>ROS</span></div>
+      <div class="sl-role">Recruiter Portal</div>
+    </div>
+    <nav class="sl-nav">
+      <div class="sl-sec">My Desk</div>
+      <div class="ni active" onclick="showPage('pgCand',this)"><span>👤</span> My Candidates</div>
+      <div class="ni" onclick="showPage('pgCodes',this)"><span>🔑</span> Access Codes</div>
+      <div class="sl-sec">Tools</div>
+      <div class="ni" onclick="showPage('pgPipeline',this)"><span>🎯</span> Pipeline</div>
+      <div class="ni" onclick="showPage('pgReports',this)"><span>📊</span> Reports</div>
+    </nav>
+    <div class="sl-foot">
+      <div class="sl-user"><strong id="slUser">Recruiter</strong>KAIROS Platform</div>
+      <button class="btn btn-g btn-sm" style="margin-top:0.75rem;width:100%;justify-content:center;" onclick="doLogout()">Sign Out</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="tb-title" id="tbTitle">MY CANDIDATES</div>
+      <div class="tb-right">
+        <span style="font-family:var(--fm);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);" id="tbMeta"></span>
+        <button class="btn btn-p btn-sm" onclick="loadCandidates()">↻ Refresh</button>
+      </div>
+    </div>
+
+    <!-- CANDIDATES PAGE -->
+    <div class="page active" id="pgCand">
+      <div class="sg">
+        <div class="sc"><div class="sc-l">My Candidates</div><div class="sc-n" id="stTotal">—</div></div>
+        <div class="sc or"><div class="sc-l">Priority Tier</div><div class="sc-n" id="stPriority">—</div></div>
+        <div class="sc gr"><div class="sc-l">Hire Interest</div><div class="sc-n" id="stHire">—</div></div>
+        <div class="sc"><div class="sc-l">Flagged</div><div class="sc-n" id="stFlagged">—</div></div>
+      </div>
+      <div class="tw">
+        <div class="tw-h">
+          <div class="tw-t">Candidate Results</div>
+          <div class="tw-c">
+            <input type="text" class="srch" placeholder="Search…" oninput="filterC(this.value)">
+            <select class="fsel" onchange="filterT(this.value)">
+              <option value="">All Tiers</option>
+              <option>Priority</option><option>Standard</option><option>Review</option><option>Pass</option>
+            </select>
+            <select class="fsel" onchange="filterE(this.value)" id="employerFilter">
+              <option value="">All Employers</option>
+            </select>
+          </div>
+        </div>
+        <div id="candTbl"><div class="lw"><div class="lr"></div> Loading…</div></div>
+      </div>
+    </div>
+
+    <!-- ACCESS CODES PAGE -->
+    <div class="page" id="pgCodes">
+      <div class="cg-wrap">
+        <div class="cg-title">Generate Access Code</div>
+        <div class="cg-form">
+          <div class="cfl"><label>Employer / Company</label><input type="text" class="cfi" id="cgEmployer" placeholder="Company name"></div>
+          <div class="cfl"><label>Position / Role</label><input type="text" class="cfi" id="cgRole" placeholder="e.g. Outside Sales Rep"></div>
+          <div class="cfl"><label>Discipline</label>
+            <select class="cfi" id="cgDisc">
+              <option value="sales">Sales & Business Development</option>
+              <option value="light_industrial">Light Industrial / Entry-Level</option>
+              <option value="healthcare">Healthcare & Clinical</option>
+              <option value="administrative">Administrative & Corporate</option>
+              <option value="leadership">Supervisory & Leadership</option>
+              <option value="trades">Skilled Trades & Technical</option>
+              <option value="stem">Professional & Technical / STEM</option>
+              <option value="manufacturing">Industrial & Manufacturing</option>
+            </select>
+          </div>
+          <button class="btn btn-p" onclick="generateCode()">Generate</button>
+        </div>
+        <div class="gcd" id="gcd">
+          <div><div class="gcm">Code Generated</div><div class="gcv" id="gcv">—</div></div>
+          <div style="text-align:right;"><div class="gcm" id="gcm2"></div><button class="btn btn-g btn-sm" style="margin-top:0.5rem;" onclick="copyCode()">Copy</button></div>
+        </div>
+      </div>
+      <div class="tw">
+        <div class="tw-h"><div class="tw-t">My Code Registry</div><div class="tw-c"><button class="btn btn-g btn-sm" onclick="loadCodes()">↻ Refresh</button></div></div>
+        <div id="codeTbl"><div class="lw"><div class="lr"></div> Loading…</div></div>
+      </div>
+    </div>
+
+    <!-- PIPELINE PAGE -->
+    <div class="page" id="pgPipeline">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;" id="pipelineBoard">
+        <div class="lw" style="grid-column:1/-1;"><div class="lr"></div> Building pipeline…</div>
+      </div>
+    </div>
+
+    <!-- REPORTS PAGE -->
+    <div class="page" id="pgReports">
+      <div class="tw">
+        <div class="tw-h"><div class="tw-t">My Performance Summary</div></div>
+        <div id="reportsTbl"><div class="lw"><div class="lr"></div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL PANEL -->
+<div class="do" id="dOverlay" onclick="closeDO(event)">
+  <div class="dp">
+    <div class="dp-h">
+      <div><div class="dp-n" id="dpName">—</div><div class="dp-s" id="dpSub">—</div></div>
+      <button class="dp-c" onclick="closeDP()">✕</button>
+    </div>
+    <div class="dp-b" id="dpBody"></div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+import { getFirestore, collection, getDocs, doc, setDoc, addDoc, updateDoc, serverTimestamp, query, where, orderBy } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+import { getStorage, ref, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
+
+const FB={apiKey:"AIzaSyCaGli9_WpxScvnkMB98d38eQn7kBBewTk",authDomain:"neurosell-9e75f.firebaseapp.com",projectId:"neurosell-9e75f",storageBucket:"neurosell-9e75f.firebasestorage.app",messagingSenderId:"61172265643",appId:"1:61172265643:web:f19815c465d14cd9b9bdee"};
+const app=initializeApp(FB);
+const db=getFirestore(app);
+const auth=getAuth(app);
+const storage=getStorage(app);
+
+let all=[],filtered=[],currentUser=null,myCodes=[];
+
+const getTier=s=>s>=75?'Priority':s>=60?'Standard':s>=45?'Review':'Pass';
+const tcls=t=>({Priority:'b-or',Standard:'b-gr',Review:'b-ye',Pass:'b-gy'}[t]||'b-gy');
+const scls=s=>s>=75?'s-h':s>=50?'s-m':'s-l';
+const fsev=f=>{if(!f?.length)return'none';return f.map(x=>x.type||x).some(t=>['consistency_delta','tab_switch'].includes(t))?'major':'minor';};
+
+onAuthStateChanged(auth,user=>{
+  if(user){
+    currentUser=user;
+    document.getElementById('loginWrap').style.display='none';
+    document.getElementById('dashWrap').style.display='block';
+    document.getElementById('slUser').textContent=user.email.split('@')[0];
+    loadCandidates();loadCodes();
+  }else{
+    document.getElementById('loginWrap').style.display='flex';
+    document.getElementById('dashWrap').style.display='none';
+    currentUser=null;
+  }
+});
+
+window.doLogin=async function(){
+  const email=document.getElementById('loginEmail').value.trim();
+  const pass=document.getElementById('loginPass').value;
+  const err=document.getElementById('loginErr');
+  if(!email||!pass){err.textContent='Enter email and password.';err.classList.add('show');return;}
+  try{await signInWithEmailAndPassword(auth,email,pass);err.classList.remove('show');}
+  catch(e){
+    const m={'auth/invalid-credential':'Invalid email or password.','auth/user-not-found':'No account found.','auth/wrong-password':'Incorrect password.'};
+    err.textContent=m[e.code]||`Error: ${e.code}`;err.classList.add('show');
+  }
+};
+document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')window.doLogin();});
+window.doLogout=()=>signOut(auth);
+
+window.showPage=function(id,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  document.getElementById(id).classList.add('active');el.classList.add('active');
+  const titles={pgCand:'MY CANDIDATES',pgCodes:'ACCESS CODES',pgPipeline:'PIPELINE',pgReports:'REPORTS'};
+  document.getElementById('tbTitle').textContent=titles[id]||id;
+  if(id==='pgPipeline')renderPipeline();
+  if(id==='pgReports')renderReports();
+};
+
+// ── CANDIDATES ──
+window.loadCandidates=async function(){
+  document.getElementById('candTbl').innerHTML='<div class="lw"><div class="lr"></div> Loading…</div>';
+  try{
+    // Load my access codes first to know which candidates are mine
+    const codeSnap=await getDocs(query(collection(db,'kairos_access_codes'),where('created_by','==',currentUser.uid)));
+    myCodes=[];codeSnap.forEach(d=>myCodes.push(d.id));
+
+    // Also get all codes if created_by field may not exist (legacy codes)
+    const allCodeSnap=await getDocs(collection(db,'kairos_access_codes'));
+    const myCodeSet=new Set(myCodes);
+    // If no codes with created_by, fall back to all candidates
+    const useAll=myCodes.length===0;
+
+    const snap=await getDocs(query(collection(db,'neurosell_assessments'),orderBy('submission_time','desc')));
+    all=[];
+    snap.forEach(d=>{
+      const data=d.data();
+      if(data.platform==='KAIROS v2'||data.overall_score!=null){
+        if(useAll||myCodeSet.has(data.access_code))all.push({id:d.id,...data});
+      }
+    });
+    filtered=[...all];
+
+    // Build employer filter
+    const employers=[...new Set(all.map(c=>c.assigned_employer).filter(Boolean))];
+    const ef=document.getElementById('employerFilter');
+    ef.innerHTML='<option value="">All Employers</option>'+employers.map(e=>`<option>${e}</option>`).join('');
+
+    renderStats();renderTable(filtered);
+    document.getElementById('tbMeta').textContent=`${all.length} candidate${all.length!==1?'s':''}`;
+  }catch(e){document.getElementById('candTbl').innerHTML=`<div class="lw" style="color:var(--red)">${e.message}</div>`;}
+};
+
+function renderStats(){
+  document.getElementById('stTotal').textContent=all.length;
+  document.getElementById('stPriority').textContent=all.filter(c=>getTier(c.overall_score||0)==='Priority').length;
+  document.getElementById('stHire').textContent=all.filter(c=>c.hire_interest).length;
+  document.getElementById('stFlagged').textContent=all.filter(c=>c.security_flags?.length).length;
+}
+
+function renderTable(cands){
+  if(!cands.length){document.getElementById('candTbl').innerHTML='<div class="es"><div class="es-i">📋</div><div class="es-t">No candidates found</div></div>';return;}
+  const rows=cands.map(c=>{
+    const tier=getTier(c.overall_score||0);
+    const sv=fsev(c.security_flags);
+    const dt=c.submission_time?new Date(c.submission_time).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—';
+    return `<tr onclick="openDP('${c.id}')" style="cursor:pointer;">
+      <td><div style="font-weight:600;color:var(--text);font-size:0.88rem;">${c.full_name||'Unknown'}</div><div style="font-size:0.76rem;color:var(--muted);">${c.preferred_position||'—'}</div></td>
+      <td style="font-size:0.84rem;">${c.assigned_employer||'—'}</td>
+      <td><span class="badge ${tcls(tier)}">${tier}</span>${c.hire_interest?'<span class="hire-badge" style="margin-left:0.4rem;">⭐ Hire</span>':''}</td>
+      <td><span class="sb ${scls(c.overall_score||0)}">${c.overall_score||'—'}</span></td>
+      <td><div class="fw"><span class="fd3 ${sv==='none'?'fn':sv==='major'?'fmj':'fmn'}"></span><span>${sv==='none'?'Clean':sv==='major'?'Review Required':'Minor'}</span></div></td>
+      <td style="font-size:0.8rem;color:var(--muted);">${dt}</td>
+      <td><button class="btn btn-g btn-sm" onclick="event.stopPropagation();openDP('${c.id}')">View →</button></td>
+    </tr>`;
+  }).join('');
+  document.getElementById('candTbl').innerHTML=`<table><thead><tr><th>Candidate</th><th>Employer</th><th>Tier / Status</th><th>Score</th><th>Flags</th><th>Date</th><th></th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+window.filterC=q=>{const t=q.toLowerCase();filtered=all.filter(c=>(c.full_name||'').toLowerCase().includes(t)||(c.preferred_position||'').toLowerCase().includes(t)||(c.assigned_employer||'').toLowerCase().includes(t));renderTable(filtered);};
+window.filterT=tier=>{filtered=tier?all.filter(c=>getTier(c.overall_score||0)===tier):[...all];renderTable(filtered);};
+window.filterE=emp=>{filtered=emp?all.filter(c=>c.assigned_employer===emp):[...all];renderTable(filtered);};
+
+// ── DETAIL PANEL ──
+window.openDP=async function(id){
+  document.getElementById('dOverlay').classList.add('open');
+  document.getElementById('dpBody').innerHTML='<div class="lw"><div class="lr"></div></div>';
+  const c=all.find(x=>x.id===id);if(!c)return;
+  document.getElementById('dpName').textContent=c.full_name||'Unknown';
+  document.getElementById('dpSub').textContent=`${c.preferred_position||'—'} · ${c.assigned_employer||'—'} · ${getTier(c.overall_score||0)} Tier`;
+
+  const cons=[
+    {l:'Ownership',k:'ownership_score'},{l:'Initiative',k:'initiative_score'},
+    {l:'Follow-Through',k:'follow_through_score'},{l:'Interest',k:'interest_score'},
+    {l:'Presence',k:'presence_score'},{l:'Fear Awareness',k:'fear_score'},
+    {l:'Professionalism',k:'professionalism_score'},{l:'Communication',k:'communication_score'},
+    {l:'Critical Thinking',k:'critical_thinking_score'},{l:'Curiosity',k:'curiosity_score'},
+  ];
+  const bars=cons.map(({l,k})=>{const s=c[k]||0;const col=s>=75?'var(--green)':s>=50?'var(--yellow)':'var(--red)';return`<div class="cb-r"><div class="cb-l">${l}</div><div class="cb-tr"><div class="cb-f" style="width:${s}%;background:${col};"></div></div><div class="cb-sc">${s}</div></div>`;}).join('');
+
+  let ph='<div style="width:200px;height:150px;background:var(--bg);border:1px solid var(--border);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">No Photo</div>';
+  if(c.webcam_photo_path){try{const url=await getDownloadURL(ref(storage,c.webcam_photo_path));ph=`<img src="${url}" style="width:200px;border-radius:4px;border:1px solid var(--border);">`;}catch(e){}}
+
+  const flags=c.security_flags||[];
+  const fh=flags.length?flags.map(f=>`<div style="display:flex;align-items:center;gap:0.625rem;padding:0.55rem 0.875rem;background:var(--bg);border-radius:3px;border:1px solid var(--border);margin-bottom:0.4rem;${['consistency_delta','tab_switch'].includes(f.type)?'border-color:rgba(209,48,48,0.25);background:rgba(209,48,48,0.03);':''}"><span style="font-family:var(--fm);font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--red);">${(f.type||'').replace(/_/g,' ')}</span><span style="font-size:0.8rem;color:var(--muted);">${f.detail||''}</span></div>`).join(''):'<div style="font-family:var(--fm);font-size:0.62rem;letter-spacing:0.1em;color:var(--green);text-transform:uppercase;">✓ No flags detected</div>';
+
+  const info=[
+    {l:'Email',v:c.email||'—'},{l:'Phone',v:c.phone||'—'},
+    {l:'Location',v:`${c.city||'—'}, ${c.state||'—'}`},{l:'Education',v:c.education||'—'},
+    {l:'Currently Employed',v:c.currently_employed||'—'},{l:'Salary Expectation',v:c.salary_expectation||'—'},
+    {l:'Access Code',v:c.access_code||'—'},{l:'Duration',v:c.assessment_duration_seconds?`${Math.round(c.assessment_duration_seconds/60)} min`:'—'},
+  ].map(i=>`<div><div class="il">${i.l}</div><div class="iv">${i.v}</div></div>`).join('');
+
+  const sc=c.overall_score||0;const scol=sc>=75?'var(--green)':sc>=50?'var(--yellow)':'var(--red)';
+  const isHire=c.hire_interest||false;
+
+  document.getElementById('dpBody').innerHTML=`
+    <div class="ds">
+      <div class="ds-t">Overall Score</div>
+      <div style="display:flex;align-items:center;gap:1.5rem;">
+        <div style="font-family:var(--fd);font-size:3.8rem;color:${scol};letter-spacing:0.05em;line-height:1;">${sc||'—'}</div>
+        <div>
+          <span class="badge ${tcls(getTier(sc))}" style="font-size:0.7rem;padding:0.3rem 0.875rem;">${getTier(sc)} Tier</span>
+          ${isHire?'<div class="hire-badge" style="margin-top:0.5rem;display:inline-flex;">⭐ Hire Interest Flagged</div>':''}
+          <div style="font-size:0.8rem;color:var(--muted);margin-top:0.5rem;">Tab switches: ${c.tab_switch_count||0}</div>
+        </div>
+      </div>
+    </div>
+    <div class="ds">
+      <div class="ds-t">Identity & Contact</div>
+      <div style="display:flex;gap:1.25rem;align-items:flex-start;">${ph}<div class="ig" style="flex:1;">${info}</div></div>
+    </div>
+    <div class="ds"><div class="ds-t">Six Unmeasurables + Constructs</div>${bars}</div>
+    <div class="ds"><div class="ds-t">Security Flags</div>${fh}</div>
+    <div class="ds">
+      <div class="ds-t">Recruiter Briefing</div>
+      <div class="ab"><div class="al">KAIROS Agentic Layer</div><div class="at">${c.agentic_briefing||'Generating — check back shortly.'}</div></div>
+    </div>
+    <div class="ds">
+      <div class="ds-t">Interview Guide</div>
+      <div class="ab"><div class="al">Targeted Questions</div><div class="at">${c.agentic_interview_guide||'Generating — check back shortly.'}</div></div>
+    </div>
+    ${c.agentic_cap?`<div class="ds"><div class="ds-t">Capacity Acceleration Plan</div><div class="ab"><div class="al">CAP · Priority Tier</div><div class="at">${c.agentic_cap}</div></div></div>`:''}
+    <div class="ds">
+      <div class="ds-t">Recruiter Notes</div>
+      <div class="ab">
+        <div class="al">My Notes</div>
+        <textarea class="note-input" id="noteInput" placeholder="Add notes about this candidate…">${c.recruiter_notes||''}</textarea>
+        <div style="display:flex;gap:0.5rem;margin-top:0.75rem;align-items:center;">
+          <button class="btn btn-p btn-sm" onclick="saveNote('${c.id}')">Save Note</button>
+          <button class="btn ${isHire?'btn-g':'btn-p'} btn-sm" onclick="toggleHire('${c.id}',${isHire})">${isHire?'Remove Hire Flag':'⭐ Flag for Hire Interest'}</button>
+          <a href="kairos-results.html?id=${c.id}" target="_blank" class="btn btn-g btn-sm">Results Page →</a>
+        </div>
+        <div id="noteSaved" style="font-family:var(--fm);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--green);margin-top:0.5rem;display:none;">✓ Saved</div>
+      </div>
+    </div>`;
+};
+
+window.saveNote=async function(id){
+  const note=document.getElementById('noteInput').value;
+  await updateDoc(doc(db,'neurosell_assessments',id),{recruiter_notes:note,recruiter_id:currentUser.uid,notes_updated_at:serverTimestamp()});
+  const s=document.getElementById('noteSaved');s.style.display='block';setTimeout(()=>s.style.display='none',2500);
+  const c=all.find(x=>x.id===id);if(c)c.recruiter_notes=note;
+};
+
+window.toggleHire=async function(id,current){
+  const newVal=!current;
+  await updateDoc(doc(db,'neurosell_assessments',id),{hire_interest:newVal,hire_interest_by:currentUser.uid,hire_interest_at:serverTimestamp()});
+  const c=all.find(x=>x.id===id);if(c)c.hire_interest=newVal;
+  openDP(id);renderStats();
+};
+
+window.closeDP=()=>document.getElementById('dOverlay').classList.remove('open');
+window.closeDO=e=>{if(e.target===document.getElementById('dOverlay'))window.closeDP();};
+
+// ── ACCESS CODES ──
+window.loadCodes=async function(){
+  try{
+    const snap=await getDocs(collection(db,'kairos_access_codes'));
+    const codes=[];
+    snap.forEach(d=>{
+      const data=d.data();
+      if(!data.created_by||data.created_by===currentUser.uid)codes.push({id:d.id,...data});
+    });
+    if(!codes.length){document.getElementById('codeTbl').innerHTML='<div class="es"><div class="es-i">🔑</div><div class="es-t">No codes yet</div></div>';return;}
+    const scmap={active:'b-gr',used:'b-gy',expired:'b-rd'};
+    const rows=codes.map(c=>`<tr>
+      <td style="font-family:var(--fm);letter-spacing:0.15em;font-weight:600;">${c.id}</td>
+      <td>${c.assigned_employer||'—'}</td><td>${c.assigned_role||'—'}</td>
+      <td style="font-family:var(--fm);font-size:0.7rem;">${c.discipline||'—'}</td>
+      <td><span class="badge ${scmap[c.status]||'b-gy'}">${c.status||'active'}</span></td>
+      <td style="font-size:0.8rem;color:var(--muted);">${c.used_by||'—'}</td>
+      <td style="font-size:0.8rem;color:var(--muted);">${c.expires_at||'—'}</td>
+    </tr>`).join('');
+    document.getElementById('codeTbl').innerHTML=`<table><thead><tr><th>Code</th><th>Employer</th><th>Role</th><th>Discipline</th><th>Status</th><th>Used By</th><th>Expires</th></tr></thead><tbody>${rows}</tbody></table>`;
+  }catch(e){document.getElementById('codeTbl').innerHTML=`<div class="lw" style="color:var(--red)">${e.message}</div>`;}
+};
+
+window.generateCode=async function(){
+  const employer=document.getElementById('cgEmployer').value.trim();
+  const role=document.getElementById('cgRole').value.trim();
+  const disc=document.getElementById('cgDisc').value;
+  if(!employer||!role){alert('Enter employer and role.');return;}
+  const ch='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const mk=()=>Array.from({length:4},()=>ch[Math.floor(Math.random()*ch.length)]).join('');
+  const code=mk()+mk();
+  const exp=new Date();exp.setDate(exp.getDate()+7);
+  try{
+    await setDoc(doc(db,'kairos_access_codes',code),{
+      assigned_employer:employer,assigned_role:role,discipline:disc,
+      status:'active',expires_at:exp.toISOString().split('T')[0],
+      created_at:serverTimestamp(),created_by:currentUser.uid,
+    });
+    document.getElementById('gcv').textContent=code;
+    document.getElementById('gcm2').textContent=`${employer} · ${role} · Expires ${exp.toLocaleDateString()}`;
+    document.getElementById('gcd').classList.add('show');
+    loadCodes();
+  }catch(e){alert(`Error: ${e.message}`);}
+};
+
+window.copyCode=function(){
+  navigator.clipboard.writeText(document.getElementById('gcv').textContent).then(()=>{
+    const b=document.querySelector('[onclick="copyCode()"]');b.textContent='Copied ✓';setTimeout(()=>b.textContent='Copy',2000);
+  });
+};
+
+// ── PIPELINE ──
+function renderPipeline(){
+  const stages=['Review','Standard','Priority','Hire Interest'];
+  const cols=stages.map(stage=>{
+    let cands;
+    if(stage==='Hire Interest')cands=all.filter(c=>c.hire_interest);
+    else cands=all.filter(c=>getTier(c.overall_score||0)===stage&&!c.hire_interest);
+    const cards=cands.map(c=>`
+      <div onclick="openDP('${c.id}')" style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:0.875rem;margin-bottom:0.625rem;cursor:pointer;transition:box-shadow 0.1s;" onmouseover="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='none'">
+        <div style="font-weight:600;font-size:0.875rem;color:var(--text);margin-bottom:0.2rem;">${c.full_name||'Unknown'}</div>
+        <div style="font-size:0.76rem;color:var(--muted);margin-bottom:0.5rem;">${c.assigned_employer||'—'}</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span class="sb ${scls(c.overall_score||0)}" style="font-size:0.7rem;height:22px;">${c.overall_score||'—'}</span>
+          ${c.hire_interest?'<span style="font-size:0.7rem;color:var(--orange);">⭐</span>':''}
+        </div>
+      </div>`).join('');
+    const col=stage==='Hire Interest'?'var(--orange)':stage==='Priority'?'var(--green)':stage==='Standard'?'var(--yellow)':'var(--muted)';
+    return `<div>
+      <div style="font-family:var(--fm);font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:${col};margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid ${col};">${stage} <span style="color:var(--muted);font-size:0.56rem;">(${cands.length})</span></div>
+      ${cards||'<div style="font-family:var(--fm);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);padding:1rem 0;">Empty</div>'}
+    </div>`;
+  }).join('');
+  document.getElementById('pipelineBoard').innerHTML=cols;
+}
+
+// ── REPORTS ──
+function renderReports(){
+  const total=all.length;
+  const priority=all.filter(c=>getTier(c.overall_score||0)==='Priority').length;
+  const hire=all.filter(c=>c.hire_interest).length;
+  const avgScore=total?Math.round(all.reduce((s,c)=>s+(c.overall_score||0),0)/total):0;
+  const flagged=all.filter(c=>c.security_flags?.length).length;
+  const noted=all.filter(c=>c.recruiter_notes).length;
+  document.getElementById('reportsTbl').innerHTML=`
+    <table><thead><tr><th>Metric</th><th>Value</th><th>Notes</th></tr></thead><tbody>
+    <tr><td style="font-weight:600;color:var(--text);">Total Candidates</td><td><span class="sb" style="background:var(--bg);">${total}</span></td><td style="font-size:0.8rem;color:var(--muted);">All assessed through my codes</td></tr>
+    <tr><td style="font-weight:600;color:var(--text);">Priority Tier</td><td><span class="sb s-h">${priority}</span></td><td style="font-size:0.8rem;color:var(--muted);">Score ≥ 75 — top behavioral performers</td></tr>
+    <tr><td style="font-weight:600;color:var(--text);">Flagged for Hire Interest</td><td><span class="sb s-h">${hire}</span></td><td style="font-size:0.8rem;color:var(--muted);">Manually flagged by me for hire</td></tr>
+    <tr><td style="font-weight:600;color:var(--text);">Average KAIROS Score</td><td><span class="sb ${scls(avgScore)}">${avgScore}</span></td><td style="font-size:0.8rem;color:var(--muted);">Across all my candidates</td></tr>
+    <tr><td style="font-weight:600;color:var(--text);">Security Flags</td><td><span class="sb s-l">${flagged}</span></td><td style="font-size:0.8rem;color:var(--muted);">Candidates with integrity concerns</td></tr>
+    <tr><td style="font-weight:600;color:var(--text);">Notes Added</td><td><span class="sb" style="background:var(--bg);">${noted}</span></td><td style="font-size:0.8rem;color:var(--muted);">Candidates with my recruiter notes</td></tr>
+    </tbody></table>`;
+}
+</script>
+</body>
+</html>
