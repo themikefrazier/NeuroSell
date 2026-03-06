@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KAIROS · Employer Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --orange:#FF4500;--od:#CC3600;--og:rgba(255,69,0,0.1);
+  --bg:#F4F4F4;--surface:#FFFFFF;--border:#E2E2E2;--b2:#CCCCCC;
+  --text:#0A0A0A;--mid:#444;--muted:#888;
+  --green:#00A86B;--yellow:#D98F00;--red:#D13030;
+  --fd:'Bebas Neue',sans-serif;--fb:'DM Sans',sans-serif;--fm:'DM Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:var(--fb);background:var(--bg);color:var(--text);min-height:100vh;}
+.screen{display:none;min-height:100vh;}.screen.active{display:block;}
+.k-header{background:var(--surface);border-bottom:1px solid var(--border);height:56px;padding:0 5vw;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.k-header-meta{font-family:var(--fm);font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);}
+.k-content{max-width:680px;margin:0 auto;padding:3rem 5vw;}
+.k-eyebrow{font-family:var(--fm);font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--orange);margin-bottom:0.5rem;display:flex;align-items:center;gap:0.5rem;}
+.k-eyebrow::before{content:'';width:20px;height:1px;background:var(--orange);}
+.k-h1{font-family:var(--fd);font-size:clamp(2.2rem,5vw,3.8rem);letter-spacing:0.05em;color:var(--text);line-height:0.95;margin-bottom:1rem;}
+.k-h1 span{color:var(--orange);}
+.k-h2{font-family:var(--fd);font-size:clamp(1.6rem,3.5vw,2.4rem);letter-spacing:0.06em;color:var(--text);line-height:1;margin-bottom:1rem;}
+.k-body{font-size:0.95rem;line-height:1.8;color:var(--mid);margin-bottom:1.5rem;}
+.k-field{margin-bottom:1.25rem;}
+.k-label{font-family:var(--fm);font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;display:block;}
+.k-label .req{color:var(--orange);}
+.k-input{width:100%;background:var(--surface);border:1px solid var(--b2);border-radius:3px;padding:0.75rem 1rem;font-family:var(--fb);font-size:0.95rem;color:var(--text);outline:none;transition:border-color 0.15s;}
+.k-input:focus{border-color:var(--orange);box-shadow:0 0 0 3px var(--og);}
+.k-input::placeholder{color:var(--muted);}
+.k-textarea{min-height:120px;resize:vertical;}
+.k-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;}
+.k-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.k-divider{height:1px;background:var(--border);margin:2rem 0;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:0.4rem;padding:0.75rem 1.75rem;border-radius:3px;border:none;cursor:pointer;font-family:var(--fb);font-size:0.9rem;font-weight:600;transition:all 0.12s;text-decoration:none;}
+.btn-p{background:var(--orange);color:#fff;}.btn-p:hover{background:var(--od);}
+.btn-p:disabled{opacity:0.4;cursor:not-allowed;}
+.btn-g{background:transparent;color:var(--mid);border:1px solid var(--b2);}.btn-g:hover{color:var(--text);border-color:#999;}
+.btn-full{width:100%;}
+.btn-sm{padding:0.32rem 0.7rem;font-size:0.78rem;}
+.pitch-card{background:linear-gradient(135deg,#FFF8F5 0%,#FFFFFF 100%);border:1px solid rgba(255,69,0,0.2);border-radius:5px;padding:1.5rem;margin-bottom:1.5rem;}
+.pitch-title{font-family:var(--fd);font-size:1.4rem;letter-spacing:0.08em;color:var(--text);margin-bottom:0.5rem;}
+.pitch-body{font-size:0.88rem;line-height:1.75;color:var(--mid);}
+.pitch-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1rem 0;}
+.pstat-num{font-family:var(--fd);font-size:1.8rem;color:var(--orange);letter-spacing:0.05em;line-height:1;}
+.pstat-label{font-family:var(--fm);font-size:0.56rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-top:0.2rem;}
+.k-check-row{display:flex;align-items:flex-start;gap:0.75rem;cursor:pointer;margin-bottom:1rem;}
+.k-check{width:18px;height:18px;border:1px solid var(--b2);border-radius:2px;background:var(--surface);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.12s;margin-top:2px;}
+.k-check.on{background:var(--orange);border-color:var(--orange);}
+.k-check.on::after{content:'✓';color:#fff;font-size:11px;font-weight:700;}
+.k-check-label{font-size:0.88rem;line-height:1.65;color:var(--mid);}
+.dash-wrap{display:flex;min-height:100vh;}
+.dash-sidebar{width:210px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;bottom:0;z-index:100;}
+.ds-logo{padding:1.25rem 1.5rem 1rem;border-bottom:1px solid var(--border);}
+.ds-nav{flex:1;padding:0.75rem 0;overflow-y:auto;}
+.ds-sec{font-family:var(--fm);font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);padding:0.875rem 1.5rem 0.3rem;}
+.ni{display:flex;align-items:center;gap:0.625rem;padding:0.65rem 1.5rem;cursor:pointer;font-size:0.875rem;font-weight:500;color:var(--muted);border-left:2px solid transparent;transition:all 0.1s;}
+.ni:hover{background:var(--bg);color:var(--text);}
+.ni.active{background:var(--og);color:var(--orange);border-left-color:var(--orange);}
+.ds-foot{padding:1rem 1.5rem;border-top:1px solid var(--border);}
+.ds-user strong{display:block;font-size:0.85rem;color:var(--text);}
+.ds-user{font-size:0.78rem;color:var(--muted);}
+.dash-main{margin-left:210px;flex:1;}
+.dash-topbar{background:var(--surface);border-bottom:1px solid var(--border);height:54px;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
+.dt-title{font-family:var(--fd);font-size:1.15rem;letter-spacing:0.08em;}
+.dt-right{display:flex;align-items:center;gap:0.75rem;}
+.dash-page{padding:2rem;display:none;}.dash-page.active{display:block;}
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.75rem;}
+.sc{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:1.25rem 1.5rem;}
+.sc-l{font-family:var(--fm);font-size:0.56rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;}
+.sc-n{font-family:var(--fd);font-size:2.1rem;letter-spacing:0.04em;color:var(--text);line-height:1;}
+.sc.or .sc-n{color:var(--orange);}.sc.gr .sc-n{color:var(--green);}
+.tw{background:var(--surface);border:1px solid var(--border);border-radius:5px;overflow:hidden;margin-bottom:1.5rem;}
+.tw-h{padding:1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;}
+.tw-t{font-family:var(--fd);font-size:1rem;letter-spacing:0.08em;color:var(--text);}
+table{width:100%;border-collapse:collapse;}
+thead tr{background:var(--bg);}
+th{font-family:var(--fm);font-size:0.56rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);padding:0.7rem 1rem;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;}
+td{padding:0.825rem 1rem;border-bottom:1px solid var(--border);font-size:0.875rem;color:var(--mid);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,69,0,0.018);}
+.badge{display:inline-flex;padding:0.18rem 0.55rem;border-radius:2px;font-family:var(--fm);font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;}
+.b-orange{background:rgba(255,69,0,0.1);color:var(--orange);border:1px solid rgba(255,69,0,0.2);}
+.b-green{background:rgba(0,168,107,0.08);color:var(--green);border:1px solid rgba(0,168,107,0.2);}
+.b-yellow{background:rgba(217,143,0,0.08);color:var(--yellow);border:1px solid rgba(217,143,0,0.2);}
+.b-grey{background:rgba(150,150,150,0.08);color:var(--muted);border:1px solid var(--border);}
+.sb{display:inline-flex;align-items:center;justify-content:center;min-width:42px;height:26px;border-radius:3px;font-family:var(--fm);font-size:0.78rem;padding:0 0.4rem;}
+.s-h{background:rgba(0,168,107,0.1);color:var(--green);}
+.s-m{background:rgba(217,143,0,0.1);color:var(--yellow);}
+.s-l{background:rgba(209,48,48,0.1);color:var(--red);}
+.match-card{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:1.25rem 1.5rem;margin-bottom:0.875rem;display:flex;align-items:center;gap:1.5rem;}
+.match-id{font-family:var(--fd);font-size:1.4rem;letter-spacing:0.08em;color:var(--text);flex-shrink:0;width:120px;}
+.match-bars{flex:1;}
+.match-bar-row{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.4rem;}
+.match-bar-label{font-family:var(--fm);font-size:0.56rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);width:100px;flex-shrink:0;}
+.match-bar-track{flex:1;height:4px;background:var(--bg);border-radius:2px;overflow:hidden;}
+.match-bar-fill{height:100%;border-radius:2px;}
+.match-bar-val{font-family:var(--fm);font-size:0.68rem;color:var(--mid);width:28px;text-align:right;}
+.match-score{text-align:center;flex-shrink:0;}
+.match-score-num{font-family:var(--fd);font-size:2.2rem;letter-spacing:0.05em;line-height:1;}
+.match-score-label{font-family:var(--fm);font-size:0.54rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+.paywall-banner{background:linear-gradient(135deg,#FFF8F5,#FFFFFF);border:1px solid rgba(255,69,0,0.25);border-radius:5px;padding:1.75rem;text-align:center;margin-bottom:1.5rem;}
+.pw-title{font-family:var(--fd);font-size:1.6rem;letter-spacing:0.06em;color:var(--text);margin-bottom:0.5rem;}
+.pw-body{font-size:0.9rem;color:var(--mid);line-height:1.75;margin-bottom:1.25rem;max-width:480px;margin-left:auto;margin-right:auto;}
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem;}
+.plan-card{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:1.5rem;text-align:center;transition:all 0.15s;}
+.plan-card.featured{border-color:var(--orange);border-width:2px;}
+.plan-name{font-family:var(--fd);font-size:1.2rem;letter-spacing:0.08em;color:var(--text);margin-bottom:0.25rem;}
+.plan-price{font-family:var(--fd);font-size:2rem;color:var(--orange);letter-spacing:0.05em;line-height:1;margin-bottom:0.25rem;}
+.plan-per{font-family:var(--fm);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;}
+.plan-features{list-style:none;text-align:left;margin-bottom:1.25rem;}
+.plan-features li{font-size:0.84rem;color:var(--mid);padding:0.3rem 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.5rem;}
+.plan-features li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;}
+.pending-wrap{min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:1rem;}
+.pending-icon{font-size:3rem;}
+.pending-title{font-family:var(--fd);font-size:2rem;letter-spacing:0.06em;color:var(--text);}
+.pending-body{font-size:0.9rem;color:var(--mid);line-height:1.75;max-width:420px;}
+.lr{width:22px;height:22px;border:2px solid var(--border);border-top-color:var(--orange);border-radius:50%;animation:spin .7s linear infinite;display:inline-block;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.lw{display:flex;align-items:center;justify-content:center;padding:3rem;gap:0.75rem;color:var(--muted);font-family:var(--fm);font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;}
+.es{padding:3rem;text-align:center;color:var(--muted);}
+.es-i{font-size:2rem;margin-bottom:0.75rem;opacity:0.35;}
+.es-t{font-family:var(--fm);font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;}
+@media(max-width:900px){.dash-sidebar{display:none;}.dash-main{margin-left:0;}.sg{grid-template-columns:1fr 1fr;}.plan-grid{grid-template-columns:1fr;}.k-row{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- REGISTRATION -->
+<div class="screen active" id="scrReg">
+  <div class="k-header">
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.12em;color:#0A0A0A;">KAI<span style="color:#FF4500;">ROS</span></span>
+    <div class="k-header-meta">Employer Portal</div>
+  </div>
+  <div class="k-content">
+    <div class="k-eyebrow">Get Started</div>
+    <div class="k-h1">Find Your<br><span>Next Great</span><br>Hire.</div>
+    <div class="k-body">KAIROS uses behavioral intelligence — not resumes — to surface candidates who actually perform. Create your employer account and post your first position to see your matches.</div>
+    <div class="pitch-card">
+      <div class="pitch-title">Why KAIROS Works</div>
+      <div class="pitch-stats">
+        <div><div class="pstat-num">6</div><div class="pstat-label">Unmeasurables assessed</div></div>
+        <div><div class="pstat-num">45+</div><div class="pstat-label">Minutes of behavioral data</div></div>
+        <div><div class="pstat-num">12</div><div class="pstat-label">Scored constructs per candidate</div></div>
+      </div>
+      <div class="pitch-body">Traditional hiring measures credentials and interview performance. KAIROS measures ownership, initiative, follow-through, presence, interest, and fear — the six things that determine whether someone will actually do the job.</div>
+      <div class="k-check-row" onclick="toggleMoreInfo()" style="margin-top:1rem;margin-bottom:0;">
+        <div class="k-check" id="moreInfoBox"></div>
+        <div class="k-check-label">Yes — send me more information about KAIROS efficacy and research.</div>
+      </div>
+    </div>
+    <div class="k-divider"></div>
+    <div class="k-h2">Create Your Account</div>
+    <div class="k-row">
+      <div class="k-field"><label class="k-label">First Name <span class="req">*</span></label><input type="text" class="k-input" id="regFN" placeholder="First name"></div>
+      <div class="k-field"><label class="k-label">Last Name <span class="req">*</span></label><input type="text" class="k-input" id="regLN" placeholder="Last name"></div>
+    </div>
+    <div class="k-field"><label class="k-label">Work Email <span class="req">*</span></label><input type="email" class="k-input" id="regEmail" placeholder="you@company.com"></div>
+    <div class="k-field"><label class="k-label">Password <span class="req">*</span></label><input type="password" class="k-input" id="regPass" placeholder="Min. 8 characters"></div>
+    <div class="k-field"><label class="k-label">Company Name <span class="req">*</span></label><input type="text" class="k-input" id="regCompany" placeholder="Your company name"></div>
+    <div class="k-row">
+      <div class="k-field"><label class="k-label">Industry <span class="req">*</span></label>
+        <select class="k-input k-select" id="regIndustry">
+          <option value="">Select industry</option>
+          <option>Manufacturing</option><option>Healthcare</option><option>Technology</option>
+          <option>Financial Services</option><option>Logistics & Distribution</option>
+          <option>Retail & Consumer</option><option>Construction & Trades</option>
+          <option>Professional Services</option><option>Education</option><option>Other</option>
+        </select>
+      </div>
+      <div class="k-field"><label class="k-label">Company Size <span class="req">*</span></label>
+        <select class="k-input k-select" id="regSize">
+          <option value="">Select size</option>
+          <option>1–10</option><option>11–50</option><option>51–200</option><option>201–500</option><option>500+</option>
+        </select>
+      </div>
+    </div>
+    <div class="k-divider"></div>
+    <div class="k-h2" style="font-size:1.6rem;">Your First Open Position</div>
+    <div class="k-body" style="font-size:0.88rem;">Tell us about the role you are hiring for. This powers the KAIROS match engine.</div>
+    <div class="k-field"><label class="k-label">Job Title <span class="req">*</span></label><input type="text" class="k-input" id="jobTitle" placeholder="e.g. Outside Sales Representative"></div>
+    <div class="k-row">
+      <div class="k-field"><label class="k-label">Discipline <span class="req">*</span></label>
+        <select class="k-input k-select" id="jobDisc">
+          <option value="">Select discipline</option>
+          <option value="sales">Sales & Business Development</option>
+          <option value="light_industrial">Light Industrial / Entry-Level</option>
+          <option value="healthcare">Healthcare & Clinical</option>
+          <option value="administrative">Administrative & Corporate</option>
+          <option value="leadership">Supervisory & Leadership</option>
+          <option value="trades">Skilled Trades & Technical</option>
+          <option value="stem">Professional & Technical / STEM</option>
+          <option value="manufacturing">Industrial & Manufacturing</option>
+        </select>
+      </div>
+      <div class="k-field"><label class="k-label">Location <span class="req">*</span></label><input type="text" class="k-input" id="jobLocation" placeholder="City, State or Remote"></div>
+    </div>
+    <div class="k-row">
+      <div class="k-field"><label class="k-label">Salary Range</label><input type="text" class="k-input" id="jobSalary" placeholder="e.g. $50,000 – $70,000"></div>
+      <div class="k-field"><label class="k-label">Employment Type</label>
+        <select class="k-input k-select" id="jobType">
+          <option value="">Select type</option>
+          <option>Full-Time</option><option>Part-Time</option><option>Contract</option><option>Temp-to-Hire</option>
+        </select>
+      </div>
+    </div>
+    <div class="k-field"><label class="k-label">Job Description <span class="req">*</span></label><textarea class="k-input k-textarea" id="jobDesc" placeholder="Describe the role, responsibilities, and what success looks like."></textarea></div>
+    <div class="k-field"><label class="k-label">Key Requirements</label><textarea class="k-input k-textarea" style="min-height:80px;" id="jobReqs" placeholder="Required experience, skills, certifications."></textarea></div>
+    <div style="background:rgba(255,69,0,0.04);border:1px solid rgba(255,69,0,0.15);border-radius:4px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:0.85rem;color:var(--mid);line-height:1.7;">
+      <strong style="color:var(--text);">Review Process:</strong> Your account and position will be reviewed by a KAIROS administrator before activation. You will receive an email confirmation within one business day.
+    </div>
+    <div id="regError" style="color:var(--red);font-size:0.85rem;margin-bottom:1rem;display:none;padding:0.6rem 0.875rem;background:rgba(209,48,48,0.06);border-radius:3px;"></div>
+    <button class="btn btn-p btn-full" id="regBtn" onclick="submitRegistration()">Submit for Review →</button>
+    <div style="text-align:center;margin-top:1.5rem;font-size:0.85rem;color:var(--muted);">Already have an account? <a href="#" onclick="showLogin()" style="color:var(--orange);">Sign in</a></div>
+  </div>
+</div>
+
+<!-- LOGIN -->
+<div class="screen" id="scrLogin">
+  <div class="k-header">
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.12em;color:#0A0A0A;">KAI<span style="color:#FF4500;">ROS</span></span>
+    <div class="k-header-meta">Employer Portal</div>
+  </div>
+  <div class="k-content" style="max-width:420px;padding-top:6rem;">
+    <div class="k-eyebrow">Welcome Back</div>
+    <div class="k-h2">Sign In to<br>Your Portal</div>
+    <div class="k-field"><label class="k-label">Email</label><input type="email" class="k-input" id="loginEmail" placeholder="you@company.com"></div>
+    <div class="k-field"><label class="k-label">Password</label><input type="password" class="k-input" id="loginPass" placeholder="••••••••"></div>
+    <div id="loginErr" style="color:var(--red);font-size:0.85rem;margin-bottom:1rem;display:none;padding:0.6rem 0.875rem;background:rgba(209,48,48,0.06);border-radius:3px;"></div>
+    <button class="btn btn-p btn-full" onclick="doLogin()">Sign In →</button>
+    <div style="text-align:center;margin-top:1.5rem;font-size:0.85rem;color:var(--muted);">New employer? <a href="#" onclick="showReg()" style="color:var(--orange);">Create account</a></div>
+  </div>
+</div>
+
+<!-- PENDING -->
+<div class="screen" id="scrPending">
+  <div class="k-header">
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.12em;color:#0A0A0A;">KAI<span style="color:#FF4500;">ROS</span></span>
+    <div class="k-header-meta">Employer Portal</div>
+  </div>
+  <div class="k-content">
+    <div class="pending-wrap">
+      <div class="pending-icon">⏳</div>
+      <div class="pending-title">Under Review</div>
+      <div class="pending-body">Your account has been submitted. A KAIROS administrator will verify your information and activate your portal within one business day.<br><br>You will receive an email at <strong id="pendingEmail"></strong> when approved.</div>
+      <button class="btn btn-g" onclick="doLogout()">Sign Out</button>
+    </div>
+  </div>
+</div>
+
+<!-- EMPLOYER DASHBOARD -->
+<div class="screen" id="scrDash">
+  <div class="dash-wrap">
+    <div class="dash-sidebar">
+      <div class="ds-logo">
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.12em;color:#0A0A0A;">KAI<span style="color:#FF4500;">ROS</span></span>
+      </div>
+      <nav class="ds-nav">
+        <div class="ds-sec">My Portal</div>
+        <div class="ni active" onclick="showDashPage('pgMatches',this)"><span>🎯</span> Matches</div>
+        <div class="ni" onclick="showDashPage('pgJobs',this)"><span>📋</span> My Positions</div>
+        <div class="ds-sec">Account</div>
+        <div class="ni" onclick="showDashPage('pgPlan',this)"><span>💳</span> Plans & Billing</div>
+        <div class="ni" onclick="showDashPage('pgProfile',this)"><span>🏢</span> Company Profile</div>
+      </nav>
+      <div class="ds-foot">
+        <div class="ds-user"><strong id="dashUserName">Employer</strong><span id="dashCompany"></span></div>
+        <button class="btn btn-g btn-sm" style="margin-top:0.75rem;width:100%;justify-content:center;" onclick="doLogout()">Sign Out</button>
+      </div>
+    </div>
+    <div class="dash-main">
+      <div class="dash-topbar">
+        <div class="dt-title" id="dtTitle">MATCHES</div>
+        <div class="dt-right"><span style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:#888;" id="dtMeta"></span></div>
+      </div>
+      <div class="dash-page active" id="pgMatches"><div id="matchesContent"><div class="lw"><div class="lr"></div> Loading matches…</div></div></div>
+      <div class="dash-page" id="pgJobs"><div id="jobsContent"><div class="lw"><div class="lr"></div> Loading positions…</div></div></div>
+      <div class="dash-page" id="pgPlan">
+        <div style="max-width:800px;">
+          <div class="paywall-banner">
+            <div class="pw-title">Unlock Your Matches</div>
+            <div class="pw-body">You have matched candidates waiting. Select a plan to reveal identities, access full behavioral reports, and connect with your best-fit hires.</div>
+          </div>
+          <div class="plan-grid">
+            <div class="plan-card">
+              <div class="plan-name">Single Unlock</div><div class="plan-price">$49</div><div class="plan-per">per candidate</div>
+              <ul class="plan-features"><li>Candidate identity revealed</li><li>Full KAIROS score report</li><li>Recruiter briefing</li><li>Interview guide</li></ul>
+              <button class="btn btn-g btn-full" onclick="selectPlan('single')">Select Plan</button>
+            </div>
+            <div class="plan-card featured">
+              <div class="badge b-orange" style="margin-bottom:0.5rem;">Most Popular</div>
+              <div class="plan-name">5-Pack</div><div class="plan-price">$199</div><div class="plan-per">5 candidate unlocks</div>
+              <ul class="plan-features"><li>All Single Unlock features</li><li>Priority match ranking</li><li>30-day access window</li><li>Dedicated support</li></ul>
+              <button class="btn btn-p btn-full" onclick="selectPlan('pack5')">Select Plan</button>
+            </div>
+            <div class="plan-card">
+              <div class="plan-name">Unlimited</div><div class="plan-price">$499</div><div class="plan-per">per month</div>
+              <ul class="plan-features"><li>Unlimited unlocks</li><li>All active positions matched</li><li>API access</li><li>White-glove support</li></ul>
+              <button class="btn btn-g btn-full" onclick="selectPlan('unlimited')">Select Plan</button>
+            </div>
+          </div>
+          <div style="text-align:center;font-size:0.82rem;color:var(--muted);">Questions? Contact <a href="mailto:info@kairosassessment.com" style="color:var(--orange);">info@kairosassessment.com</a></div>
+        </div>
+      </div>
+      <div class="dash-page" id="pgProfile"><div style="max-width:600px;" id="profileContent"><div class="lw"><div class="lr"></div></div></div></div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+import { getFirestore, collection, getDocs, doc, setDoc, getDoc, addDoc, updateDoc, serverTimestamp, query, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+const FB={apiKey:"AIzaSyCaGli9_WpxScvnkMB98d38eQn7kBBewTk",authDomain:"neurosell-9e75f.firebaseapp.com",projectId:"neurosell-9e75f",storageBucket:"neurosell-9e75f.firebasestorage.app",messagingSenderId:"61172265643",appId:"1:61172265643:web:f19815c465d14cd9b9bdee"};
+const app=initializeApp(FB);
+const db=getFirestore(app);
+const auth=getAuth(app);
+let currentUser=null,employerData=null,wantsMoreInfo=false;
+
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+window.showLogin=()=>showScreen('scrLogin');
+window.showReg=()=>showScreen('scrReg');
+
+onAuthStateChanged(auth,async user=>{
+  if(user){
+    currentUser=user;
+    const snap=await getDoc(doc(db,'kairos_employers',user.uid));
+    if(!snap.exists()){await signOut(auth);return;}
+    employerData={id:user.uid,...snap.data()};
+    if(employerData.status==='approved'){
+      document.getElementById('dashUserName').textContent=employerData.contact_name||user.email.split('@')[0];
+      document.getElementById('dashCompany').textContent=employerData.company_name||'';
+      showScreen('scrDash');loadMatches();loadJobs();
+    } else {
+      document.getElementById('pendingEmail').textContent=user.email;
+      showScreen('scrPending');
+    }
+  } else {currentUser=null;employerData=null;showScreen('scrLogin');}
+});
+
+window.doLogout=()=>signOut(auth);
+window.toggleMoreInfo=function(){wantsMoreInfo=!wantsMoreInfo;document.getElementById('moreInfoBox').classList.toggle('on',wantsMoreInfo);};
+
+window.submitRegistration=async function(){
+  const fn=document.getElementById('regFN').value.trim(),ln=document.getElementById('regLN').value.trim();
+  const email=document.getElementById('regEmail').value.trim(),pass=document.getElementById('regPass').value;
+  const company=document.getElementById('regCompany').value.trim(),industry=document.getElementById('regIndustry').value,size=document.getElementById('regSize').value;
+  const jobTitle=document.getElementById('jobTitle').value.trim(),jobDisc=document.getElementById('jobDisc').value;
+  const jobLoc=document.getElementById('jobLocation').value.trim(),jobDesc=document.getElementById('jobDesc').value.trim();
+  const errEl=document.getElementById('regError');
+  if(!fn||!ln||!email||!pass||!company||!industry||!size||!jobTitle||!jobDisc||!jobLoc||!jobDesc){errEl.textContent='Please complete all required fields.';errEl.style.display='block';return;}
+  if(pass.length<8){errEl.textContent='Password must be at least 8 characters.';errEl.style.display='block';return;}
+  errEl.style.display='none';
+  const btn=document.getElementById('regBtn');btn.disabled=true;btn.textContent='Submitting…';
+  try{
+    const cred=await createUserWithEmailAndPassword(auth,email,pass);
+    await setDoc(doc(db,'kairos_employers',cred.user.uid),{uid:cred.user.uid,email,contact_name:`${fn} ${ln}`,first_name:fn,last_name:ln,company_name:company,industry,company_size:size,status:'pending',wants_more_info:wantsMoreInfo,plan:null,unlocks_remaining:0,created_at:serverTimestamp()});
+    await addDoc(collection(db,'kairos_jobs'),{employer_id:cred.user.uid,employer_name:company,title:jobTitle,discipline:jobDisc,location:jobLoc,salary:document.getElementById('jobSalary').value.trim(),employment_type:document.getElementById('jobType').value,description:jobDesc,requirements:document.getElementById('jobReqs').value.trim(),status:'pending',created_at:serverTimestamp()});
+    await addDoc(collection(db,'kairos_admin_notifications'),{type:'new_employer_registration',employer_id:cred.user.uid,employer_name:company,contact_name:`${fn} ${ln}`,email,job_title:jobTitle,created_at:serverTimestamp(),read:false});
+  }catch(e){
+    const m={'auth/email-already-in-use':'An account with that email already exists.','auth/weak-password':'Password is too weak.'};
+    errEl.textContent=m[e.code]||`Error: ${e.message}`;errEl.style.display='block';
+    btn.disabled=false;btn.textContent='Submit for Review →';
+  }
+};
+
+window.doLogin=async function(){
+  const email=document.getElementById('loginEmail').value.trim(),pass=document.getElementById('loginPass').value;
+  const err=document.getElementById('loginErr');
+  if(!email||!pass){err.textContent='Enter email and password.';err.style.display='block';return;}
+  try{await signInWithEmailAndPassword(auth,email,pass);err.style.display='none';}
+  catch(e){const m={'auth/invalid-credential':'Invalid email or password.'};err.textContent=m[e.code]||`Error: ${e.code}`;err.style.display='block';}
+};
+document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')window.doLogin();});
+
+window.showDashPage=function(id,el){
+  document.querySelectorAll('.dash-page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  document.getElementById(id).classList.add('active');el.classList.add('active');
+  document.getElementById('dtTitle').textContent={pgMatches:'MATCHES',pgJobs:'MY POSITIONS',pgPlan:'PLANS & BILLING',pgProfile:'COMPANY PROFILE'}[id]||id;
+};
+
+async function loadMatches(){
+  const wrap=document.getElementById('matchesContent');
+  wrap.innerHTML='<div class="lw"><div class="lr"></div> Running match engine…</div>';
+  try{
+    const jobsSnap=await getDocs(query(collection(db,'kairos_jobs'),where('employer_id','==',currentUser.uid)));
+    const jobs=[];jobsSnap.forEach(d=>jobs.push({id:d.id,...d.data()}));
+    if(!jobs.length){wrap.innerHTML='<div class="es"><div class="es-i">📋</div><div class="es-t">No active positions found</div></div>';return;}
+    const candSnap=await getDocs(collection(db,'neurosell_assessments'));
+    const allCands=[];candSnap.forEach(d=>{const data=d.data();if(data.platform==='KAIROS v2'&&data.overall_score!=null)allCands.push({id:d.id,...data});});
+    let html='';
+    for(const job of jobs){
+      const matches=allCands.filter(c=>{if(c.discipline&&job.discipline&&c.discipline!==job.discipline)return false;return(c.overall_score||0)>=45;}).sort((a,b)=>(b.overall_score||0)-(a.overall_score||0));
+      html+=`<div style="margin-bottom:2rem;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;"><div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.06em;">${job.title}</div><div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#888;">${job.location} · ${job.discipline}</div></div><span class="badge ${matches.length?'b-green':'b-grey'}">${matches.length} Match${matches.length!==1?'es':''}</span></div>`;
+      if(!matches.length){html+=`<div class="es" style="padding:2rem;"><div class="es-i">🔍</div><div class="es-t">No matches yet — more candidates being assessed</div></div>`;}
+      else{
+        const hasPlan=employerData?.unlocks_remaining>0;
+        html+=`<div class="pitch-card" style="margin-bottom:1.25rem;"><div class="pitch-title">Your Matches Are Ready</div><div class="pitch-body">KAIROS has identified <strong>${matches.length} candidate${matches.length!==1?'s':''}</strong> whose behavioral profile aligns with this role. Unlock any candidate to reveal their identity, full score report, recruiter briefing, and targeted interview guide.</div></div>`;
+        matches.slice(0,8).forEach((c,i)=>{
+          const sc=c.overall_score||0,scol=sc>=75?'var(--green)':sc>=50?'var(--yellow)':'var(--red)';
+          const cid=`Candidate ${String.fromCharCode(65+Math.floor(i/26))}${String(i+1).padStart(2,'0')}`;
+          html+=`<div class="match-card"><div class="match-id">${cid}</div><div class="match-bars">${['ownership_score','initiative_score','follow_through_score','fear_score'].map(k=>{const s=c[k]||0;const col=s>=75?'var(--green)':s>=50?'var(--yellow)':'var(--red)';return`<div class="match-bar-row"><div class="match-bar-label">${k.replace('_score','').replace(/_/g,' ')}</div><div class="match-bar-track"><div class="match-bar-fill" style="width:${s}%;background:${col};"></div></div><div class="match-bar-val">${s}</div></div>`;}).join('')}</div><div class="match-score"><div class="match-score-num" style="color:${scol};">${sc}</div><div class="match-score-label">KAIROS Score</div></div><div>${hasPlan?`<button class="btn btn-p btn-sm" onclick="unlockCandidate('${c.id}','${cid}')">Unlock →</button>`:`<button class="btn btn-g btn-sm" onclick="showDashPage('pgPlan',document.querySelectorAll('.ni')[2])">Unlock →</button>`}</div></div>`;
+        });
+        if(matches.length>8)html+=`<div style="text-align:center;padding:1rem;font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:#888;">+ ${matches.length-8} more matches available with Unlimited plan</div>`;
+      }
+      html+='</div>';
+    }
+    wrap.innerHTML=html;
+  }catch(e){wrap.innerHTML=`<div class="lw" style="color:var(--red)">${e.message}</div>`;}
+}
+
+async function loadJobs(){
+  const wrap=document.getElementById('jobsContent');
+  try{
+    const snap=await getDocs(query(collection(db,'kairos_jobs'),where('employer_id','==',currentUser.uid)));
+    const jobs=[];snap.forEach(d=>jobs.push({id:d.id,...d.data()}));
+    if(!jobs.length){wrap.innerHTML='<div class="es"><div class="es-i">📋</div><div class="es-t">No positions yet</div></div>';return;}
+    const rows=jobs.map(j=>`<tr><td style="font-weight:600;color:var(--text);">${j.title}</td><td>${j.discipline||'—'}</td><td>${j.location||'—'}</td><td>${j.employment_type||'—'}</td><td><span class="badge ${j.status==='approved'?'b-green':j.status==='pending'?'b-yellow':'b-grey'}">${j.status||'pending'}</span></td></tr>`).join('');
+    wrap.innerHTML=`<div class="tw"><div class="tw-h"><div class="tw-t">Active Positions</div></div><table><thead><tr><th>Title</th><th>Discipline</th><th>Location</th><th>Type</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  }catch(e){wrap.innerHTML=`<div class="lw" style="color:var(--red)">${e.message}</div>`;}
+}
+
+window.unlockCandidate=async function(candId,displayId){
+  if(!confirm(`Unlock ${displayId}? This will use one unlock credit.`))return;
+  try{
+    await addDoc(collection(db,'kairos_unlocks'),{employer_id:currentUser.uid,candidate_id:candId,display_id:displayId,unlocked_at:serverTimestamp()});
+    await updateDoc(doc(db,'kairos_employers',currentUser.uid),{unlocks_remaining:Math.max(0,employerData.unlocks_remaining-1)});
+    alert(`${displayId} unlocked. The full profile will be delivered within 24 hours.`);
+  }catch(e){alert(`Error: ${e.message}`);}
+};
+
+window.selectPlan=function(plan){alert(`Plan: ${plan}. Contact info@kairosassessment.com to activate.`);};
+</script>
+</body>
+</html>
