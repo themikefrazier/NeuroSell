@@ -302,7 +302,7 @@ tr:hover td{background:rgba(255,69,0,0.018);}
               <button class="btn btn-g btn-full" onclick="selectPlan('unlimited')">Select Plan</button>
             </div>
           </div>
-          <div style="text-align:center;font-size:0.82rem;color:var(--muted);">Questions? Contact <a href="mailto:info@kairosassessment.com" style="color:var(--orange);">info@kairosassessment.com</a></div>
+          <div style="text-align:center;font-size:0.82rem;color:var(--muted);">Questions? Contact <a href="/cdn-cgi/l/email-protection#147d7a727b547f757d667b6775676771676779717a603a777b79" style="color:var(--orange);"><span class="__cf_email__" data-cfemail="dab3b4bcb59ab1bbb3a8b5a9bba9a9bfa9a9b7bfb4aef4b9b5b7">[email&#160;protected]</span></a></div>
         </div>
       </div>
       <div class="dash-page" id="pgProfile"><div style="max-width:600px;" id="profileContent"><div class="lw"><div class="lr"></div></div></div></div>
@@ -310,12 +310,12 @@ tr:hover td{background:rgba(255,69,0,0.018);}
   </div>
 </div>
 
-<script type="module">
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
 import { getFirestore, collection, getDocs, doc, setDoc, getDoc, addDoc, updateDoc, serverTimestamp, query, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
-const FB={apiKey:"AIzaSyCaGli9_WpxScvnkMB98d38eQn7kBBewTk",authDomain:"neurosell-9e75f.firebaseapp.com",projectId:"neurosell-9e75f",storageBucket:"neurosell-9e75f.firebasestorage.app",messagingSenderId:"61172265643",appId:"1:61172265643:web:f19815c465d14cd9b9bdee"};
+const FB={apiKey:"AIzaSyCaGli9_WpxScvnkMB98d38eQn7kBBewTk",authDomain:"kairosproven.com",projectId:"neurosell-9e75f",storageBucket:"neurosell-9e75f.firebasestorage.app",messagingSenderId:"61172265643",appId:"1:61172265643:web:f19815c465d14cd9b9bdee"};
 const app=initializeApp(FB);
 const db=getFirestore(app);
 const auth=getAuth(app);
@@ -430,11 +430,4 @@ window.unlockCandidate=async function(candId,displayId){
   try{
     await addDoc(collection(db,'kairos_unlocks'),{employer_id:currentUser.uid,candidate_id:candId,display_id:displayId,unlocked_at:serverTimestamp()});
     await updateDoc(doc(db,'kairos_employers',currentUser.uid),{unlocks_remaining:Math.max(0,employerData.unlocks_remaining-1)});
-    alert(`${displayId} unlocked. The full profile will be delivered within 24 hours.`);
-  }catch(e){alert(`Error: ${e.message}`);}
-};
-
-window.selectPlan=function(plan){alert(`Plan: ${plan}. Contact info@kairosassessment.com to activate.`);};
-</script>
-</body>
-</html>
+    alert(`${
