@@ -276,7 +276,7 @@ import { getFirestore, collection, getDocs, doc, setDoc, updateDoc, serverTimest
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 import { getStorage, ref, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
 
-const FB={apiKey:"AIzaSyCaGli9_WpxScvnkMB98d38eQn7kBBewTk",authDomain:"neurosell-9e75f.firebaseapp.com",projectId:"neurosell-9e75f",storageBucket:"neurosell-9e75f.firebasestorage.app",messagingSenderId:"61172265643",appId:"1:61172265643:web:f19815c465d14cd9b9bdee"};
+const FB={apiKey:"AIzaSyCaGli9_WpxScvnkMB98d38eQn7kBBewTk",authDomain:"kairosproven.com",projectId:"neurosell-9e75f",storageBucket:"neurosell-9e75f.firebasestorage.app",messagingSenderId:"61172265643",appId:"1:61172265643:web:f19815c465d14cd9b9bdee"};
 const app=initializeApp(FB);
 const db=getFirestore(app);
 const auth=getAuth(app);
@@ -308,7 +308,7 @@ window.doLogin=async function(){
   if(!email||!pass){err.textContent='Enter email and password.';err.classList.add('show');return;}
   try{await signInWithEmailAndPassword(auth,email,pass);err.classList.remove('show');}
   catch(e){
-    const m={'auth/user-not-found':'No account found.','auth/wrong-password':'Incorrect password.','auth/invalid-credential':'Invalid email or password.','auth/unauthorized-domain':'Add themikefrazier.github.io to Firebase Auth → Settings → Authorized Domains.','auth/network-request-failed':'Network error.'};
+    const m={'auth/user-not-found':'No account found.','auth/wrong-password':'Incorrect password.','auth/invalid-credential':'Invalid email or password.','auth/unauthorized-domain':'Add kairosproven.com to Firebase Auth → Settings → Authorized Domains.','auth/network-request-failed':'Network error.'};
     err.textContent=m[e.code]||`Error: ${e.code}`;err.classList.add('show');
   }
 };
