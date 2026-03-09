@@ -3,493 +3,432 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your KAIROS Results · Peak Talent Capital Solutions</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>KAIROS · Your Results</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --black:#0F0F0F; --surface:#161616; --surface2:#1E1E1E; --border:#2E2E2E;
-  --white:#FFFFFF; --text:#F0F0F0; --text-mid:#DDDDDD; --text-muted:#BBBBBB;
-  --orange:#FF4D00; --orange-dim:#CC3D00; --gold:#C9961A;
-  --green:#00C27C; --yellow:#F0B429; --red:#E05555;
+:root{
+  --orange:#FF4500;--od:#CC3600;--og:rgba(255,69,0,0.1);
+  --bg:#F4F4F4;--surface:#FFFFFF;--border:#E2E2E2;--b2:#CCCCCC;
+  --text:#0A0A0A;--mid:#444;--muted:#888;
+  --green:#00A86B;--yellow:#D98F00;--red:#D13030;
+  --fd:'Bebas Neue',sans-serif;--fb:'DM Sans',sans-serif;--fm:'DM Mono',monospace;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--text);min-height:100vh;}
-.header{background:var(--black);border-bottom:1px solid var(--border);padding:0 5vw;height:56px;display:flex;align-items:center;justify-content:space-between;}
-.header-logo{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.1em;color:var(--white);}
-.header-logo span{color:var(--orange);}
-.header-right{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);}
-.loading-screen{min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.25rem;}
-.loading-ring{width:48px;height:48px;border:2px solid var(--border);border-top-color:var(--orange);border-radius:50%;animation:spin 0.8s linear infinite;}
+body{font-family:var(--fb);background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* HEADER */
+.header{background:var(--surface);border-bottom:1px solid var(--border);height:56px;padding:0 5vw;display:flex;align-items:center;justify-content:space-between;}
+.hmark{font-family:var(--fd);font-size:1.6rem;letter-spacing:0.12em;color:var(--text);}
+.hmark span{color:var(--orange);}
+.hmeta{font-family:var(--fm);font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);}
+
+/* LAYOUT */
+.wrap{max-width:820px;margin:0 auto;padding:2.5rem 5vw 4rem;}
+
+/* LOADING / ERROR */
+.state-wrap{min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:1rem;}
+.state-icon{font-size:3rem;opacity:0.4;}
+.state-title{font-family:var(--fd);font-size:1.8rem;letter-spacing:0.06em;color:var(--text);}
+.state-body{font-size:0.9rem;color:var(--muted);max-width:360px;line-height:1.75;}
+.lr{width:28px;height:28px;border:2px solid var(--border);border-top-color:var(--orange);border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
-.loading-label{font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-muted);}
-.error-screen{min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;text-align:center;padding:2rem;}
-.error-title{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:0.06em;color:var(--orange);}
-.error-body{color:var(--text-mid);line-height:1.7;max-width:400px;font-size:1rem;}
-.results-page{display:none;}
-.results-page.show{display:block;}
-.hero-band{background:var(--surface);border-bottom:3px solid var(--orange);padding:3rem 5vw 2.5rem;position:relative;overflow:hidden;}
-.hero-band::before{content:attr(data-score);position:absolute;right:3vw;top:-10px;font-family:'Bebas Neue',sans-serif;font-size:clamp(8rem,18vw,16rem);color:rgba(255,255,255,0.04);line-height:1;pointer-events:none;letter-spacing:0.02em;}
-.hero-eyebrow{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--orange);margin-bottom:0.5rem;display:flex;align-items:center;gap:0.6rem;}
-.hero-eyebrow::before{content:'';display:inline-block;width:24px;height:2px;background:var(--orange);}
-.hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.2rem,5vw,4rem);letter-spacing:0.06em;color:var(--white);line-height:1;margin-bottom:0.75rem;}
-.hero-date{font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:2rem;}
-.score-tier-row{display:flex;align-items:flex-end;gap:2rem;flex-wrap:wrap;}
-.big-score-label{font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.25rem;}
-.big-score-num{font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,10vw,7rem);line-height:1;letter-spacing:0.04em;color:var(--orange);}
-.big-score-num sub{font-size:2rem;color:var(--text-muted);letter-spacing:0.02em;}
-.tier-block{padding-bottom:0.75rem;}
-.tier-badge{display:inline-flex;align-items:center;gap:0.5rem;font-family:'DM Mono',monospace;font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:600;padding:0.5rem 1.25rem;border-radius:3px;margin-bottom:0.5rem;}
-.tier-badge.priority{background:rgba(0,194,124,0.12);border:1px solid rgba(0,194,124,0.35);color:var(--green);}
-.tier-badge.standard{background:rgba(240,180,41,0.12);border:1px solid rgba(240,180,41,0.35);color:var(--yellow);}
-.tier-badge.development{background:rgba(224,85,85,0.12);border:1px solid rgba(224,85,85,0.35);color:var(--red);}
-.tier-desc{font-size:0.95rem;color:var(--text-mid);line-height:1.6;max-width:480px;}
-.content{padding:3rem 5vw;max-width:960px;}
-.section{margin-bottom:3.5rem;}
-.section-head{display:flex;align-items:baseline;gap:1rem;margin-bottom:1.5rem;padding-bottom:0.75rem;border-bottom:1px solid var(--border);}
-.section-label{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--orange);}
-.section-sublabel{font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-left:auto;}
-.construct-group{margin-bottom:1.5rem;}
-.construct-group-label{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.875rem;}
-.bar-row{display:grid;grid-template-columns:160px 1fr 40px;align-items:center;gap:1rem;padding:0.45rem 0;}
-.bar-name{font-size:0.9rem;color:var(--text);font-weight:500;}
-.bar-track{height:6px;background:var(--surface2);border-radius:3px;overflow:hidden;}
-.bar-fill{height:100%;border-radius:3px;opacity:0;transition:width 1.2s cubic-bezier(0.4,0,0.2,1),opacity 0.4s ease;}
-.bar-fill.animate{opacity:1;}
-.bar-fill.high{background:linear-gradient(90deg,var(--green),#00A869);}
-.bar-fill.mid{background:linear-gradient(90deg,var(--orange),var(--gold));}
-.bar-fill.low{background:linear-gradient(90deg,var(--red),#CC4040);}
-.bar-val{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.05em;text-align:right;line-height:1;}
-.bar-val.high{color:var(--green);}
-.bar-val.mid{color:var(--orange);}
-.bar-val.low{color:var(--red);}
-.agentic-panel{background:rgba(255,77,0,0.06);border:1px solid rgba(255,77,0,0.25);border-left:3px solid var(--orange);border-radius:4px;padding:1.75rem;}
-.agentic-label{font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--orange);margin-bottom:0.75rem;display:flex;align-items:center;gap:0.5rem;}
-.agentic-label::before{content:'◈';font-size:0.8rem;}
-.agentic-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.05em;color:var(--white);margin-bottom:0.75rem;}
-.agentic-body p{font-size:0.95rem;line-height:1.8;color:var(--text-mid);margin-bottom:1rem;}
-.agentic-body p:last-child{margin-bottom:0;}
-.agentic-loading{display:flex;align-items:center;gap:0.75rem;font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--orange);}
-.agentic-dot{width:7px;height:7px;border-radius:50%;background:var(--orange);animation:pulse 1.2s ease-in-out infinite;}
-@keyframes pulse{0%,100%{opacity:0.2;transform:scale(0.8)}50%{opacity:1;transform:scale(1.2)}}
-.insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-.insight-card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:1.5rem;}
-.insight-card.strength{border-left:3px solid var(--green);}
-.insight-card.watch{border-left:3px solid var(--yellow);}
-.insight-card-tag{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:0.5rem;}
-.strength .insight-card-tag{color:var(--green);}
-.watch .insight-card-tag{color:var(--yellow);}
-.insight-card-title{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.06em;color:var(--white);margin-bottom:0.4rem;}
-.insight-card-body{font-size:0.9rem;line-height:1.75;color:var(--text-mid);}
-.fear-card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:2rem;display:grid;grid-template-columns:120px 1fr;gap:1.5rem;align-items:start;}
-.fear-score-big{text-align:center;}
-.fear-score-num{font-family:'Bebas Neue',sans-serif;font-size:4rem;line-height:1;letter-spacing:0.04em;}
-.fear-score-label{font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-top:0.25rem;}
-.fear-body-title{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.05em;color:var(--white);margin-bottom:0.5rem;}
-.fear-body-text{font-size:0.92rem;line-height:1.75;color:var(--text-mid);}
-.interview-prep{background:var(--surface);border:1px solid var(--border);border-radius:4px;overflow:hidden;}
-.interview-prep-header{background:var(--surface2);padding:1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.interview-prep-title{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--orange);}
-.interview-prep-sub{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);}
-.interview-question{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);}
-.interview-question:last-child{border-bottom:none;}
-.iq-construct{font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--orange);margin-bottom:0.35rem;}
-.iq-text{font-size:0.95rem;color:var(--white);line-height:1.6;font-weight:500;}
-.iq-why{font-size:0.85rem;color:var(--text-muted);line-height:1.55;margin-top:0.35rem;font-style:italic;}
-.next-steps{background:var(--surface);border:1px solid var(--border);border-radius:4px;overflow:hidden;}
-.next-step-item{display:flex;align-items:flex-start;gap:1rem;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);}
-.next-step-item:last-child{border-bottom:none;}
-.next-step-num{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--orange);letter-spacing:0.06em;line-height:1;flex-shrink:0;width:28px;padding-top:2px;}
-.next-step-title{font-weight:700;font-size:0.95rem;color:var(--white);margin-bottom:0.25rem;}
-.next-step-body{font-size:0.88rem;color:var(--text-mid);line-height:1.65;}
-.results-footer{background:var(--surface);border-top:1px solid var(--border);padding:2rem 5vw;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-top:3rem;}
-.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.1em;color:var(--white);}
-.footer-logo span{color:var(--orange);}
-.footer-meta{font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);}
-.share-btn{background:var(--surface2);border:1px solid var(--border);color:var(--text-mid);font-family:'DM Sans',sans-serif;font-size:0.8rem;font-weight:500;padding:0.5rem 1rem;border-radius:3px;cursor:pointer;transition:all 0.12s;}
-.share-btn:hover{background:var(--border);color:var(--white);}
-@media(max-width:640px){.insight-grid{grid-template-columns:1fr;}.fear-card{grid-template-columns:1fr;}.bar-row{grid-template-columns:130px 1fr 36px;}}
+
+/* CANDIDATE HEADER */
+.cand-header{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:1.75rem 2rem;margin-bottom:1.5rem;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1.25rem;}
+.cand-name{font-family:var(--fd);font-size:clamp(1.8rem,4vw,2.8rem);letter-spacing:0.06em;color:var(--text);line-height:1;}
+.cand-meta{font-family:var(--fm);font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-top:0.4rem;}
+.cand-meta span{color:var(--mid);margin-right:1.25rem;}
+.score-block{text-align:center;flex-shrink:0;}
+.score-num{font-family:var(--fd);font-size:4rem;letter-spacing:0.04em;line-height:1;}
+.score-label{font-family:var(--fm);font-size:0.56rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-top:0.25rem;}
+.tier-badge{display:inline-flex;padding:0.3rem 0.875rem;border-radius:3px;font-family:var(--fm);font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:600;margin-top:0.5rem;}
+.t-priority{background:rgba(255,69,0,0.1);color:var(--orange);border:1px solid rgba(255,69,0,0.25);}
+.t-standard{background:rgba(0,168,107,0.08);color:var(--green);border:1px solid rgba(0,168,107,0.2);}
+.t-review{background:rgba(217,143,0,0.08);color:var(--yellow);border:1px solid rgba(217,143,0,0.2);}
+.t-pass{background:rgba(150,150,150,0.08);color:var(--muted);border:1px solid var(--border);}
+
+/* STATUS TRACKER — THE GHOSTING KILLER */
+.status-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:1.5rem 2rem;margin-bottom:1.5rem;}
+.card-title{font-family:var(--fm);font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--orange);margin-bottom:1.25rem;display:flex;align-items:center;gap:0.5rem;}
+.card-title::after{content:'';flex:1;height:1px;background:var(--border);}
+.status-steps{display:flex;flex-direction:column;gap:0;}
+.step{display:flex;align-items:flex-start;gap:1.1rem;padding:0.875rem 0;border-bottom:1px solid var(--border);position:relative;}
+.step:last-child{border-bottom:none;}
+.step-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.75rem;margin-top:0.1rem;}
+.dot-done{background:rgba(0,168,107,0.12);color:var(--green);border:2px solid var(--green);}
+.dot-active{background:var(--og);color:var(--orange);border:2px solid var(--orange);}
+.dot-pending{background:var(--bg);color:var(--muted);border:2px solid var(--border);}
+.step-content{flex:1;}
+.step-title{font-weight:600;font-size:0.9rem;color:var(--text);margin-bottom:0.15rem;}
+.step-title.done{color:var(--green);}
+.step-title.active{color:var(--orange);}
+.step-title.pending{color:var(--muted);}
+.step-desc{font-size:0.82rem;color:var(--muted);line-height:1.65;}
+.step-time{font-family:var(--fm);font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:0.25rem;}
+
+/* SECTION CARDS */
+.section-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:1.5rem 2rem;margin-bottom:1.5rem;}
+
+/* CONSTRUCT BARS */
+.cb-row{display:flex;align-items:center;gap:1rem;margin-bottom:0.875rem;}
+.cb-label{font-family:var(--fm);font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--mid);width:160px;flex-shrink:0;}
+.cb-track{flex:1;height:7px;background:var(--bg);border-radius:4px;overflow:hidden;}
+.cb-fill{height:100%;border-radius:4px;transition:width 1s ease;}
+.cb-score{font-family:var(--fm);font-size:0.72rem;font-weight:600;width:32px;text-align:right;}
+.cb-interp{font-family:var(--fm);font-size:0.56rem;letter-spacing:0.08em;text-transform:uppercase;width:60px;flex-shrink:0;}
+
+/* SIX UNMEASURABLES */
+.um-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:0;}
+.um-card{background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:1.1rem 1.25rem;}
+.um-card.strong{border-left:3px solid var(--green);}
+.um-card.moderate{border-left:3px solid var(--yellow);}
+.um-card.developing{border-left:3px solid var(--red);}
+.um-name{font-family:var(--fd);font-size:1rem;letter-spacing:0.08em;color:var(--text);margin-bottom:0.2rem;}
+.um-score{font-family:var(--fm);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;}
+.um-def{font-size:0.82rem;line-height:1.7;color:var(--mid);}
+.um-interp{font-size:0.8rem;line-height:1.65;color:var(--mid);margin-top:0.5rem;padding-top:0.5rem;border-top:1px solid var(--border);}
+
+/* SHARE */
+.share-bar{background:var(--og);border:1px solid rgba(255,69,0,0.2);border-radius:5px;padding:1.1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.875rem;margin-bottom:1.5rem;}
+.share-text{font-size:0.88rem;color:var(--mid);line-height:1.6;}
+.share-text strong{color:var(--text);}
+.share-btns{display:flex;gap:0.6rem;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:0.35rem;padding:0.55rem 1.1rem;border-radius:3px;border:none;cursor:pointer;font-family:var(--fb);font-size:0.84rem;font-weight:600;transition:all 0.12s;text-decoration:none;}
+.btn-p{background:var(--orange);color:#fff;}.btn-p:hover{background:var(--od);}
+.btn-g{background:var(--surface);color:var(--mid);border:1px solid var(--b2);}.btn-g:hover{color:var(--text);border-color:#999;}
+.btn-sm{padding:0.32rem 0.7rem;font-size:0.78rem;}
+
+/* WHAT THIS MEANS */
+.insight-block{background:var(--bg);border-left:3px solid var(--orange);border-radius:0 4px 4px 0;padding:1rem 1.25rem;margin-bottom:0.875rem;}
+.ib-label{font-family:var(--fm);font-size:0.56rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--orange);margin-bottom:0.4rem;}
+.ib-text{font-size:0.875rem;line-height:1.8;color:var(--mid);}
+
+/* PRINT */
+@media print{
+  .share-bar,.btn{display:none;}
+  .header{position:static;}
+  body{background:#fff;}
+}
+@media(max-width:600px){
+  .cand-header{flex-direction:column;}
+  .um-grid{grid-template-columns:1fr;}
+  .cb-label{width:120px;}
+  .cb-interp{display:none;}
+}
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="header-logo">KAI<span>ROS</span></div>
-  <div class="header-right">Your Assessment Results · Peak Talent Capital Solutions</div>
+  <div class="hmark">KAI<span>ROS</span></div>
+  <div class="hmeta">Behavioral Assessment Results</div>
 </div>
 
-<div id="loadingScreen" class="loading-screen">
-  <div class="loading-ring"></div>
-  <div class="loading-label">Loading your KAIROS results…</div>
-</div>
-
-<div id="errorScreen" class="error-screen" style="display:none">
-  <div class="error-title">Results Not Found</div>
-  <div class="error-body">We couldn't locate your assessment results. The link may have expired or be incorrect. Contact <a href="mailto:mike@peaktcs.com" style="color:var(--orange)">mike@peaktcs.com</a> if you believe this is an error.</div>
-</div>
-
-<div id="resultsPage" class="results-page">
-  <div class="hero-band" id="heroBand">
-    <div class="hero-eyebrow">Your KAIROS Assessment Results · Peak Talent Capital Solutions</div>
-    <div class="hero-name" id="heroName"></div>
-    <div class="hero-date" id="heroDate"></div>
-    <div class="score-tier-row">
-      <div class="big-score-block">
-        <div class="big-score-label">KAIROS Score</div>
-        <div class="big-score-num"><span id="bigScore">—</span><sub>/100</sub></div>
-      </div>
-      <div class="tier-block">
-        <div id="tierBadge" class="tier-badge"></div>
-        <div id="tierDesc" class="tier-desc"></div>
-      </div>
-    </div>
+<div class="wrap">
+  <!-- LOADING STATE -->
+  <div id="stateLoading" class="state-wrap">
+    <div class="lr"></div>
+    <div class="state-title">Loading Your Results</div>
+    <div class="state-body">Retrieving your behavioral assessment data…</div>
   </div>
 
-  <div class="content">
+  <!-- ERROR STATE -->
+  <div id="stateError" class="state-wrap" style="display:none;">
+    <div class="state-icon">⚠️</div>
+    <div class="state-title">Results Not Found</div>
+    <div class="state-body">We could not locate your assessment results. Please check your link or contact your recruiter for assistance.</div>
+  </div>
 
-    <div class="section">
-      <div class="section-head">
-        <div class="section-label">Your Behavioral Profile</div>
-        <div class="section-sublabel">12 constructs · scored 0–100</div>
-      </div>
-      <div class="construct-group">
-        <div class="construct-group-label">Foundation Layer — Six Unmeasurables</div>
-        <div id="foundationBars"></div>
-      </div>
-      <div class="construct-group">
-        <div class="construct-group-label">KAIROS Layer — Sales Architecture</div>
-        <div id="kairosLayerBars"></div>
-      </div>
-    </div>
+  <!-- RESULTS -->
+  <div id="resultsWrap" style="display:none;">
 
-    <div class="section">
-      <div class="section-head">
-        <div class="section-label">Your Personalized KAIROS Analysis</div>
-        <div class="section-sublabel">AI-generated · unique to your profile</div>
-      </div>
-      <div class="agentic-panel" id="agenticPanel">
-        <div class="agentic-label">KAIROS Intelligence · Analyzing Your Profile</div>
-        <div class="agentic-loading">
-          <div class="agentic-dot"></div>
-          Generating your personalized behavioral analysis…
+    <!-- CANDIDATE HEADER -->
+    <div class="cand-header">
+      <div>
+        <div class="cand-name" id="rName">—</div>
+        <div class="cand-meta">
+          <span id="rPosition"></span>
+          <span id="rEmployer"></span>
+          <span id="rDate"></span>
         </div>
+        <div id="rTierBadge" style="margin-top:0.75rem;"></div>
+      </div>
+      <div class="score-block">
+        <div class="score-num" id="rScore">—</div>
+        <div class="score-label">KAIROS Score</div>
       </div>
     </div>
 
-    <div class="section">
-      <div class="section-head">
-        <div class="section-label">Strengths & Watch Areas</div>
-      </div>
-      <div class="insight-grid" id="insightGrid"></div>
+    <!-- STATUS TRACKER -->
+    <div class="status-card">
+      <div class="card-title">Your Application Status</div>
+      <div class="status-steps" id="statusSteps"></div>
     </div>
 
-    <div class="section">
-      <div class="section-head">
-        <div class="section-label">Fear Index — The Construct That Matters Most</div>
+    <!-- SHARE BAR -->
+    <div class="share-bar">
+      <div class="share-text"><strong>Share Your Results</strong><br>Send this link to a recruiter or employer to showcase your behavioral profile.</div>
+      <div class="share-btns">
+        <button class="btn btn-p btn-sm" onclick="copyLink()">Copy Results Link</button>
+        <button class="btn btn-g btn-sm" onclick="window.print()">Print / Save PDF</button>
       </div>
-      <div class="fear-card" id="fearCard"></div>
     </div>
 
-    <div class="section" id="interviewPrepSection" style="display:none">
-      <div class="section-head">
-        <div class="section-label">Prepare for Your Interview</div>
-        <div class="section-sublabel">Questions targeted to your profile</div>
-      </div>
-      <div class="interview-prep" id="interviewPrep"></div>
+    <!-- SIX UNMEASURABLES -->
+    <div class="section-card">
+      <div class="card-title">The Six Unmeasurables</div>
+      <div class="um-grid" id="sixGrid"></div>
     </div>
 
-    <div class="section">
-      <div class="section-head">
-        <div class="section-label">What Happens Next</div>
-      </div>
-      <div class="next-steps" id="nextSteps"></div>
+    <!-- ALL CONSTRUCTS -->
+    <div class="section-card">
+      <div class="card-title">Full Construct Breakdown</div>
+      <div id="constructBars"></div>
     </div>
 
-  </div>
+    <!-- WHAT THIS MEANS -->
+    <div class="section-card">
+      <div class="card-title">What Your Results Mean</div>
+      <div id="insightBlocks"></div>
+    </div>
 
-  <div class="results-footer">
-    <div class="footer-logo">KAI<span>ROS</span></div>
-    <div class="footer-meta">Peak Talent Capital Solutions · Confidential · peaktcs.com/kairos · © 2026</div>
-    <button class="share-btn" onclick="copyLink()">⎘ Copy Results Link</button>
   </div>
 </div>
 
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import { getFirestore, doc, getDoc, updateDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-const FIREBASE_CONFIG = {
-  apiKey:"AIzaSyCaGli9_WpxScvnkMB98d38eQn7kBBewTk",
-  authDomain:"neurosell-9e75f.firebaseapp.com",
-  projectId:"neurosell-9e75f",
-  storageBucket:"neurosell-9e75f.firebasestorage.app",
-  messagingSenderId:"61172265643",
-  appId:"1:61172265643:web:f19815c465d14cd9b9bdee"
+const FB={apiKey:"AIzaSyCaGli9_WpxScvnkMB98d38eQn7kBBewTk",authDomain:"kairosproven.com",projectId:"neurosell-9e75f",storageBucket:"neurosell-9e75f.firebasestorage.app",messagingSenderId:"61172265643",appId:"1:61172265643:web:f19815c465d14cd9b9bdee"};
+const app=initializeApp(FB);
+const db=getFirestore(app);
+
+// ── HELPERS ──
+const getTier=s=>s>=75?'Priority':s>=60?'Standard':s>=45?'Review':'Pass';
+const tcls=t=>({Priority:'t-priority',Standard:'t-standard',Review:'t-review',Pass:'t-pass'}[t]||'t-pass');
+const scol=s=>s>=75?'var(--green)':s>=50?'var(--yellow)':'var(--red)';
+const slvl=s=>s>=75?'strong':s>=50?'moderate':'developing';
+const slabel=s=>s>=75?'Strong':s>=50?'Moderate':'Developing';
+
+// Six Unmeasurables definitions (Mike Frazier IP)
+const SIX={
+  ownership_score:{name:'Ownership',def:'Burden, not blame. The person who owns outcomes does not look for exits when things go wrong. They absorb the weight of the result — good or bad — and move forward from that position.',interp:{strong:'You demonstrate a consistent pattern of absorbing outcomes and moving forward without deflection.',moderate:'You show ownership in most situations but may occasionally seek external explanations for outcomes.',developing:'Results suggest a tendency to attribute outcomes to external factors. Ownership is a learnable discipline.'}},
+  initiative_score:{name:'Initiative',def:'Moves without instruction. Initiative is not ambition dressed up for an interview. It is the quiet, consistent behavior of a person who identifies what needs to be done and does it — before being asked.',interp:{strong:'You consistently identify gaps and move without prompting. This is the rarest behavioral trait KAIROS measures.',moderate:'You take initiative selectively. The pattern suggests capability but inconsistent application.',developing:'Results indicate a tendency to wait for direction. This does not reflect capacity — it reflects habit, and habits change.'}},
+  follow_through_score:{name:'Follow-Through',def:'Erodes silently. Follow-through failure is invisible until it is catastrophic. It does not announce itself. It simply accumulates until trust is gone.',interp:{strong:'Your follow-through profile shows high reliability. Commitments made are commitments kept.',moderate:'You complete most commitments but the pattern shows some erosion at the edges — particularly under pressure.',developing:'Follow-through gaps are present. This is the single greatest predictor of trust erosion in workplace relationships.'}},
+  interest_score:{name:'Interest',def:'Gravity, not rehearsed questions. Real interest pulls you toward a subject without effort. It shows up in what you read, what you ask, and what you remember without trying.',interp:{strong:'Your interest profile reflects genuine engagement — not performed curiosity.',moderate:'Interest is present but appears situational. Strongest in areas directly tied to personal outcome.',developing:'Responses reflect surface-level engagement. Depth of interest in the role and industry is unclear.'}},
+  presence_score:{name:'Presence',def:'Attention, not charisma. Presence is not about being the most compelling person in the room. It is about being the most attentive. The person who notices, remembers, and responds to what is actually happening.',interp:{strong:'You demonstrate high situational awareness and attentiveness — the foundation of genuine influence.',moderate:'Presence is evident in structured situations. May be less consistent in unstructured or high-pressure environments.',developing:'Responses suggest attention may be divided or externally directed. Presence is a practice, not a personality type.'}},
+  fear_score:{name:'Fear Awareness',def:'Disguises as productivity. Fear avoids rejection-risk work. It fills calendars with safe activity, generates impressive-looking output that never touches the uncomfortable thing, and calls it busy.',interp:{strong:'You demonstrate a strong capacity to move toward discomfort and rejection-risk work without avoidance behavior.',moderate:'Fear awareness is present. You engage difficult work but may create buffer activity when the stakes are highest.',developing:'Patterns suggest avoidance of high-rejection-risk activity. This is the most honest and correctable finding KAIROS surfaces.'}},
 };
 
-const app = initializeApp(FIREBASE_CONFIG);
-const db  = getFirestore(app);
+const ALL_CONSTRUCTS=[
+  {l:'Ownership',k:'ownership_score'},{l:'Initiative',k:'initiative_score'},
+  {l:'Follow-Through',k:'follow_through_score'},{l:'Interest',k:'interest_score'},
+  {l:'Presence',k:'presence_score'},{l:'Fear Awareness',k:'fear_score'},
+  {l:'Professionalism',k:'professionalism_score'},{l:'Communication',k:'communication_score'},
+  {l:'Critical Thinking',k:'critical_thinking_score'},{l:'Curiosity',k:'curiosity_score'},
+];
 
-function tier(s){ return s>=75?'priority':s>=50?'standard':'development'; }
-function barClass(v){ return v>=75?'high':v>=50?'mid':'low'; }
+// ── STATUS STEPS ──
+function buildStatusSteps(c){
+  const steps=[
+    {
+      key:'submitted',
+      title:'Assessment Submitted',
+      desc:'Your KAIROS behavioral assessment was received and recorded.',
+      done:true,
+      time:c.submission_time?new Date(c.submission_time).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'}):null,
+    },
+    {
+      key:'scored',
+      title:'Results Scored & Verified',
+      desc:'Your responses have been analyzed across all twelve behavioral constructs.',
+      done:!!(c.overall_score),
+      time:c.scored_at?new Date(c.scored_at.toDate?.()??c.scored_at).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):null,
+    },
+    {
+      key:'reviewed',
+      title:'Profile Reviewed by Recruiter',
+      desc:'A KAIROS recruiter has reviewed your behavioral profile.',
+      done:!!(c.recruiter_viewed_at||c.recruiter_notes||c.recruiter_id),
+      time:c.recruiter_viewed_at?'Reviewed':null,
+      active:!!(c.overall_score)&&!(c.recruiter_viewed_at||c.recruiter_notes),
+    },
+    {
+      key:'hire_interest',
+      title:'Flagged for Hire Interest',
+      desc:'A recruiter has identified you as a strong match for an open position.',
+      done:!!(c.hire_interest),
+      time:c.hire_interest?'You have been flagged for hire consideration':null,
+    },
+    {
+      key:'employer_match',
+      title:'Matched to Employer',
+      desc:'Your profile has been matched to an employer with an open position.',
+      done:!!(c.employer_matched),
+      time:c.employer_matched?'An employer has been matched to your profile':null,
+    },
+    {
+      key:'unlocked',
+      title:'Employer Requested Your Profile',
+      desc:'An employer has unlocked your full profile and will be in contact.',
+      done:!!(c.profile_unlocked),
+      time:c.profile_unlocked?'Your full profile has been shared with an employer':null,
+    },
+  ];
 
-function makeBars(el, pairs){
-  el.innerHTML = pairs.map(([name,val])=>{
-    const v=val||0, cls=barClass(v);
-    return `<div class="bar-row"><div class="bar-name">${name}</div><div class="bar-track"><div class="bar-fill ${cls}" data-width="${v}" style="width:0%"></div></div><div class="bar-val ${cls}">${val??'—'}</div></div>`;
+  return steps.map(s=>{
+    const state=s.done?'done':s.active?'active':'pending';
+    const icon=s.done?'✓':s.active?'●':'○';
+    return `<div class="step">
+      <div class="step-dot dot-${state}">${icon}</div>
+      <div class="step-content">
+        <div class="step-title ${state}">${s.title}</div>
+        <div class="step-desc">${s.desc}</div>
+        ${s.time?`<div class="step-time">${s.time}</div>`:''}
+      </div>
+    </div>`;
   }).join('');
 }
 
-function animateBars(){
-  requestAnimationFrame(()=>{
-    document.querySelectorAll('.bar-fill').forEach((el,i)=>{
-      setTimeout(()=>{ el.style.width=el.dataset.width+'%'; el.classList.add('animate'); }, i*80);
-    });
-  });
+// ── SIX UNMEASURABLES ──
+function buildSixGrid(c){
+  return Object.entries(SIX).map(([key,um])=>{
+    const s=c[key]||0;
+    const lvl=slvl(s);
+    const col=scol(s);
+    return `<div class="um-card ${lvl}">
+      <div class="um-name">${um.name}</div>
+      <div class="um-score" style="color:${col};">${s} · ${slabel(s)}</div>
+      <div class="um-def">${um.def}</div>
+      <div class="um-interp">${um.interp[lvl]}</div>
+    </div>`;
+  }).join('');
 }
 
-function tierDescription(t,score){
-  if(t==='priority') return `Your score of ${score} places you in our Priority tier — the top bracket of KAIROS candidates. A Peak TCS recruiter will review your full profile and reach out within 48 hours.`;
-  if(t==='standard') return `Your score of ${score} places you in our Standard tier. Your profile shows solid behavioral foundations with specific areas for development. A Peak TCS recruiter will be in touch.`;
-  return `Your score of ${score} places you in our Development tier. This is not a rejection — it's a diagnosis. We've identified the specific constructs to strengthen before placement.`;
+// ── CONSTRUCT BARS ──
+function buildBars(c){
+  return ALL_CONSTRUCTS.map(({l,k})=>{
+    const s=c[k]||0;
+    const col=scol(s);
+    const lbl=slabel(s);
+    return `<div class="cb-row">
+      <div class="cb-label">${l}</div>
+      <div class="cb-track"><div class="cb-fill" style="width:0%;background:${col};" data-width="${s}"></div></div>
+      <div class="cb-score" style="color:${col};">${s}</div>
+      <div class="cb-interp" style="color:${col};font-family:var(--fm);font-size:0.56rem;letter-spacing:0.08em;text-transform:uppercase;">${lbl}</div>
+    </div>`;
+  }).join('');
 }
 
-function nextStepContent(t){
-  if(t==='priority') return [
-    ['01',"You're in the Priority Tier","A Peak TCS recruiter will review your full KAIROS profile and reach out within 48 business hours with matched opportunities."],
-    ['02',"Be Ready for a Real Conversation","Our recruiters have read your KAIROS profile before they call. Expect a direct, behavioral conversation — not a screening checklist."],
-    ['03',"Your Profile Is Active","Your results are retained in our system. If the right role isn't available immediately, your profile remains active for matching as new positions open."],
-  ];
-  if(t==='standard') return [
-    ['01',"Your Profile Is Under Review","A Peak TCS recruiter will review your results and reach out if there's a strong match. Timeline varies based on current client needs."],
-    ['02',"The Specific Areas to Develop","Your two lowest constructs are the highest-leverage areas for growth. Targeted effort there — not general self-improvement — moves the needle fastest."],
-    ['03',"You Can Re-Assess","KAIROS assessments can be retaken after 90 days. Focused work on your specific development areas produces meaningful score improvement."],
-  ];
-  return [
-    ['01',"This Is a Diagnosis, Not a Rejection","Your results identify specific behavioral constructs to strengthen before placement. Most candidates in this tier are placed within 90–180 days with targeted effort."],
-    ['02',"Know Your Two Numbers","Your lowest two construct scores are where your time is best spent. Specific, deliberate practice on those constructs — not general self-improvement."],
-    ['03',"Retake in 90 Days","After focused development work you can retake the assessment. Every candidate who works with intention on specific constructs shows meaningful improvement."],
-  ];
-}
+// ── INSIGHTS ──
+function buildInsights(c,tier){
+  const sc=c.overall_score||0;
+  const insights=[];
 
-function generateInsights(r){
-  const constructs=[
-    ['Initiative',r.initiative_score],['Professionalism',r.professionalism_score],
-    ['Ownership',r.ownership_score],['Follow-Through',r.follow_through_score],
-    ['Interest',r.interest_score],['Presence',r.presence_score],
-    ['Communication',r.communication_score],['Business Etiquette',r.etiquette_score],
-    ['Critical Thinking',r.critical_thinking_score],['Curiosity',r.curiosity_score],
-    ['Creativity',r.creativity_score],
-  ].filter(([,v])=>v!=null).sort(([,a],[,b])=>b-a);
-  const strengths=constructs.slice(0,2), watches=constructs.slice(-2).reverse();
-  const insightMap={
-    'Initiative':{s:'You consistently identify problems and move toward solutions without being asked. This is a rare trait and the baseline for every top performer we place.',w:'You may wait for direction before acting. In sales, hesitation has a cost. Train yourself to move first and course-correct in motion.'},
-    'Professionalism':{s:'Under pressure you maintain composure and precision. Clients and employers trust people who hold their standard even when situations get uncomfortable.',w:"High-pressure situations may affect your consistency. Develop explicit protocols for how you'll behave when things go sideways — before they go sideways."},
-    'Ownership':{s:'You hold yourself accountable for outcomes without qualification. This is the single hardest behavior to train — and you already have it.',w:'There may be a tendency to explain rather than own. The most coachable salespeople lead with accountability, then context.'},
-    'Follow-Through':{s:"You finish what you start. This is rarer than most people realize and it's the construct that separates credible producers from perpetual potentials.",w:'Sustaining effort after initial energy fades is the area to develop. Build external accountability structures until internal ones are fully established.'},
-    'Interest':{s:"You show genuine engagement — not performance of engagement. People can tell the difference, and so can the KAIROS scoring engine.",w:'Sustaining authentic interest through routine tasks may be challenging. Find the piece of every interaction that connects to something you genuinely care about.'},
-    'Presence':{s:"You are psychologically available in a way that's increasingly rare. When you're in a conversation, you're actually in it.",w:'Distractibility under load is worth addressing directly. Presence is a trainable skill with high returns in every front-facing role.'},
-    'Communication':{s:'Your communication is clear, specific, and calibrated to context. This is the construct that most directly predicts client retention.',w:'Vague or qualified language in high-stakes moments undermines trust. Practice defaulting to specificity when the stakes increase.'},
-    'Business Etiquette':{s:'You understand professional context and calibrate your conduct accordingly. Clients and hiring managers notice — usually without being able to articulate why.',w:'Small professional gaps compound quickly in client-facing environments. Audit your written and verbal communication for unintentional signals.'},
-    'Critical Thinking':{s:'You analyze before you respond. In sales the rep who actually thinks through a situation wins more often and holds margin better.',w:'Reactive rather than analytical responses cost you in complex selling situations. Develop a simple framework for slowing down before you commit.'},
-    'Curiosity':{s:'You ask better questions than most candidates we assess. Curiosity is the engine of discovery-based selling and it cannot be faked.',w:'Curiosity may be selective rather than consistent. The questions you ask in minute 20 matter as much as the ones in minute 2.'},
-    'Creativity':{s:'You generate novel approaches to problems — a trait that shows up directly in how you handle objections and break through stalled deals.',w:"When conventional approaches aren't working you may default to repetition rather than reframing. Ask 'what else could be true here?' before repeating."},
-  };
-  return {strengths,watches,insightMap};
-}
-
-function fearInterpretation(score){
-  if(score==null) return {color:'var(--text-muted)',label:'Not scored',text:'Fear Index data was not available in your assessment.'};
-  if(score>=80)   return {color:'var(--red)',   label:'Awareness Gap Detected',  text:`Your Fear Index score of ${score} suggests a strong tendency to minimize or deny fear responses. This pattern is the primary predictor of coaching resistance. Awareness is the first step — and you have now taken it.`};
-  if(score>=60)   return {color:'var(--yellow)',label:'Developing Awareness',     text:`Your Fear Index score of ${score} indicates growing self-awareness about fear response with room to go deeper. Building explicit routines around rejection and conflict tolerance will accelerate your performance significantly.`};
-  if(score>=40)   return {color:'var(--orange)',label:'Healthy Self-Awareness',   text:`Your Fear Index score of ${score} reflects honest self-awareness about discomfort. You acknowledge fear without being paralyzed by it — which is precisely what high performers do. This score is a genuine asset.`};
-  return               {color:'var(--green)', label:'Strong Fear Intelligence', text:`Your Fear Index score of ${score} is exceptional. You demonstrate sophisticated understanding of your own fear response — you can name it, describe it, and work through it. This is the most reliable predictor of sustained sales performance.`};
-}
-
-// ══ AGENTIC LAYER ══
-async function callClaude(prompt){
-  const res = await fetch('https://api.anthropic.com/v1/messages',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})
-  });
-  const data = await res.json();
-  return data.content?.[0]?.text||'';
-}
-
-async function generatePersonalizedAnalysis(r){
-  const panel = document.getElementById('agenticPanel');
-  const t = tier(r.overall_score);
-  const constructs=[
-    ['Initiative',r.initiative_score],['Professionalism',r.professionalism_score],
-    ['Ownership',r.ownership_score],['Follow-Through',r.follow_through_score],
-    ['Interest',r.interest_score],['Presence',r.presence_score],
-    ['Communication',r.communication_score],['Business Etiquette',r.etiquette_score],
-    ['Critical Thinking',r.critical_thinking_score],['Curiosity',r.curiosity_score],
-    ['Creativity',r.creativity_score],['Fear Index',r.fear_score],
-  ].filter(([,v])=>v!=null);
-  const sorted=[...constructs].sort(([,a],[,b])=>b-a);
-  const top3=sorted.slice(0,3).map(([n,v])=>`${n}: ${v}`).join(', ');
-  const bottom3=sorted.slice(-3).map(([n,v])=>`${n}: ${v}`).join(', ');
-  const weakNames=sorted.slice(-3).map(([n])=>n);
-
-  const prompt=`You are a behavioral assessment specialist at Peak Talent Capital Solutions. You have scored a candidate on the KAIROS Sales Intelligence Assessment.
-
-Candidate: ${r.full_name||'the candidate'}
-Overall KAIROS Score: ${r.overall_score}/100
-Tier: ${t.toUpperCase()}
-Three strongest constructs: ${top3}
-Three lowest constructs: ${bottom3}
-Fear Index: ${r.fear_score??'not recorded'}
-Consistency flags: ${r.consistency_flags||'None'}
-
-Write a 3-paragraph personalized behavioral analysis directly to this candidate in second person (you/your).
-
-Paragraph 1: What their score pattern reveals about their actual behavioral architecture. Reference their top-scoring constructs by name. Be precise, not generic.
-Paragraph 2: What their lowest scores mean for their sales career trajectory. Name the constructs. Be honest and constructive — this is a diagnostic, not a verdict.
-Paragraph 3: One concrete actionable focus for the next 90 days based on their specific gap. Behavioral and specific — not motivational filler.
-
-Rules: No bullet points. No headers. Flowing prose only. Each paragraph 3-4 sentences. Total under 250 words. Professional diagnostic voice — direct, not harsh, not fluffy.`;
-
-  try {
-    const text=await callClaude(prompt);
-    if(!text){panel.style.display='none';return;}
-    const paragraphs=text.trim().split(/\n\n+/).filter(p=>p.trim());
-    panel.innerHTML=`
-      <div class="agentic-label">KAIROS Intelligence · Your Personalized Analysis</div>
-      <div class="agentic-title">Behavioral Profile: ${r.full_name||'Your Results'}</div>
-      <div class="agentic-body">${paragraphs.map(p=>`<p>${p.trim()}</p>`).join('')}</div>`;
-    generateInterviewPrep(r,weakNames);
-  } catch(e){
-    console.warn('Agentic analysis unavailable:',e);
-    panel.style.display='none';
+  if(tier==='Priority'){
+    insights.push({label:'Overall Assessment',text:`Your KAIROS score of ${sc} places you in the Priority tier — the top behavioral performers in our assessed pool. This score reflects consistent patterns of ownership, initiative, and psychological maturity across all twelve constructs. Employers and recruiters viewing this profile will see someone prepared to perform, not just to interview.`});
+  } else if(tier==='Standard'){
+    insights.push({label:'Overall Assessment',text:`Your KAIROS score of ${sc} reflects solid behavioral capacity across most constructs. The Standard tier represents candidates who demonstrate reliable work habits and psychological maturity in the majority of scenarios. Specific development areas are identified in the construct breakdown above.`});
+  } else if(tier==='Review'){
+    insights.push({label:'Overall Assessment',text:`Your KAIROS score of ${sc} indicates developing behavioral capacity. This is not a judgment — it is a starting point. The constructs flagged as developing are learnable. The most valuable thing this assessment gives you is honesty about where to focus.`});
+  } else {
+    insights.push({label:'Overall Assessment',text:`Your KAIROS score of ${sc} reflects significant development opportunities across multiple constructs. Every score in this system is a behavior, and every behavior is changeable. This profile gives you a precise map of where to direct your energy.`});
   }
+
+  // OCB composite insight
+  const ocbScore=Math.round(((c.ownership_score||0)+(c.initiative_score||0)+(c.follow_through_score||0)+(c.presence_score||0))/4);
+  insights.push({label:'Organizational Citizenship Behavior (OCB)',text:`Your OCB composite score is ${ocbScore}. This reflects your ownership of outcomes (conscientiousness), tendency to act without instruction (civic virtue), attentiveness to others (courtesy), and reliability of commitments (dependability). OCB is the behavioral foundation of every high-performing team member — it cannot be taught in onboarding, and it does not appear on resumes.`});
+
+  // Strongest construct
+  const strongest=ALL_CONSTRUCTS.reduce((a,b)=>(c[a.k]||0)>(c[b.k]||0)?a:b);
+  insights.push({label:'Your Strongest Construct',text:`${strongest.l} is your highest-scored behavioral construct at ${c[strongest.k]||0}. Employers matched to your profile will see this as your primary behavioral asset.`});
+
+  // Fear insight if low
+  if((c.fear_score||0)<50){
+    insights.push({label:'A Note on Fear Awareness',text:`Your fear awareness score suggests avoidance of rejection-risk work is present. This is the most common finding across all assessed candidates and the most frequently corrected. Identifying it is the first step. The KAIROS Capacity Acceleration Plan addresses this directly.`});
+  }
+
+  return insights.map(i=>`<div class="insight-block"><div class="ib-label">${i.label}</div><div class="ib-text">${i.text}</div></div>`).join('');
 }
 
-async function generateInterviewPrep(r,weakConstructs){
-  const prompt=`You are a KAIROS behavioral assessment specialist at Peak Talent Capital Solutions.
+// ── MAIN ──
+async function init(){
+  const params=new URLSearchParams(window.location.search);
+  const id=params.get('id');
 
-Candidate: ${r.full_name||'this candidate'} — overall score ${r.overall_score}/100
-Their three lowest-scoring constructs: ${weakConstructs.join(', ')}
-
-Generate exactly 3 behavioral interview preparation questions — one targeting each of their three lowest constructs. These are questions they will likely be asked in their upcoming recruiter interview.
-
-Output each in this exact format, nothing else:
-CONSTRUCT: [name]
-QUESTION: [the interview question]
-WHY: [one sentence — what the interviewer is probing for]`;
-
-  try {
-    const text=await callClaude(prompt);
-    if(!text) return;
-    const blocks=text.trim().split(/\n(?=CONSTRUCT:)/);
-    const questions=blocks.map(b=>({
-      construct:(b.match(/CONSTRUCT:\s*(.+)/)?.[1]||'').trim(),
-      question:(b.match(/QUESTION:\s*(.+)/)?.[1]||'').trim(),
-      why:(b.match(/WHY:\s*(.+)/)?.[1]||'').trim(),
-    })).filter(q=>q.question);
-    if(!questions.length) return;
-    document.getElementById('interviewPrepSection').style.display='block';
-    document.getElementById('interviewPrep').innerHTML=`
-      <div class="interview-prep-header">
-        <div class="interview-prep-title">Likely Interview Questions · Based on Your Profile</div>
-        <div class="interview-prep-sub">Prepare specific behavioral examples for each</div>
-      </div>
-      ${questions.map(q=>`
-        <div class="interview-question">
-          <div class="iq-construct">${q.construct}</div>
-          <div class="iq-text">${q.question}</div>
-          <div class="iq-why">${q.why}</div>
-        </div>`).join('')}`;
-  } catch(e){ console.warn('Interview prep unavailable:',e); }
-}
-
-// ══ MAIN ══
-async function loadResults(){
-  const id=new URLSearchParams(window.location.search).get('id');
   if(!id){
-    document.getElementById('loadingScreen').style.display='none';
-    document.getElementById('errorScreen').style.display='flex';
+    document.getElementById('stateLoading').style.display='none';
+    document.getElementById('stateError').style.display='flex';
     return;
   }
-  try {
-    const docSnap=await getDoc(doc(db,'neurosell_assessments',id));
-    if(!docSnap.exists()||docSnap.data().status==='started'){
-      document.getElementById('loadingScreen').style.display='none';
-      document.getElementById('errorScreen').style.display='flex';
+
+  try{
+    const snap=await getDoc(doc(db,'neurosell_assessments',id));
+    if(!snap.exists()){
+      document.getElementById('stateLoading').style.display='none';
+      document.getElementById('stateError').style.display='flex';
       return;
     }
-    const r=docSnap.data();
-    const t=tier(r.overall_score);
 
-    document.getElementById('heroBand').dataset.score=r.overall_score;
-    document.getElementById('heroName').textContent=r.full_name||'Your Results';
-    document.getElementById('heroDate').textContent=r.submission_time
-      ?`Assessment completed ${new Date(r.submission_time).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}`:'';
-    document.getElementById('bigScore').textContent=r.overall_score??'—';
+    const c={id:snap.id,...snap.data()};
+    const sc=c.overall_score||0;
+    const tier=getTier(sc);
 
-    const badge=document.getElementById('tierBadge');
-    badge.className=`tier-badge ${t}`;
-    badge.textContent={priority:'🟢 Priority — High Capacity',standard:'🟡 Standard — Solid Foundation',development:'🔴 Development — Growth Path'}[t];
-    document.getElementById('tierDesc').textContent=tierDescription(t,r.overall_score);
+    // Mark as candidate-viewed for status tracking
+    if(!c.candidate_viewed_at){
+      updateDoc(doc(db,'neurosell_assessments',id),{candidate_viewed_at:serverTimestamp()}).catch(()=>{});
+    }
 
-    makeBars(document.getElementById('foundationBars'),[
-      ['Initiative',r.initiative_score],['Professionalism',r.professionalism_score],
-      ['Ownership',r.ownership_score],['Follow-Through',r.follow_through_score],
-      ['Interest',r.interest_score],['Presence',r.presence_score],
-    ]);
-    makeBars(document.getElementById('kairosLayerBars'),[
-      ['Communication',r.communication_score],['Business Etiquette',r.etiquette_score],
-      ['Critical Thinking',r.critical_thinking_score],['Curiosity',r.curiosity_score],
-      ['Creativity',r.creativity_score],['Fear Index',r.fear_score],
-    ]);
+    // Populate header
+    document.getElementById('rName').textContent=c.full_name||'Your Results';
+    document.getElementById('rPosition').textContent=c.preferred_position||'';
+    document.getElementById('rEmployer').textContent=c.assigned_employer?`· ${c.assigned_employer}`:'';
+    document.getElementById('rDate').textContent=c.submission_time?`· ${new Date(c.submission_time).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})}`:'';
+    document.getElementById('rScore').textContent=sc||'—';
+    document.getElementById('rScore').style.color=scol(sc);
+    document.getElementById('rTierBadge').innerHTML=`<span class="tier-badge ${tcls(tier)}">${tier} Tier</span>`;
 
-    const {strengths,watches,insightMap}=generateInsights(r);
-    document.getElementById('insightGrid').innerHTML=[
-      ...strengths.map(([name])=>`<div class="insight-card strength"><div class="insight-card-tag">Strength</div><div class="insight-card-title">${name}</div><div class="insight-card-body">${insightMap[name]?.s||''}</div></div>`),
-      ...watches.map(([name])=>`<div class="insight-card watch"><div class="insight-card-tag">Watch Area</div><div class="insight-card-title">${name}</div><div class="insight-card-body">${insightMap[name]?.w||''}</div></div>`),
-    ].join('');
+    // Status steps
+    document.getElementById('statusSteps').innerHTML=buildStatusSteps(c);
 
-    const fear=fearInterpretation(r.fear_score);
-    const fearClass=r.fear_score>=60?'low':r.fear_score>=40?'mid':'high';
-    document.getElementById('fearCard').innerHTML=`
-      <div class="fear-score-big">
-        <div class="fear-score-num bar-val ${fearClass}">${r.fear_score??'—'}</div>
-        <div class="fear-score-label">Fear Index</div>
-      </div>
-      <div>
-        <div class="fear-body-title" style="color:${fear.color}">${fear.label}</div>
-        <div class="fear-body-text">${fear.text}</div>
-      </div>`;
+    // Six unmeasurables
+    document.getElementById('sixGrid').innerHTML=buildSixGrid(c);
 
-    document.getElementById('nextSteps').innerHTML=nextStepContent(t).map(([num,title,body])=>`
-      <div class="next-step-item">
-        <div class="next-step-num">${num}</div>
-        <div><div class="next-step-title">${title}</div><div class="next-step-body">${body}</div></div>
-      </div>`).join('');
+    // Construct bars
+    document.getElementById('constructBars').innerHTML=buildBars(c);
 
-    document.getElementById('loadingScreen').style.display='none';
-    document.getElementById('resultsPage').classList.add('show');
-    setTimeout(animateBars,200);
+    // Insights
+    document.getElementById('insightBlocks').innerHTML=buildInsights(c,tier);
 
-    // Agentic layer fires after page is visible
-    generatePersonalizedAnalysis(r);
+    // Animate bars after render
+    setTimeout(()=>{
+      document.querySelectorAll('.cb-fill').forEach(el=>{
+        el.style.width=el.dataset.width+'%';
+      });
+    },100);
 
-  } catch(e){
-    console.error(e);
-    document.getElementById('loadingScreen').style.display='none';
-    document.getElementById('errorScreen').style.display='flex';
+    // Show results
+    document.getElementById('stateLoading').style.display='none';
+    document.getElementById('resultsWrap').style.display='block';
+
+    // Update page title
+    document.title=`KAIROS Results · ${c.full_name||'Candidate'}`;
+
+  }catch(e){
+    document.getElementById('stateLoading').style.display='none';
+    document.getElementById('stateError').style.display='flex';
+    document.querySelector('#stateError .state-body').textContent=`Error loading results: ${e.message}`;
   }
 }
 
 window.copyLink=function(){
   navigator.clipboard.writeText(window.location.href).then(()=>{
-    const btn=document.querySelector('.share-btn');
-    btn.textContent='✓ Copied!';
-    setTimeout(()=>btn.textContent='⎘ Copy Results Link',2000);
+    const btn=document.querySelector('[onclick="copyLink()"]');
+    btn.textContent='Copied ✓';setTimeout(()=>btn.textContent='Copy Results Link',2000);
   });
 };
 
-loadResults();
+init();
 </script>
 </body>
 </html>
